@@ -1,0 +1,83 @@
+@font-face {
+    font-family: "Century Gothic";
+    src: url("fonts/GOTHIC.TTF");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Century Gothic";
+    src: url("fonts/GOTHICB.TTF");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Century Gothic";
+    src: url("fonts/GOTHICI.TTF");
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Century Gothic";
+    src: url("fonts/GOTHICBI.TTF");
+    font-weight: bold;
+    font-style: italic;
+}
+:root {
+    font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body, body.cold {
+    --main-color: #D5F0F5;
+    --dark-2-color: #1A47E8;
+    --dark-1-color: #1A88E8;
+    --medium-color: #1AC9E8;
+    --bright-1-color: #1AE8C3;
+    --bright-2-color: #1AE87D;
+}
+
+body.warm {
+    --main-color: #F2F0D7;
+    --dark-2-color: #E8A81A;
+    --dark-1-color: #E8C11A;
+    --medium-color: #E8DA1A;
+    --bright-1-color: #C1E81A;
+    --bright-2-color: #6BE81A;
+}
+
+header {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--main-color);
+}
+header::before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url("public/franziska_partheymueller_eisschwimmen_tegernsee.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
+}
+header h1 {
+    font-weight: normal;
+    margin: 0;
+    font-size: 3em;
+    text-shadow: 0 0 .2em black, 0 0 .5em black;
+}
