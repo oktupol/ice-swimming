@@ -25,6 +25,11 @@
     font-size: 16px;
 }
 
+* {
+    transition: color 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -56,6 +61,7 @@ header {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 3em;
 
     color: var(--main-color);
 }
@@ -80,4 +86,38 @@ header h1 {
     margin: 0;
     font-size: 3em;
     text-shadow: 0 0 .2em black, 0 0 .5em black;
+}
+
+.switch input[type=checkbox]{
+    display: none;
+}
+.switch .switch-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    font-size: 1.25em;
+    text-shadow: 0 0 .3em black, 0 0 .5em black;
+}
+.switch .slider {
+    width: 2.25em;
+    border: 1px solid var(--main-color);
+    background-color: rgba(0, 0, 0, .2);
+    font-size: 1.5em;
+    height: 1em;
+    border-radius: .5em;
+    display: flex;
+    align-items: center;
+}
+.switch .slider div {
+    height: .9em;
+    width: .9em;
+    border-radius: 100%;
+    background-color: var(--main-color);
+    margin-left: .05em;
+
+    transition: margin-left 0.3s ease-in-out;
+}
+.switch input[type=checkbox]:checked ~ .switch-label .slider div {
+    margin-left: 1.3em;
 }
