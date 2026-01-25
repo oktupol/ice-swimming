@@ -127,13 +127,14 @@ header h1 {
 
 .switch .slider {
     --slider-width: 2.3em;
+    --slider-height: 0.5;
     --slider-size: 0.75;
     width: var(--slider-width);
     border: 1px solid var(--main-color);
     background-color: rgba(0, 0, 0, .3);
-    font-size: calc(0.9 * var(--slider-width));
-    height: calc(0.5 * var(--slider-width));
-    border-radius: calc(0.25 * var(--slider-width));
+    font-size: var(--slider-width);
+    height: calc(var(--slider-height) * var(--slider-width));
+    border-radius: calc(0.5 * var(--slider-height) * var(--slider-width));
     display: flex;
     align-items: center;
 }
@@ -144,7 +145,7 @@ header h1 {
     border-radius: 50%;
     background-color: var(--main-color);
 
-    --margin-left: calc(0.5 * ((0.5 * var(--slider-width)) - (1em * var(--slider-size))));
+    --margin-left: calc(0.5 * ((var(--slider-height) * var(--slider-width)) - (1em * var(--slider-size))));
     margin-left: var(--margin-left);
 
     transition: margin-left 0.3s ease-in-out;
