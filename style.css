@@ -3,23 +3,27 @@
     src: url("fonts/GOTHIC.TTF");
     font-weight: normal;
 }
+
 @font-face {
     font-family: "Century Gothic";
     src: url("fonts/GOTHICB.TTF");
     font-weight: bold;
 }
+
 @font-face {
     font-family: "Century Gothic";
     src: url("fonts/GOTHICI.TTF");
     font-weight: normal;
     font-style: italic;
 }
+
 @font-face {
     font-family: "Century Gothic";
     src: url("fonts/GOTHICBI.TTF");
     font-weight: bold;
     font-style: italic;
 }
+
 :root {
     font-family: "Century Gothic", Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -27,7 +31,7 @@
 
 * {
     transition: color 0.3s ease-in-out,
-        background-color 0.3s ease-in-out;
+    background-color 0.3s ease-in-out;
 }
 
 html, body {
@@ -65,6 +69,7 @@ header {
 
     color: var(--main-color);
 }
+
 header::before, header::after {
     position: absolute;
     top: 0;
@@ -78,12 +83,14 @@ header::before, header::after {
     background-size: cover;
     opacity: 0.9;
 }
+
 header::before {
     content: "";
     z-index: -2;
 
     background-image: url("public/franziska_partheymueller_eisschwimmen_tegernsee.jpg");
 }
+
 header::after {
     content: "";
     z-index: -1;
@@ -92,9 +99,11 @@ header::after {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 }
+
 body.warm header::after {
     opacity: 0.9;
 }
+
 header h1 {
     font-weight: normal;
     margin: 0;
@@ -102,9 +111,10 @@ header h1 {
     text-shadow: 0 0 .2em black, 0 0 .5em black;
 }
 
-.switch input[type=checkbox]{
+.switch input[type=checkbox] {
     display: none;
 }
+
 .switch .switch-label {
     display: flex;
     flex-direction: row;
@@ -114,8 +124,10 @@ header h1 {
     text-shadow: 0 0 .3em black, 0 0 .5em black;
     cursor: pointer;
 }
+
 .switch .slider {
     --slider-width: 2.3em;
+    --slider-size: 0.75;
     width: var(--slider-width);
     border: 1px solid var(--main-color);
     background-color: rgba(0, 0, 0, .3);
@@ -125,8 +137,8 @@ header h1 {
     display: flex;
     align-items: center;
 }
+
 .switch .slider div {
-    --slider-size: 0.75;
     height: calc(var(--slider-size) * 1em);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -137,6 +149,30 @@ header h1 {
 
     transition: margin-left 0.3s ease-in-out;
 }
+
 .switch input[type=checkbox]:checked ~ .switch-label .slider div {
     margin-left: calc(var(--slider-width) - (1em * var(--slider-size)) - var(--margin-left));
+}
+
+@media screen and (min-width: 801px) {
+    .switch .slider {
+        --slider-width: 2.6em;
+        --slider-size: .85;
+    }
+}
+
+header .gradient {
+    --gradient-height: 2em;
+    position: absolute;
+    bottom: 0;
+    display: block;
+    height: var(--gradient-height);
+    width: 100%;
+    border: 0;
+    margin: 0;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 100));
+}
+
+main {
+    margin: 0 .8em;
 }
