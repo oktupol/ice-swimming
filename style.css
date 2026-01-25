@@ -177,3 +177,11 @@ header .gradient {
 main {
     margin: 0 .8em;
 }
+
+body.cold .warm {
+    display: none;
+}
+
+body.warm .cold {
+    display: none;
+}

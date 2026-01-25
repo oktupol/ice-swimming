@@ -1,22 +1,86 @@
+"use strict";
+
 document.addEventListener('DOMContentLoaded', () => {
-    initSwitch();
+    initSiteState();
 });
 
-function initSwitch() {
-    /** @var {HTMLInputELement} */
+function initSiteState() {
+    const siteState = new SiteState();
     const checkbox = document.querySelector("#switch");
-    /** @var {HTMLBodyElement} */
-    const body = document.querySelector("body");
-
-    if (checkbox.checked) {
-        body.classList.add("warm");
-    }
 
     checkbox.addEventListener("change", (event) => {
         if (event.currentTarget.checked) {
-            body.classList.add("warm");
+            siteState.transitionWarm();
         } else {
-            body.classList.remove("warm");
+            siteState.transitionCold();
         }
     });
+}
+
+class SiteState {
+    /**
+     * @typedef {string} State
+     * @enum {State}
+     */
+    STATES = {
+        WARM: "schwimmtraining",
+        COLD: "eisschwimmen"
+    };
+    constructor() {
+        /** @type {HTMLInputElement} */
+        this.checkbox = document.querySelector("#switch");
+        /** @type {HTMLBodyElement} */
+        this.body = document.querySelector("body");
+
+        this.state = this.initState();
+        this.updateBodyClassList(this.state);
+    }
+
+    /**
+     * @return {State}
+     */
+    initState() {
+        const hash = window.location.hash.substring(1);
+        if (hash && Object.values(this.STATES).includes(hash)) {
+            this.checkbox.checked = hash === this.STATES.WARM;
+            this.transition(hash);
+            return hash;
+        }
+
+        if (this.checkbox.checked) {
+            return this.STATES.WARM;
+        }
+        return this.STATES.COLD;
+    }
+
+    transitionWarm() {
+        this.transition(this.STATES.WARM);
+    }
+
+    transitionCold() {
+        this.transition(this.STATES.COLD);
+    }
+
+    /**
+     * @param {State} targetState
+     */
+    transition(targetState) {
+        if (!Object.values(this.STATES).includes(targetState)) {
+            throw new Error("Illegal state" + targetState);
+        }
+
+        window.location.hash = targetState;
+        this.currentState = targetState;
+        this.updateBodyClassList(targetState);
+    }
+
+    updateBodyClassList(targetState) {
+        if (targetState === this.STATES.COLD) {
+            this.body.classList.add("cold");
+            this.body.classList.remove("warm");
+        } else if (targetState === this.STATES.WARM) {
+            this.body.classList.add("warm");
+            this.body.classList.remove("cold");
+        }
+    }
 }

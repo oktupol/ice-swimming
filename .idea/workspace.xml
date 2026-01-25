@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2069081a-c982-4f2a-a28d-bdc8f5a59d8e" name="Changes" comment="Divider">
+    <list default="true" id="2069081a-c982-4f2a-a28d-bdc8f5a59d8e" name="Changes" comment="More dynamic slider calculation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1769242320151</updated>
       <workItem from="1769242321429" duration="6291000" />
-      <workItem from="1769339339605" duration="3410000" />
+      <workItem from="1769339339605" duration="5211000" />
     </task>
     <task id="LOCAL-00001" summary="Style + Switch">
       <option name="closed" value="true" />
@@ -133,7 +135,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769342391857</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="More dynamic slider calculation">
+      <option name="closed" value="true" />
+      <created>1769342767089</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1769342767089</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +165,7 @@
     <MESSAGE value="Background Image Change" />
     <MESSAGE value="Dynamic slider calculation" />
     <MESSAGE value="Divider" />
-    <option name="LAST_COMMIT_MESSAGE" value="Divider" />
+    <MESSAGE value="More dynamic slider calculation" />
+    <option name="LAST_COMMIT_MESSAGE" value="More dynamic slider calculation" />
   </component>
 </project>
