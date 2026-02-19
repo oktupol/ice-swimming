@@ -5,26 +5,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="style.css">
-    <link rel="favicon" type="image/svg+xml" href="public/Logo.svg"/>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any"/>
     <script src="script.js"></script>
 </head>
 <body>
 
 <header>
     <div class="header-container">
-        <img class="header-logo" src="public/Logo.svg" alt="Logo">
-        <h1>Tegernsee Swim & Ice</h1>
+        <h1>
+            <div class="logo">
+                <img class="snowflake" src="public/Snowflake-outline.svg" alt="Snowflake">
+                <img class="header-logo" src="public/Logo.svg" alt="Logo">
+            </div>
+            <span>
+                <span class="nobreak">Tegernsee</span>
+                <span class="nobreak">Swim & Ice</span>
+            </span>
+        </h1>
         <small>Präzision im Wasser &ndash; Stärke im Eis</small>
     </div>
 
     <div class="switch">
         <input type="checkbox" id="switch">
         <label for="switch" class="switch-label">
-            Eisschwimmen
+            <div class="label">Eis&shy;schwimmen</div>
             <div class="slider">
                 <div></div>
             </div>
-            Schwimmtraining
+            <div class="label">Schwimm&shy;training</div>
         </label>
     </div>
 
