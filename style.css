@@ -141,11 +141,12 @@ body.warm header::after {
     display: flex;
     flex-direction: column;
     align-items: center;
+    user-select: none;
 }
 
 .logo img.header-logo {
     box-shadow: 0 0 .3em black;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.25);
     border-radius: 50%;
     display: block;
     height: 1em;
@@ -179,6 +180,7 @@ body.warm .logo img.snowflake {
     text-shadow: 0 0 .3em black, 0 0 .5em black;
     cursor: pointer;
 }
+
 .switch .switch-label .label {
     font-size: .8em;
 }
@@ -213,6 +215,36 @@ body.warm .logo img.snowflake {
 .switch input[type=checkbox]:checked ~ .switch-label .slider div {
     margin-left: calc(var(--slider-width) - (1em * var(--slider-size)) - var(--margin-left));
 }
+
+header .gradient {
+    --gradient-height: 2em;
+    position: absolute;
+    bottom: 0;
+    display: block;
+    height: var(--gradient-height);
+    width: 100%;
+    border: 0;
+    margin: 0;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 100));
+}
+
+.nobreak {
+    word-break: manual;
+    white-space: nowrap;
+}
+
+main {
+    max-width: 1000px;
+    /*font-size: 1.4em;*/
+    margin: 0 auto;
+    padding: 0 .8em;
+}
+
+main p {
+    text-align: justify;
+    hyphens: auto;
+}
+
 @media screen and (min-width: 401px) {
     .switch .switch-label {
         gap: .8em;
@@ -234,6 +266,10 @@ body.warm .logo img.snowflake {
     .switch .slider {
         --slider-width: 2.3em;
     }
+
+    main {
+        font-size: 1.2em;
+    }
 }
 
 @media screen and (min-width: 801px) {
@@ -249,25 +285,8 @@ body.warm .logo img.snowflake {
         --slider-width: 2.6em;
         --slider-size: .85;
     }
-}
 
-header .gradient {
-    --gradient-height: 2em;
-    position: absolute;
-    bottom: 0;
-    display: block;
-    height: var(--gradient-height);
-    width: 100%;
-    border: 0;
-    margin: 0;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 100));
-}
-
-.nobreak {
-    word-break: manual;
-    white-space: nowrap;
-}
-
-main {
-    margin: 0 .8em;
+    main {
+        font-size: 1.4em;
+    }
 }
