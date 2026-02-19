@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2069081a-c982-4f2a-a28d-bdc8f5a59d8e" name="Changes" comment="Snowflake">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
-    </list>
+    <list default="true" id="2069081a-c982-4f2a-a28d-bdc8f5a59d8e" name="Changes" comment="Text width delimiting" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +100,7 @@
       <workItem from="1769339339605" duration="5211000" />
       <workItem from="1769858889978" duration="1297000" />
       <workItem from="1771514405579" duration="8270000" />
-      <workItem from="1771527859064" duration="564000" />
+      <workItem from="1771527859064" duration="672000" />
     </task>
     <task id="LOCAL-00001" summary="Style + Switch">
       <option name="closed" value="true" />
@@ -170,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771522077104</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Text width delimiting">
+      <option name="closed" value="true" />
+      <created>1771528514851</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1771528514851</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,6 +200,7 @@
     <MESSAGE value="Added logo" />
     <MESSAGE value="Favicon" />
     <MESSAGE value="Snowflake" />
-    <option name="LAST_COMMIT_MESSAGE" value="Snowflake" />
+    <MESSAGE value="Text width delimiting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Text width delimiting" />
   </component>
 </project>
