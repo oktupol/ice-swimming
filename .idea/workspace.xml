@@ -7,7 +7,6 @@
     <list default="true" id="2069081a-c982-4f2a-a28d-bdc8f5a59d8e" name="Changes" comment="More dynamic slider calculation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +101,7 @@
       <workItem from="1769242321429" duration="6291000" />
       <workItem from="1769339339605" duration="5211000" />
       <workItem from="1769858889978" duration="1297000" />
+      <workItem from="1771514405579" duration="730000" />
     </task>
     <task id="LOCAL-00001" summary="Style + Switch">
       <option name="closed" value="true" />
