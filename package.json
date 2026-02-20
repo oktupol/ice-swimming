@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack watch --mode=development"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.4",
+    "sass": "^1.97.3",
+    "sass-loader": "^16.0.7",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.105.2",
+    "webpack-cli": "^6.0.1"
+  }
+}

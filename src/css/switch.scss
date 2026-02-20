@@ -1,0 +1,65 @@
+.switch {
+  .switch-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5em;
+    @include xsmall { gap: .8em; }
+    font-size: 1.25em;
+    text-shadow: 0 0 .3em black, 0 0 .5em black;
+    cursor: pointer;
+
+    .label {
+      font-size: .8em;
+      @include xsmall { font-size: 1em; }
+    }
+
+    .slider {
+      --slider-width: 1.5em;
+      --slider-height: 0.6;
+      --slider-size: 0.5;
+      @include small {
+        --slider-width: 2.0em;
+        --slider-size: 0.75;
+      }
+      @include medium {
+        --slider-width: 2.3em;
+        --slider-height: 0.5;
+      }
+      @include large {
+        --slider-width: 2.6em;
+        --slider-size: 0.85;
+      }
+
+      width: var(--slider-width);
+      flex-shrink: 0;
+      border: 1px solid var(--main-color);
+      background-color: rgba(0, 0, 0, .3);
+      font-size: var(--slider-width);
+      height: calc(var(--slider-height) * var(--slider-width));
+      border-radius: calc(0.5 * var(--slider-height) * var(--slider-width));
+      display: flex;
+      align-items: center;
+
+      div {
+        height: calc(var(--slider-size) * 1em);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background-color: var(--main-color);
+
+        --margin-left: calc(0.5 * ((var(--slider-height) * var(--slider-width)) - (1em * var(--slider-size))));
+        margin-left: var(--margin-left);
+
+        transition: margin-left 0.3s ease-in-out;
+      }
+    }
+  }
+
+  input[type=checkbox] {
+    display: none;
+
+    &:checked ~ .switch-label .slider div {
+      margin-left: calc(var(--slider-width) - (1em * var(--slider-size)) - var(--margin-left));
+    }
+  }
+}
