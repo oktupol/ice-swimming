@@ -9,6 +9,8 @@ header {
 
   color: var(--main-color);
 
+  background-color: rgba(0, 0, 0, 0.5);
+
   &::before, &::after {
     position: absolute;
     top: 0;
@@ -39,7 +41,7 @@ header {
     transition: opacity 0.3s ease-in-out;
 
     body.warm & {
-      opacity: 0.9;
+      opacity: 1;
     }
   }
 

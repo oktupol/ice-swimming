@@ -10,9 +10,9 @@ function initSiteState() {
 
     checkbox.addEventListener("change", (event) => {
         if (event.currentTarget.checked) {
-            siteState.transitionWarm();
-        } else {
             siteState.transitionCold();
+        } else {
+            siteState.transitionWarm();
         }
     });
 }
@@ -42,15 +42,15 @@ class SiteState {
     initState() {
         const hash = window.location.hash.substring(1);
         if (hash && Object.values(this.STATES).includes(hash)) {
-            this.checkbox.checked = hash === this.STATES.WARM;
+            this.checkbox.checked = hash === this.STATES.COLD;
             this.transition(hash);
             return hash;
         }
 
         if (this.checkbox.checked) {
-            return this.STATES.WARM;
+            return this.STATES.COLD;
         }
-        return this.STATES.COLD;
+        return this.STATES.WARM;
     }
 
     transitionWarm() {

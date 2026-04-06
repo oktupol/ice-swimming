@@ -14,7 +14,7 @@ html, body {
   height: 100%;
 }
 
-body, body.cold {
+body.cold {
   --main-color: #D5F0F5;
   --dark-2-color: #1A47E8;
   --dark-1-color: #1A88E8;
@@ -23,7 +23,7 @@ body, body.cold {
   --bright-2-color: #1AE87D;
 }
 
-body.warm {
+body, body.warm {
   --main-color: #F2F0D7;
   --dark-2-color: #E8A81A;
   --dark-1-color: #E8C11A;
