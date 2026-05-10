@@ -112,3 +112,21 @@ header {
     }
   }
 }
+
+.subtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: .3em;
+
+  .dash {
+    display: none;
+  }
+
+  @include medium {
+    flex-direction: row;
+    .dash { display: initial; }
+  }
+
+}
