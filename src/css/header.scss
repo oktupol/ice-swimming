@@ -92,6 +92,7 @@ header {
     align-items: center;
     gap: 0.6em;
   }
+
   small {
     font-size: 1.3em;
     text-shadow: 0 0 .15em black, 0 0 .4em black;
@@ -100,7 +101,9 @@ header {
 
 .logo {
   font-size: 1.8em;
-  @include large { font-size: 2.3em; }
+  @include large {
+    font-size: 2.3em;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,7 +146,9 @@ header {
 
   @include medium {
     flex-direction: row;
-    .dash { display: initial; }
+    .dash {
+      display: initial;
+    }
   }
 
 }

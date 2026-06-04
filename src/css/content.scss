@@ -5,8 +5,12 @@ main {
   margin: 0 auto;
   padding: 0 .8em .5em;
 
-  @include medium { font-size: 1.2em; }
-  @include large { font-size: 1.4em; }
+  @include medium {
+    font-size: 1.2em;
+  }
+  @include large {
+    font-size: 1.4em;
+  }
 
   p {
     text-align: justify;

@@ -57,15 +57,18 @@ nav {
       & ~ .navigation-menu {
         display: block;
       }
+
       & ~ label {
         background: none;
 
         div.upper {
           transform: translateY(calc((0.5 * var(--navigation-size)) - var(--border-width))) rotate(45deg);
         }
+
         div.lower {
           transform: translateY(calc((-0.5 * var(--navigation-size)) + var(--border-width))) rotate(-45deg);
         }
+
         div.middle {
           opacity: 0;
         }
@@ -102,7 +105,7 @@ nav {
       opacity: 1;
 
       transition: opacity 0.2s ease-in-out,
-        transform 0.2s ease-in-out;
+      transform 0.2s ease-in-out;
     }
   }
 }

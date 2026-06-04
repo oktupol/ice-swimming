@@ -35,6 +35,7 @@ class SiteState {
         WARM: "schwimmtraining",
         COLD: "eisbaden"
     };
+
     constructor() {
         /** @type {HTMLInputElement} */
         this.checkbox = document.querySelector("#switch");

@@ -6,14 +6,18 @@
     flex-direction: row;
     align-items: center;
     gap: .5em;
-    @include xsmall { gap: .8em; }
+    @include xsmall {
+      gap: .8em;
+    }
     font-size: 1.25em;
     text-shadow: 0 0 .3em black, 0 0 .5em black;
     cursor: pointer;
 
     .label {
       font-size: .8em;
-      @include xsmall { font-size: 1em; }
+      @include xsmall {
+        font-size: 1em;
+      }
     }
 
     .slider {
