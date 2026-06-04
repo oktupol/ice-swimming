@@ -1,3 +1,5 @@
+@use 'viewports' as *;
+
 header {
   height: 100%;
 
@@ -54,7 +56,7 @@ header {
     width: 100%;
     border: 0;
     margin: 0;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 100));
+    background: linear-gradient(rgba(255, 255, 255, 0), white);
   }
 }
 
@@ -104,7 +106,7 @@ header {
     width: auto;
     position: absolute;
     margin-top: calc(1em - var(--snowflake-height));
-    opacity: 100%;
+    opacity: 1;
     transition: opacity 0.3s ease-in-out;
 
     body.warm & {

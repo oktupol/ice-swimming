@@ -1,7 +1,6 @@
-@import "viewports";
-@import "fonts";
-@import "global";
-@import "header";
-@import "navigation";
-@import "switch";
-@import "content";
+@use "fonts";
+@use "global";
+@use "header";
+@use "navigation";
+@use "switch";
+@use "content";
