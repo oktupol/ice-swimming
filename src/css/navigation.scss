@@ -1,0 +1,51 @@
+nav {
+  position: absolute;
+  left: 0.8em;
+  top: 0.8em;
+
+  ul {
+    display: none;
+  }
+  input[type=checkbox] {
+    display: none;
+
+    &:checked {
+      & ~ ul {
+        display: block;
+      }
+      & ~ label {
+        div.upper {
+          transform: translateY(calc((0.5 * var(--navigation-size)) - var(--border-width))) rotate(45deg);
+        }
+        div.lower {
+          transform: translateY(calc((-0.5 * var(--navigation-size)) + var(--border-width))) rotate(-45deg);
+        }
+        div.middle {
+          opacity: 0;
+        }
+      }
+    }
+  }
+  label {
+    --navigation-size: 2em;
+    --border-width: 2px;
+    cursor: pointer;
+    display: flex;
+    width: var(--navigation-size);
+    height: var(--navigation-size);
+
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+    div {
+      width: 100%;
+      height: 0;
+      border: var(--border-width) solid var(--main-color);
+      opacity: 1;
+
+      transition: opacity 0.2s ease-in-out,
+        transform 0.2s ease-in-out;
+    }
+  }
+}
