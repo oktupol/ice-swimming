@@ -18,8 +18,11 @@ function initSiteState() {
         }
     });
 
-    window.addEventListener("hashchange", (event) => {
-        siteState.initState();
+    window.addEventListener("hashchange", () => {
+        const hash = window.location.hash.substring(1);
+        if (hash !== siteState.currentState) {
+            siteState.initState();
+        }
     });
 }
 
@@ -30,7 +33,7 @@ class SiteState {
      */
     STATES = {
         WARM: "schwimmtraining",
-        COLD: "eisschwimmen"
+        COLD: "eisbaden"
     };
     constructor() {
         /** @type {HTMLInputElement} */
