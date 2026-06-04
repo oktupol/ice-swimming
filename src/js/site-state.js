@@ -17,6 +17,10 @@ function initSiteState() {
             siteState.transitionWarm();
         }
     });
+
+    window.addEventListener("hashchange", (event) => {
+        siteState.initState();
+    });
 }
 
 class SiteState {
