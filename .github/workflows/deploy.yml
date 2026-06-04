@@ -30,8 +30,9 @@ jobs:
       - name: Prepare deployment directory
         run: |
           mkdir _deploy
-          cp *.html CNAME _deploy/
-          cp -r dist public _deploy/
+          cp CNAME _deploy/
+          cp -r dist/. _deploy/
+          cp -r public _deploy/
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
