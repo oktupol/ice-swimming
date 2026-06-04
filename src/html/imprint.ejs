@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/svg+xml" href="public/Logo.svg" sizes="any"/>
-    <script src="dist/bundle.js"></script>
 </head>
 <body>
 
@@ -17,28 +16,14 @@
                     <img class="header-logo" src="public/Logo.svg" draggable="false" alt="Logo">
                 </div>
                 <span>
-                <span class="nobreak">Aqualign</span>
-                <span class="nobreak">Swim &amp; Ice</span>
-            </span>
+                    <span class="nobreak">Aqualign</span>
+                    <span class="nobreak">Swim &amp; Ice</span>
+                </span>
             </a>
         </h1>
     </div>
 
-    <nav>
-        <form autocomplete="off">
-            <input type="checkbox" id="navigation">
-            <label for="navigation">
-                <div class="upper"></div>
-                <div class="middle"></div>
-                <div class="lower"></div>
-            </label>
-            <ul class="navigation-menu">
-                <li><a href="index.html">Startseite</a></li>
-                <li><a href="index.html#über-mich">Über Mich</a></li>
-                <li>Impressum</li>
-            </ul>
-        </form>
-    </nav>
+    <%= require('./partials/_nav.html') %>
 </header>
 
 <main>

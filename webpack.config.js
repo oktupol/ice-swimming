@@ -1,10 +1,24 @@
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const htmlPage = (template, filename) => new HtmlWebpackPlugin({
+    template,
+    filename: path.resolve(__dirname, filename),
+    inject: 'head',
+    scriptLoading: 'defer',
+});
+
 module.exports = {
     entry: "./src/js/main.js",
     mode: "production",
     output: {
-        path: `${__dirname}/dist`,
+        path: path.resolve(__dirname, 'dist'),
         filename: "bundle.js",
     },
+    plugins: [
+        htmlPage('./src/html/index.ejs', 'index.html'),
+        htmlPage('./src/html/imprint.ejs', 'imprint.html'),
+    ],
     module: {
         rules: [
             {
@@ -14,7 +28,12 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/,
                 use: ["style-loader", "css-loader", "sass-loader"]
-            }
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader',
+                options: { esModule: false, sources: false },
+            },
         ]
     }
 }

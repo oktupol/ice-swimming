@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/svg+xml" href="public/Logo.svg" sizes="any"/>
-    <script src="dist/bundle.js"></script>
 </head>
 <body>
 
@@ -41,21 +40,7 @@
 
     <hr class="gradient"/>
 
-    <nav>
-        <form autocomplete="off">
-            <input type="checkbox" id="navigation">
-            <label for="navigation">
-                <div class="upper"></div>
-                <div class="middle"></div>
-                <div class="lower"></div>
-            </label>
-            <ul class="navigation-menu">
-                <li>Über Mich</li>
-                <li>Über Aqualign</li>
-                <li><a href="imprint.html">Impressum</a></li>
-            </ul>
-        </form>
-    </nav>
+    <%= require('./partials/_nav.html') %>
 </header>
 
 <main>
@@ -129,7 +114,7 @@
         </p>
         <p>
             Kinder und Erwachsene sind gleichermaßen willkommen.
-            Es gibt kein „zu früh“ und kein „zu spät“.
+            Es gibt kein „zu früh" und kein „zu spät".
             Entscheidend ist, dass du anfängst &ndash; und bereit bist, dich zu entwickeln.
         </p>
     </section>
@@ -167,7 +152,7 @@
         <blockquote>
             „Eisschwimmen bedeutet für mich glasklares Wasser, in dem Sonnenstrahlen Muster auf den Grund zeichnen.
             100 % Fokus auf den Moment und die Atmung. Der Kopf wird ruhig, die Energie steigt.
-            Jeder lernt seine Grenzen kennen, verschiebt sie Schritt für Schritt und trainiert Körper und Geist.“
+            Jeder lernt seine Grenzen kennen, verschiebt sie Schritt für Schritt und trainiert Körper und Geist."
         </blockquote>
         &mdash;&emsp;Franziska Partheymüller
         </p>
