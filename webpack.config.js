@@ -1,12 +1,15 @@
 const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const htmlPage = (template, filename) => new HtmlWebpackPlugin({
-    template,
-    filename: path.resolve(__dirname, filename),
-    inject: 'head',
-    scriptLoading: 'defer',
-});
+const htmlPages = fs.readdirSync('./src/html')
+    .filter(f => f.endsWith('.ejs'))
+    .map(f => new HtmlWebpackPlugin({
+        template: `./src/html/${f}`,
+        filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
+        inject: 'head',
+        scriptLoading: 'defer',
+    }));
 
 module.exports = {
     entry: "./src/js/main.js",
@@ -15,12 +18,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: "bundle.js",
     },
-    plugins: [
-        htmlPage('./src/html/index.ejs', 'index.html'),
-        htmlPage('./src/html/about-me.ejs', 'about-me.html'),
-        htmlPage('./src/html/about.ejs', 'about.html'),
-        htmlPage('./src/html/imprint.ejs', 'imprint.html'),
-    ],
+    plugins: htmlPages,
     module: {
         rules: [
             {
