@@ -31,8 +31,7 @@ module.exports = {
             },
             {
                 test: /\.html$/,
-                loader: 'html-loader',
-                options: { esModule: false, sources: false },
+                loader: path.resolve(__dirname, 'template-loader.js'),
             },
         ]
     }
