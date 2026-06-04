@@ -1,7 +1,9 @@
 "use strict";
 
 document.addEventListener('DOMContentLoaded', () => {
-    initSiteState();
+    if (document.querySelector("#switch")) {
+        initSiteState();
+    }
 });
 
 function initSiteState() {

@@ -41,6 +41,12 @@ nav {
       &:hover {
         color: var(--medium-color);
       }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        display: block;
+      }
     }
   }
 
