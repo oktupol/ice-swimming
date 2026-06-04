@@ -17,6 +17,7 @@ module.exports = {
     },
     plugins: [
         htmlPage('./src/html/index.ejs', 'index.html'),
+        htmlPage('./src/html/about-me.ejs', 'about-me.html'),
         htmlPage('./src/html/about.ejs', 'about.html'),
         htmlPage('./src/html/imprint.ejs', 'imprint.html'),
     ],
