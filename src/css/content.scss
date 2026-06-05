@@ -18,6 +18,36 @@ main {
   }
 }
 
+.image-aside {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    width: 100%;
+  }
+
+  @include medium {
+    flex-direction: row;
+
+    &.right {
+      flex-direction: row-reverse;
+    }
+
+    gap: 1em;
+    align-items: center;
+
+    img {
+      width: 250px;
+    }
+  }
+
+  @include large {
+    img {
+      width: 350px;
+    }
+  }
+}
+
 .content-footer {
   max-width: 1000px;
   margin: 2em auto 1em;
