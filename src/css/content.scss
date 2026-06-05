@@ -48,6 +48,17 @@ main {
   }
 }
 
+blockquote {
+  font-style: italic;
+  footer {
+    font-style: normal;
+    &::before {
+      content: "—";
+      margin-right: 1em;
+    }
+  }
+}
+
 .content-footer {
   max-width: 1000px;
   margin: 2em auto 1em;
