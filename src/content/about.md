@@ -10,7 +10,7 @@ Im Training bedeutet das: klare Technik, bewusste Bewegung und ein stabiler
 Umgang mit Belastung – unabhängig davon, ob im Becken, im Freiwasser oder im Eis
 gearbeitet wird.
 
-Schwimmen und Eisschwimmen sind dabei keine getrennten Disziplinen, sondern zwei
+Schwimmen und Eisbaden sind dabei keine getrennten Disziplinen, sondern zwei
 Seiten desselben Systems. Das eine baut Struktur auf, das andere zeigt, wie
 stabil sie wirklich ist.
 
