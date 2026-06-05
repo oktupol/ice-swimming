@@ -4,10 +4,8 @@
     "watch": "webpack watch --mode=development",
     "start": "webpack serve --mode=development"
   },
-  "dependencies": {
-    "marked": "^15.0.0"
-  },
   "devDependencies": {
+    "marked": "^15.0.0",
     "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^7.1.4",
     "ejs": "^6.0.1",
