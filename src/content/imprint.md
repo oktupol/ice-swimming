@@ -20,9 +20,9 @@ Huderstraße 9
 
 #### Haftung für Inhalte
 
-Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt.
-Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
-kann jedoch keine Gewähr übernommen werden.
+Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die
+Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr
+übernommen werden.
 
 #### Haftung für Links
 
