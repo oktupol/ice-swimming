@@ -3,6 +3,7 @@ const fs = require('fs');
 const ejs = require('ejs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const md = require('./src/utils/markdown');
 
 const referencedAssets = new Set();
 const refRegex = /\bpublic\/([\w.\-]+)/g;
@@ -27,11 +28,12 @@ const htmlDir = path.resolve(__dirname, 'src/html');
 const htmlPages = fs.readdirSync(htmlDir)
     .filter(f => f.endsWith('.ejs'))
     .map(f => new HtmlWebpackPlugin({
-        templateContent: async () => ejs.renderFile(
+        templateContent: async ({ md }) => ejs.renderFile(
             path.resolve(htmlDir, f),
-            {},
+            { md },
             { root: htmlDir }
         ),
+        templateParameters: { md },
         filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
         inject: 'head',
         scriptLoading: 'defer',
