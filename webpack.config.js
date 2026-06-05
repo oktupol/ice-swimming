@@ -1,18 +1,24 @@
 const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
-class SymlinkPublicPlugin {
-    apply(compiler) {
-        compiler.hooks.afterEmit.tap('SymlinkPublicPlugin', () => {
-            if (compiler.options.mode !== 'development') return;
-            const symlinkPath = path.resolve(__dirname, 'dist', 'public');
-            if (!fs.existsSync(symlinkPath)) {
-                fs.symlinkSync('../public', symlinkPath, 'dir');
-            }
-        });
+const referencedAssets = new Set();
+const refRegex = /\bpublic\/([\w.\-]+)/g;
+
+function scanDir(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+            scanDir(full);
+        } else {
+            const content = fs.readFileSync(full, 'utf-8');
+            let m;
+            while ((m = refRegex.exec(content)) !== null) referencedAssets.add(m[1]);
+        }
     }
 }
+scanDir(path.resolve(__dirname, 'src'));
 
 const htmlPages = fs.readdirSync('./src/html')
     .filter(f => f.endsWith('.ejs'))
@@ -30,7 +36,16 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: "bundle.js",
     },
-    plugins: [...htmlPages, new SymlinkPublicPlugin()],
+    plugins: [
+        ...htmlPages,
+        new CopyPlugin({
+            patterns: [{
+                from: path.resolve(__dirname, 'public'),
+                to: 'public',
+                filter: (resourcePath) => referencedAssets.has(path.basename(resourcePath)),
+            }],
+        }),
+    ],
     module: {
         rules: [
             {

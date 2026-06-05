@@ -32,7 +32,6 @@ jobs:
           mkdir _deploy
           cp CNAME _deploy/
           cp -r dist/. _deploy/
-          cp -r public _deploy/
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
