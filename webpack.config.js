@@ -2,6 +2,18 @@ const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+class SymlinkPublicPlugin {
+    apply(compiler) {
+        compiler.hooks.afterEmit.tap('SymlinkPublicPlugin', () => {
+            if (compiler.options.mode !== 'development') return;
+            const symlinkPath = path.resolve(__dirname, 'dist', 'public');
+            if (!fs.existsSync(symlinkPath)) {
+                fs.symlinkSync('../public', symlinkPath, 'dir');
+            }
+        });
+    }
+}
+
 const htmlPages = fs.readdirSync('./src/html')
     .filter(f => f.endsWith('.ejs'))
     .map(f => new HtmlWebpackPlugin({
@@ -18,7 +30,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: "bundle.js",
     },
-    plugins: htmlPages,
+    plugins: [...htmlPages, new SymlinkPublicPlugin()],
     module: {
         rules: [
             {
