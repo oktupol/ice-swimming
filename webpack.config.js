@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const ejs = require('ejs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -23,7 +24,11 @@ scanDir(path.resolve(__dirname, 'src'));
 const htmlPages = fs.readdirSync('./src/html')
     .filter(f => f.endsWith('.ejs'))
     .map(f => new HtmlWebpackPlugin({
-        template: `./src/html/${f}`,
+        templateContent: () => ejs.renderFile(
+            path.resolve(__dirname, 'src/html', f),
+            {},
+            { root: path.resolve(__dirname, 'src/html') }
+        ),
         filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
         inject: 'head',
         scriptLoading: 'defer',
@@ -63,10 +68,7 @@ module.exports = {
                 test: /\.s[ac]ss$/,
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
-            {
-                test: /\.html$/,
-                loader: path.resolve(__dirname, 'template-loader.js'),
-            },
+
         ]
     }
 }
