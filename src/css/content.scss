@@ -76,9 +76,13 @@ main {
 
 blockquote {
   font-style: italic;
+  margin-left: 2em;
 
-  footer {
+  &+cite {
     font-style: normal;
+    margin-left: 2em;
+    position: relative;
+    top: -.5em;
 
     &::before {
       content: "—";
