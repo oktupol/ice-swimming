@@ -1,0 +1,44 @@
+@use 'viewports' as *;
+
+.content-footer {
+    max-width: 1000px;
+    margin: 2em auto 1em;
+    padding: 0 .8em .5em;
+    color: #888;
+    font-size: 0.9em;
+
+
+    ul {
+        --gap: 4em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        column-gap: var(--gap);
+        list-style: none;
+        padding: 0;
+
+        li {
+            position: relative;
+
+            &:not(.row-start)::before {
+                position: absolute;
+                left: calc(-1 * var(--gap) / 2);
+                transform: translateX(-50%);
+                content: "\2022";
+            }
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        @include medium {
+            font-size: 1em;
+        }
+    }
+}
