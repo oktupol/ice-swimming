@@ -22,6 +22,7 @@ function initSiteState() {
         const hash = window.location.hash.substring(1);
         if (hash !== siteState.currentState) {
             siteState.initState();
+            siteState.focusActiveSection();
         }
     });
 }
@@ -102,6 +103,17 @@ class SiteState {
             region.textContent = targetState === this.STATES.COLD
                 ? "Eisbaden wird angezeigt"
                 : "Schwimmtraining wird angezeigt";
+        }
+    }
+
+    focusActiveSection() {
+        if (!Object.values(this.STATES).includes(this.currentState)) {
+            return;
+        }
+        const section = document.querySelector("#" + this.currentState);
+        if (section) {
+            section.setAttribute("tabindex", "-1");
+            section.focus();
         }
     }
 }
