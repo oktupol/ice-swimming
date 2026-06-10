@@ -8,6 +8,7 @@ main {
   @include medium {
     font-size: 1.2em;
   }
+
   @include large {
     font-size: 1.4em;
   }
@@ -49,10 +50,36 @@ main {
   }
 }
 
+.gallery {
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+  scroll-snap-type: x mandatory;
+  gap: .5em;
+
+  img {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 100%;
+    scroll-snap-align: center;
+
+    width: 100%;
+    height: auto;
+
+    @include medium {
+      flex-grow: unset;
+      flex-shrink: unset;
+    }
+  }
+
+}
+
 blockquote {
   font-style: italic;
+
   footer {
     font-style: normal;
+
     &::before {
       content: "—";
       margin-right: 1em;

@@ -102,12 +102,8 @@
 </header>
 
 <main id="main">
-    <section class="warm" id="schwimmtraining" aria-label="Schwimmtraining">
-        <%- md('../content/schwimmtraining.md') %>
-    </section>
-    <section class="cold" id="eisbaden" aria-label="Eisbaden">
-        <%- md('../content/eisbaden.md') %>
-    </section>
+    <%- include('./partials/schwimmtraining') %>
+    <%- include('./partials/eisbaden') %>
 </main>
 
 <%- include('./partials/_footer') %>
