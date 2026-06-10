@@ -18,7 +18,7 @@
     <section>
         <h2>Über mich</h2>
         <div class="image-aside right">
-            <img alt="Franziska Partheymüller Portrait" src="public/portrait.jpg"/>
+            <%- picture('portrait.jpg', { alt: 'Franziska Partheymüller Portrait', sizes: '(max-width: 768px) 100vw, 400px' }) %>
             <div>
                 <%- md('../content/about-me.md') %>
             </div>

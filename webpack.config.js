@@ -4,6 +4,15 @@ const ejs = require('ejs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const md = require('./src/utils/markdown');
+const { picture } = require('./src/utils/images');
+
+// Leave /public/* URLs untouched so css-loader doesn't try to resolve them as modules.
+// The hero background WebP files are generated into dist/public/ by scripts/generate-images.js
+// and are served from the site root at runtime (the JPG fallbacks are copied there by CopyPlugin).
+const cssLoader = {
+    loader: 'css-loader',
+    options: { url: { filter: (url) => !url.startsWith('/public/') } },
+};
 
 const referencedAssets = new Set();
 const refRegex = /\bpublic\/([\w.\-]+)/g;
@@ -28,12 +37,12 @@ const htmlDir = path.resolve(__dirname, 'src/html');
 const htmlPages = fs.readdirSync(htmlDir)
     .filter(f => f.endsWith('.ejs'))
     .map(f => new HtmlWebpackPlugin({
-        templateContent: async ({ md }) => ejs.renderFile(
+        templateContent: async ({ md, picture }) => ejs.renderFile(
             path.resolve(htmlDir, f),
-            { md },
+            { md, picture },
             { root: htmlDir }
         ),
-        templateParameters: { md },
+        templateParameters: { md, picture },
         filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
         inject: 'head',
         scriptLoading: 'defer',
@@ -70,11 +79,11 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.css$/,
-                    use: ["style-loader", "css-loader"]
+                    use: ["style-loader", cssLoader]
                 },
                 {
                     test: /\.s[ac]ss$/,
-                    use: ["style-loader", "css-loader", "sass-loader"]
+                    use: ["style-loader", cssLoader, "sass-loader"]
                 },
             ]
         }
