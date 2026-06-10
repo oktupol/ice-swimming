@@ -62,11 +62,13 @@
 </head>
 <body>
 
+<a href="#main" class="skip-link">Zum Hauptinhalt springen</a>
+
 <header>
     <div class="header-container">
         <h1>
             <div class="logo">
-                <img class="snowflake" src="public/Snowflake-outline.svg" draggable="false" alt="Eisschwimmen Symbol">
+                <img class="snowflake" src="public/Snowflake-outline.svg" draggable="false" alt="">
                 <img class="header-logo" src="public/Logo.svg" draggable="false" alt="Aqualign Logo">
             </div>
             <span>
@@ -82,7 +84,8 @@
     </div>
 
     <div class="switch">
-        <input type="checkbox" id="switch">
+        <input type="checkbox" id="switch" role="switch" aria-checked="false"
+               aria-label="Zwischen Schwimmtraining und Eisbaden wechseln">
         <label for="switch" class="switch-label">
             <div class="label">Schwimm&shy;training</div>
             <div class="slider">
@@ -90,6 +93,7 @@
             </div>
             <div class="label">Eis&shy;baden</div>
         </label>
+        <div class="sr-only" aria-live="polite" id="mode-announcement"></div>
     </div>
 
     <hr class="gradient"/>
@@ -97,11 +101,11 @@
     <%- include('./partials/_nav') %>
 </header>
 
-<main>
-    <section class="warm" id="schwimmtraining">
+<main id="main">
+    <section class="warm" id="schwimmtraining" aria-label="Schwimmtraining">
         <%- md('../content/schwimmtraining.md') %>
     </section>
-    <section class="cold" id="eisbaden">
+    <section class="cold" id="eisbaden" aria-label="Eisbaden">
         <%- md('../content/eisbaden.md') %>
     </section>
 </main>

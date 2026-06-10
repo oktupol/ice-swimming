@@ -1,12 +1,13 @@
 <nav>
     <form autocomplete="off">
-        <input type="checkbox" id="navigation">
+        <input type="checkbox" id="navigation" aria-label="Navigationsmenü öffnen"
+               aria-expanded="false" aria-controls="navigation-menu">
         <label for="navigation">
             <div class="upper"></div>
             <div class="middle"></div>
             <div class="lower"></div>
         </label>
-        <ul class="navigation-menu">
+        <ul class="navigation-menu" id="navigation-menu">
             <li><a href="/#schwimmtraining">Schwimmtraining</a></li>
             <li><a href="/#eisbaden">Eisbaden</a></li>
             <li><a href="about-me.html">Über Mich</a></li>

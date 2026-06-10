@@ -82,6 +82,7 @@ class SiteState {
         window.location.hash = targetState;
         this.currentState = targetState;
         this.updateBodyClassList(targetState);
+        this.announceState(targetState);
     }
 
     updateBodyClassList(targetState) {
@@ -91,6 +92,16 @@ class SiteState {
         } else if (targetState === this.STATES.WARM) {
             this.body.classList.add("warm");
             this.body.classList.remove("cold");
+        }
+        this.checkbox.setAttribute("aria-checked", targetState === this.STATES.COLD ? "true" : "false");
+    }
+
+    announceState(targetState) {
+        const region = document.querySelector("#mode-announcement");
+        if (region) {
+            region.textContent = targetState === this.STATES.COLD
+                ? "Eisbaden wird angezeigt"
+                : "Schwimmtraining wird angezeigt";
         }
     }
 }

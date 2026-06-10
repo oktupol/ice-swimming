@@ -1,6 +1,6 @@
 @use 'viewports' as *;
 
-nav {
+header nav {
   position: absolute;
   left: 0.8em;
   top: 0.8em;
@@ -38,7 +38,8 @@ nav {
         border-bottom: none;
       }
 
-      &:hover {
+      &:hover,
+      &:focus-within {
         color: var(--medium-color);
       }
 
@@ -46,12 +47,33 @@ nav {
         color: inherit;
         text-decoration: none;
         display: block;
+
+        &:focus-visible {
+          outline: 3px solid currentColor;
+          outline-offset: 2px;
+        }
       }
     }
   }
 
   input[type=checkbox] {
-    display: none;
+    // Visually hidden but kept focusable for keyboard users
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    left: 0;
+    top: 0;
+    z-index: 20;
+
+    &:focus-visible ~ label {
+      outline: 3px solid var(--main-color);
+      outline-offset: -2px;
+    }
 
     &:checked {
       & ~ .navigation-menu {

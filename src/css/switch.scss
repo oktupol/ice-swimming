@@ -62,10 +62,23 @@
   }
 
   input[type=checkbox] {
-    display: none;
+    // Visually hidden but kept focusable for keyboard users
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 
     &:checked ~ .switch-label .slider div {
       margin-left: calc(var(--slider-width) - (1em * var(--slider-size)) - var(--margin-left));
+    }
+
+    &:focus-visible ~ .switch-label .slider {
+      outline: 3px solid var(--main-color);
+      outline-offset: 3px;
     }
   }
 }
