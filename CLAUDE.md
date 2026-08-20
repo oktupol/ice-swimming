@@ -31,6 +31,8 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 - **CSS**: SCSS compiled via `sass-loader`, injected as style tags by `style-loader`. `css-loader`'s `url.filter` deliberately skips URLs starting with `/public/` so the hero backgrounds resolve at runtime instead of being bundled.
 - **Fonts**: Century Gothic loaded via `src/css/fonts.scss` from the `fonts/` directory.
 
+**Watch-mode caveat**: `.md` and `.ejs` files are read at render time (by `md()` and `ejs.renderFile`), not imported through the webpack module graph, so editing one *alone* does **not** trigger a rebuild under `npm start` / `npm run watch` — the dev server keeps serving the previous HTML and the change looks like it silently failed. Touch a tracked file (any `.scss` or `.js`) or restart the server. `npm run build` is always correct; when the browser and `dist/` disagree, trust `dist/`.
+
 ### Images
 
 `scripts/generate-images.js` (Sharp) runs before every webpack invocation:
