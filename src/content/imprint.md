@@ -26,4 +26,8 @@ Richtigkeit, Vollst채ndigkeit und Aktualit채t der Inhalte kann jedoch keine Gew�
 
 #### Haftung f체r Links
 
-Diese Website enth채lt keine externen Links.
+Diese Website enth채lt Links zu externen Websites Dritter, auf deren Inhalte kein
+Einfluss besteht. F체r diese fremden Inhalte kann keine Gew채hr 체bernommen werden.
+F체r die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder
+Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden
+entsprechende Links umgehend entfernt.

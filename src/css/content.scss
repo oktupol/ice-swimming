@@ -17,6 +17,40 @@ main {
     text-align: justify;
     hyphens: auto;
   }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--dark-2-color);
+    text-underline-offset: 0.15em;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dark-2-color);
+    }
+  }
+}
+
+// Primary action. Eisbaden workshops are booked through the hotel, so this is
+// the one place on the site that hands the visitor onward to actually book.
+.cta {
+  margin: 2em 0;
+  text-align: center;
+
+  a {
+    display: inline-block;
+    padding: 0.7em 1.4em;
+    border-radius: 0.4em;
+    background: var(--dark-2-color);
+    color: var(--main-color);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--dark-1-color);
+      color: var(--main-color);
+    }
+  }
 }
 
 .image-aside {
