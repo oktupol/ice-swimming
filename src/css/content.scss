@@ -48,9 +48,16 @@ main {
     // Hover/focus changes only the ring, never the fill: swapping the background
     // to a lighter palette colour dropped the text contrast below the WCAG
     // minimum in one mode or the other.
+    //
+    // The colour must be restated here. The generic `main a:hover` rule above is
+    // more specific than `.cta a`, so without this the label repaints in
+    // --dark-2-color on hover — which is the button's own background, leaving
+    // blue text on a blue button. (`.warm .cta a` below outranks both, so warm
+    // mode keeps its dark label on hover.)
     &:hover,
     &:focus-visible {
       box-shadow: 0 0 0 3px var(--medium-color);
+      color: var(--main-color);
     }
   }
 }
