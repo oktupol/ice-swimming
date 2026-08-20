@@ -110,6 +110,14 @@ main {
   scroll-snap-type: x mandatory;
   gap: .5em;
 
+  // Wischen und Scrollen bleiben erhalten, nur die Leiste verschwindet — die
+  // Punkte von gallery.js übernehmen die Anzeige der Position.
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   img {
     flex-grow: 0;
     flex-shrink: 0;
@@ -130,6 +138,45 @@ main {
     }
   }
 
+}
+
+// Instagram-style position indicator for the scrolling gallery, built by
+// gallery.js. It sits over the lower edge of the images, so the dots are
+// painted white with a shadow rather than in the palette colours — they have
+// to stay readable on top of arbitrary photo content in both modes.
+.gallery-wrapper {
+  position: relative;
+}
+
+.gallery-dots {
+  position: absolute;
+  bottom: .7em;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  gap: .6em;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.gallery-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  box-shadow: 0 0 4px rgba(0, 0, 0, .6);
+  cursor: pointer;
+  transition: background-color .2s ease;
+
+  &.current {
+    background: #fff;
+  }
 }
 
 blockquote {
