@@ -1,6 +1,7 @@
 {
   "scripts": {
     "images": "node scripts/generate-images.js",
+    "og-image": "node scripts/generate-og-image.js",
     "prebuild": "npm run images",
     "prewatch": "npm run images",
     "prestart": "npm run images",

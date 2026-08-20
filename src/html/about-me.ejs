@@ -4,8 +4,11 @@
     <title>Über mich &ndash; Aqualign Swim &amp; Ice</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description"
-          content="Franziska Partheymüller – Notfallsanitäterin, Heilpraktikerin, Schwimmtrainerin und Weltmeisterin im Eisschwimmen. Teamkapitänin der deutschen Nationalmannschaft.">
+    <%- include('./partials/_meta', {
+        path: 'about-me.html',
+        ogTitle: 'Über mich – Franziska Partheymüller',
+        description: 'Franziska Partheymüller – Notfallsanitäterin, Heilpraktikerin, Schwimmtrainerin und zweifache Weltmeisterin im Eisschwimmen. Teamkapitänin der deutschen Nationalmannschaft.'
+    }) %>
     <link rel="icon" type="image/svg+xml" href="public/Logo.svg" sizes="any"/>
 </head>
 <body>

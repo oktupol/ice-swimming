@@ -10,6 +10,7 @@ npm run watch      # Development build with file watching
 npm start          # Dev server on http://localhost:3000 with live reload
 npm run images     # Regenerate WebP variants + image-manifest.json (runs automatically
                    # via the prebuild/prewatch/prestart hooks)
+npm run og-image   # Rebuild public/og-image.jpg, the social share image (manual — see below)
 ```
 
 No linting or test suite is configured.
@@ -42,6 +43,10 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 3. Writes `image-manifest.json` (gitignored, generated — never edit by hand) which `picture()` reads.
 
 **To add an image**: drop the JPG in `public/`, reference it by basename from an `.ejs` or `.scss`, and rebuild. No config change needed. Unreferenced images in `public/` are skipped entirely.
+
+**Share image**: `public/og-image.jpg` (1200×630) is built by `scripts/generate-og-image.js` — the hero photo, the logo rasterised from `Logo.svg`, and the wordmark, composited by Sharp. It is committed and regenerated **manually** via `npm run og-image`, deliberately not wired into the prebuild hooks: the wordmark is rendered through fontconfig, and a CI runner's font set differs from a developer machine, so building it there would silently substitute a fallback for Century Gothic. `generate-images.js` skips it by name, since a fixed-size social asset needs no responsive variants. Social crawlers do not render SVG, so the logo cannot be used as `og:image` directly.
+
+**Page metadata** lives in `src/html/partials/_meta.ejs`, included with `path`, `ogTitle` and `description`. It emits the description, canonical, Open Graph and Twitter-card tags together, so every page stays consistent. `og:image` and `og:url` must be absolute — crawlers do not resolve relative paths.
 
 Because `dist/` is never wiped by webpack, the generator deletes the previous manifest's outputs itself so renamed/removed images don't leave stale files behind.
 

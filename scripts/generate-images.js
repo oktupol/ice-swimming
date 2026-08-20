@@ -62,6 +62,10 @@ function cleanPreviousOutputs() {
 
 async function generate() {
     const referenced = findReferencedJpgs(SRC_DIR);
+    // The Open Graph image is a fixed 1200x630 social asset produced by
+    // scripts/generate-og-image.js and referenced by absolute URL. Crawlers fetch
+    // exactly that file, so responsive variants of it would never be used.
+    referenced.delete('og-image.jpg');
     fs.mkdirSync(OUT_DIR, { recursive: true });
     cleanPreviousOutputs();
 
