@@ -8,7 +8,7 @@ Huderstraße 9
 
 ### Kontakt
 
-E-Mail: [contact@aqualign.de](mailto:contact@aqualign.de)
+E-Mail: [kontakt@aqualign.de](mailto:kontakt@aqualign.de)
 
 ### Verantwortlich für den Inhalt nach §&nbsp;55 Abs.&nbsp;2 RStV
 

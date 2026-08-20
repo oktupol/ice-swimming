@@ -6,5 +6,8 @@ Tegernsee statt.
 Wir arbeiten bewusst in kleinen Gruppen – vom 1:1-Workshop bis zu etwa fünf
 Personen. So bleibt genug Raum, um jede und jeden einzeln zu begleiten.
 
-Der Workshop lässt sich mit einem Hotelaufenthalt oder einem Day-Spa-Besuch
-verbinden. Termine, Preise und Buchung laufen direkt über das Hotel.
+#### Wochenend-Workshop mit Hotelaufenthalt
+
+Der Wochenend-Workshop wird gemeinsam mit dem Hotelaufenthalt gebucht, der
+Eintritt in den Spa-Bereich ist enthalten. Termine, Preise und Buchung laufen
+direkt über das Hotel.

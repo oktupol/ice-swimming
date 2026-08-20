@@ -45,12 +45,21 @@ main {
     color: var(--main-color);
     text-decoration: none;
 
+    // Hover/focus changes only the ring, never the fill: swapping the background
+    // to a lighter palette colour dropped the text contrast below the WCAG
+    // minimum in one mode or the other.
     &:hover,
     &:focus-visible {
-      background: var(--dark-1-color);
-      color: var(--main-color);
+      box-shadow: 0 0 0 3px var(--medium-color);
     }
   }
+}
+
+// The warm palette's accent is a light amber. Against it the light --main-color
+// gives only 1.8:1, far under the WCAG AA minimum, so warm-mode CTAs take dark
+// text instead (7.6:1). Cold mode's deep blue is fine with light text (5.7:1).
+.warm .cta a {
+  color: #2b2100;
 }
 
 .image-aside {
