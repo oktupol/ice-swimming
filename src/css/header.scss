@@ -2,6 +2,10 @@
 
 header {
   height: 100%;
+  // Horizontal only: the hero is height:100%, so vertical padding would overflow.
+  // Keeps the wrapped h1 and subtitle off the viewport edges on narrow screens.
+  // `header.compact` outranks this and brings its own padding.
+  padding: 0 1em;
 
   &.compact {
     height: auto;
