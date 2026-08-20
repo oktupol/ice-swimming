@@ -36,6 +36,9 @@ main {
 .cta {
   margin: 2em 0;
   text-align: center;
+  // Overrides the `main p` hyphenation: a button label broken mid-word reads
+  // as a typo, so long labels wrap between whole words instead.
+  hyphens: none;
 
   a {
     display: inline-block;

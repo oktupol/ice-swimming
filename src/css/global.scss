@@ -22,6 +22,12 @@
   outline: none;
 }
 
+// Keeps a compound word or an abbreviation together across a line break, so
+// text with an internal hyphen (E-Mail, Tages-Workshop) never splits.
+.nowrap {
+  white-space: nowrap;
+}
+
 // Visually hidden but available to assistive tech and keyboard focus
 .sr-only {
   position: absolute;
