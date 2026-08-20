@@ -61,6 +61,23 @@ header {
     }
   }
 
+  // Hint that the page continues below the full-height hero, which is otherwise
+  // a self-contained splash screen with no indication that content follows.
+  // Decorative only; the reduced-motion rule in global.scss stills the bounce.
+  .scroll-cue {
+    position: absolute;
+    bottom: 3.2em;
+    left: 50%;
+    width: 1.1em;
+    height: 1.1em;
+    margin-left: -0.55em;
+    border-right: 3px solid var(--main-color);
+    border-bottom: 3px solid var(--main-color);
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 0.2em black);
+    animation: scroll-cue-bounce 2.4s ease-in-out infinite;
+  }
+
   .gradient {
     --gradient-height: 2em;
     position: absolute;
@@ -159,4 +176,15 @@ header {
     }
   }
 
+}
+
+@keyframes scroll-cue-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(45deg);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(0.4em) rotate(45deg);
+    opacity: 1;
+  }
 }

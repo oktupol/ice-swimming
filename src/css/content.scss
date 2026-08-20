@@ -64,7 +64,12 @@ main {
     scroll-snap-align: center;
 
     width: 100%;
+    // Portrait phone shots would otherwise render ~1300px tall at full width,
+    // burying the subject more than a screen below the top of the image.
     height: auto;
+    max-height: 70vh;
+    object-fit: cover;
+    object-position: center 60%;
 
     @include medium {
       flex-grow: unset;
@@ -87,6 +92,29 @@ blockquote {
     &::before {
       content: "—";
       margin-right: 1em;
+    }
+  }
+}
+
+// Link to the opposite mode, shown at the end of each section. Without it the
+// mode switch in the hero is the only route to the other half of the site.
+.mode-crosslink {
+  margin: 2.5em 0 1em;
+  text-align: center;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 2px solid var(--dark-2-color);
+    padding-bottom: 0.15em;
+
+    &::after {
+      content: " \2192";
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--dark-2-color);
     }
   }
 }

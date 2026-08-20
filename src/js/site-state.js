@@ -35,9 +35,9 @@ function initSiteState() {
 
     window.addEventListener("hashchange", () => {
         const hash = window.location.hash.substring(1);
-        // transition() writes the hash itself, which re-fires this event; the
-        // guard ignores those echoes and only reacts to external hash changes
-        // (e.g. back/forward navigation).
+        // transition() writes the hash through the History API, which does not
+        // fire this event; the guard simply skips redundant work when the hash
+        // already matches the active mode.
         if (hash !== siteState.currentState) {
             siteState.initState();
             siteState.focusActiveSection();
@@ -85,7 +85,7 @@ class SiteState {
             // Align the toggle with the hash before applying it, so a deep link
             // like /#eisbaden shows the switch in the matching position.
             this.checkbox.checked = hash === this.STATES.COLD;
-            this.transition(hash);
+            this.transition(hash, {replaceHistory: true});
             return hash;
         }
 
@@ -115,16 +115,30 @@ class SiteState {
     /**
      * Applies a mode transition: updates the URL hash, body classes, and the
      * screen-reader announcement.
+     *
+     * The hash is written through the History API rather than by assigning
+     * `window.location.hash`: assigning it makes the browser jump to the matching
+     * section, which scrolls the header — and with it the mode switch — out of
+     * view, leaving no visible way back to the other mode.
      * @param {State} targetState The mode to switch to.
+     * @param {Object} [options] Transition options.
+     * @param {boolean} [options.replaceHistory=false] Replace the current history
+     *   entry instead of pushing a new one. Used while initialising, so a freshly
+     *   loaded page does not leave a redundant entry behind.
      * @throws {Error} If `targetState` is not a known {@link SiteState#STATES} value.
      * @returns {void}
      */
-    transition(targetState) {
+    transition(targetState, {replaceHistory = false} = {}) {
         if (!Object.values(this.STATES).includes(targetState)) {
             throw new Error("Illegal state" + targetState);
         }
 
-        window.location.hash = targetState;
+        const url = "#" + targetState;
+        if (replaceHistory) {
+            window.history.replaceState(null, "", url);
+        } else {
+            window.history.pushState(null, "", url);
+        }
         this.currentState = targetState;
         this.updateBodyClassList(targetState);
         this.announceState(targetState);
