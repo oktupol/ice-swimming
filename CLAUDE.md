@@ -26,11 +26,14 @@ matching `feature/*`, `fix/*` or `claude/*` are built — **a branch named anyth
 gets no preview**. The include-list also keeps Cloudflare off `gh-pages`, which holds built
 output with no `package.json` and would fail every build.
 
-Automatic production-branch deployments are switched off in the Cloudflare dashboard, so `main`
-is only ever deployed by the GitHub Actions workflow above — every Cloudflare deployment is a
-preview. That is why the root `_headers` file (copied into `dist/` by `CopyPlugin`) can mark
-*everything* `X-Robots-Tag: noindex` unconditionally: only Cloudflare reads it, and GitHub Pages
-ignores it, so production stays crawlable.
+`main` builds on Cloudflare too, at `ice-swimming.pages.dev` — but that is only a mirror; the
+live site is the GitHub Pages deploy above. So *no* Cloudflare deployment should ever be indexed,
+which is why the root `_headers` file (copied into `dist/` by `CopyPlugin`) marks everything
+`X-Robots-Tag: noindex` unconditionally. GitHub Pages ignores `_headers`, so production stays
+crawlable.
+
+⚠️ **If `aqualign.de` is ever moved to Cloudflare Pages, delete `_headers` in the same change** —
+otherwise the noindex header follows the custom domain and silently deindexes the live site.
 
 All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt` text, and ARIA labels in German.
 
