@@ -76,6 +76,7 @@ The site has a toggle switch that switches between a **Schwimmtraining** (warm, 
 - `display: none` rules hide `.warm` sections in cold mode and `.cold` sections in warm mode
 - The two hero backgrounds are stacked as `header::before` (cold) and `header::after` (warm), cross-faded by opacity — likewise the snowflake in the logo
 - `SiteState` class in `site-state.js` manages transitions and syncs state to the URL hash (`#schwimmtraining` / `#eisbaden`), including deep links and back/forward navigation
+- Every mode change scrolls back to the top of the page: the content area is swapped wholesale, so the old scroll position is meaningless. That means suppressing the browser's own jump to the `#schwimmtraining` / `#eisbaden` section — hence `focus({preventScroll: true})` and the `load`-time correction in `holdPageStartUntilLoaded()`
 - The toggle is a styled CSS checkbox (`#switch`), only present on `index.ejs`; the JS no-ops on other pages
 - The two mode sections themselves live in `partials/schwimmtraining.ejs` and `partials/eisbaden.ejs` (no `_` prefix, unlike the site-chrome partials) — edit those, not `index.ejs`
 

@@ -3,7 +3,8 @@
 /**
  * @file Manages the warm (Schwimmtraining) / cold (Eisbaden) UI mode. The
  * {@link SiteState} class toggles `warm`/`cold` classes on `<body>`, mirrors
- * the active mode in the URL hash, and announces changes for screen readers.
+ * the active mode in the URL hash, announces changes for screen readers, and
+ * puts the page back at the top whenever the mode changes.
  */
 
 /**
@@ -33,8 +34,17 @@ function initSiteState() {
         if (hash !== siteState.currentState) {
             siteState.initState();
             siteState.focusActiveSection();
+            siteState.scrollToTop();
         }
     });
+
+    // A mode hash in the URL of a freshly loaded page (a nav link from another
+    // page, a bookmark) makes the browser jump to the matching <section>. Undo
+    // that, so arriving with a mode in the URL starts at the top just like
+    // switching modes does.
+    if (window.location.hash.substring(1) === siteState.currentState) {
+        siteState.holdPageStartUntilLoaded();
+    }
 }
 
 /**
@@ -176,6 +186,11 @@ class SiteState {
      * Moves keyboard focus to the section matching the current mode, making it
      * programmatically focusable first. No-op if the current state is invalid
      * or the section is missing.
+     *
+     * Focus has to move because the section the reader came from is hidden by
+     * the mode change: leaving focus on a link inside it would drop focus to
+     * the document body. The viewport is left alone here — {@link
+     * SiteState#scrollToTop} decides where the page lands.
      * @returns {void}
      */
     focusActiveSection() {
@@ -187,8 +202,61 @@ class SiteState {
             // tabindex="-1" makes the otherwise non-interactive section
             // focusable programmatically without adding it to the tab order.
             section.setAttribute("tabindex", "-1");
-            section.focus();
+            // preventScroll: focusing a section would otherwise scroll its top
+            // edge into view, which is the very jump this module avoids.
+            section.focus({preventScroll: true});
         }
+    }
+
+    /**
+     * Scrolls the page back to the top.
+     *
+     * A mode change swaps out the entire content area, so whatever the reader
+     * had scrolled to is gone and their scroll position no longer points at
+     * anything meaningful — scrolling somewhere mid-page would land them in an
+     * arbitrary spot of the new content. Starting at the top instead matches
+     * what following a link to another page does, and keeps the mode switch in
+     * the header reachable.
+     * @returns {void}
+     */
+    scrollToTop() {
+        // Instant rather than smooth: this is a page change, not a movement
+        // within the page, and a smooth scroll over a full-height hero would
+        // just be a long slide over content the reader did not ask to see.
+        window.scrollTo({top: 0, left: 0, behavior: "instant"});
+    }
+
+    /**
+     * Keeps a page that was opened with a mode hash at the top while it loads.
+     *
+     * Scrolling to the top once is not enough: the browser retries the jump to
+     * the fragment for as long as the document is still loading, and would put
+     * the page back down again as soon as the last image has arrived. So the
+     * correction is repeated after `load` — unless the reader has started
+     * scrolling in the meantime, because pulling the page back out from under
+     * them would be worse than the jump this undoes.
+     * @returns {void}
+     */
+    holdPageStartUntilLoaded() {
+        this.scrollToTop();
+
+        /** @type {string[]} The ways a reader can scroll without our doing it. */
+        const readerEvents = ["wheel", "touchmove", "keydown"];
+        /** @type {boolean} Whether the reader has taken over the scroll position. */
+        let readerScrolled = false;
+        const markReaderScrolled = () => {
+            readerScrolled = true;
+        };
+
+        // A `scroll` listener would be simpler but useless here: it cannot tell
+        // the reader's scrolling apart from our own scrollToTop().
+        readerEvents.forEach((type) => window.addEventListener(type, markReaderScrolled, {passive: true}));
+        window.addEventListener("load", () => {
+            if (!readerScrolled) {
+                this.scrollToTop();
+            }
+            readerEvents.forEach((type) => window.removeEventListener(type, markReaderScrolled));
+        }, {once: true});
     }
 }
 
