@@ -68,11 +68,20 @@ module.exports = (env, argv) => {
         plugins: [
             ...htmlPages,
             new CopyPlugin({
-                patterns: [{
-                    from: path.resolve(__dirname, 'public'),
-                    to: 'public',
-                    filter: (resourcePath) => referencedAssets.has(path.basename(resourcePath)),
-                }],
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, 'public'),
+                        to: 'public',
+                        filter: (resourcePath) => referencedAssets.has(path.basename(resourcePath)),
+                    },
+                    // Cloudflare Pages reads _headers from the site root; it marks the preview
+                    // deployments noindex. GitHub Pages (production) ignores the file.
+                    {
+                        from: path.resolve(__dirname, '_headers'),
+                        to: '_headers',
+                        toType: 'file',
+                    },
+                ],
             }),
         ],
         module: {

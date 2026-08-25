@@ -20,6 +20,14 @@ No linting or test suite is configured. To verify a change visually, start the d
 
 This is a static website for **Aqualign Swim & Ice** (aqualign.de), built with Webpack. Pushing to `main` triggers a GitHub Actions workflow that builds, copies `CNAME` alongside `dist/`, and deploys to GitHub Pages via the `gh-pages` branch.
 
+**Preview deployments** of non-`main` branches are built by Cloudflare Pages (project
+`ice-swimming`, build command `npm run build`, output `dist`) and served at
+`<branch>.ice-swimming.pages.dev`. Automatic production-branch deployments are switched off in
+the Cloudflare dashboard, so `main` is only ever deployed by the GitHub Actions workflow above —
+every Cloudflare deployment is a preview. That is why the root `_headers` file (copied into
+`dist/` by `CopyPlugin`) can mark *everything* `X-Robots-Tag: noindex` unconditionally: only
+Cloudflare reads it, and GitHub Pages ignores it, so production stays crawlable.
+
 All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt` text, and ARIA labels in German.
 
 ### Build pipeline

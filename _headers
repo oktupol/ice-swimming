@@ -1,0 +1,5 @@
+# Cloudflare Pages serves preview branches only (main is not built there — see CLAUDE.md),
+# so every deployment that reads this file is a preview and must stay out of search results.
+# GitHub Pages, which serves production, ignores this file entirely.
+/*
+  X-Robots-Tag: noindex, nofollow
