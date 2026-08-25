@@ -1,0 +1,24 @@
+// The two colour palettes the site switches between. `site-state.js` toggles
+// the `warm`/`cold` classes on <body>; everything else reads these variables,
+// so a mode change is purely a change of what these resolve to.
+//
+// Bare `body` carries the warm values as well, so a page that renders before
+// the JS has applied a class still gets a complete palette.
+
+body.cold {
+  --main-color: #D5F0F5;
+  --dark-2-color: #1A47E8;
+  --dark-1-color: #1A88E8;
+  --medium-color: #1AC9E8;
+  --bright-1-color: #1AE8C3;
+  --bright-2-color: #1AE87D;
+}
+
+body, body.warm {
+  --main-color: #F2F0D7;
+  --dark-2-color: #E8A81A;
+  --dark-1-color: #E8C11A;
+  --medium-color: #E8DA1A;
+  --bright-1-color: #C1E81A;
+  --bright-2-color: #6BE81A;
+}

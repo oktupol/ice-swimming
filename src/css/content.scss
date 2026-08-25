@@ -110,8 +110,8 @@ main {
   scroll-snap-type: x mandatory;
   gap: .5em;
 
-  // Wischen und Scrollen bleiben erhalten, nur die Leiste verschwindet — die
-  // Punkte von gallery.js übernehmen die Anzeige der Position.
+  // Swiping and scrolling keep working, only the bar disappears — the dots
+  // built by gallery.js take over showing the position.
   scrollbar-width: none;
 
   &::-webkit-scrollbar {

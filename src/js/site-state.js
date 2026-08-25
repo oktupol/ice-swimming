@@ -6,14 +6,6 @@
  * the active mode in the URL hash, and announces changes for screen readers.
  */
 
-// Initialise the mode toggle once the DOM is ready, but only on pages that
-// actually contain the switch.
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector("#switch")) {
-        initSiteState();
-    }
-});
-
 /**
  * Wires up the mode switch: creates a {@link SiteState}, transitions on
  * checkbox changes, and re-syncs the state when the URL hash changes
@@ -69,14 +61,16 @@ class SiteState {
         this.checkbox = document.querySelector("#switch");
         /** @type {HTMLBodyElement} */
         this.body = document.querySelector("body");
+        /** @type {State|undefined} The mode currently applied to the page. */
+        this.currentState = undefined;
 
-        this.state = this.initState();
-        this.updateBodyClassList(this.state);
+        this.initState();
     }
 
     /**
-     * Determines the initial mode. A valid mode in the URL hash wins (and is
-     * applied immediately); otherwise the toggle's checked state decides.
+     * Determines the initial mode and applies it. A valid mode in the URL hash
+     * wins; otherwise the toggle's checked state decides. Either way
+     * {@link SiteState#currentState} and the body classes end up in sync.
      * @return {State} The resolved initial mode.
      */
     initState() {
@@ -90,10 +84,12 @@ class SiteState {
         }
 
         // No (valid) hash: fall back to whatever the toggle currently shows.
-        if (this.checkbox.checked) {
-            return this.STATES.COLD;
-        }
-        return this.STATES.WARM;
+        // Applied directly rather than through transition(), which would write
+        // a hash into the URL of a plainly loaded page.
+        const state = this.checkbox.checked ? this.STATES.COLD : this.STATES.WARM;
+        this.currentState = state;
+        this.updateBodyClassList(state);
+        return state;
     }
 
     /**
@@ -194,4 +190,14 @@ class SiteState {
             section.focus();
         }
     }
+}
+
+// Initialise the mode toggle, but only on pages that actually contain the
+// switch. The bundle is injected into <head> with `defer`, so the document is
+// already parsed when this runs — like the other modules, it needs no
+// DOMContentLoaded wrapper. This has to stay below the class declaration:
+// unlike a function, a class is not hoisted, so calling it any earlier in the
+// file throws a ReferenceError.
+if (document.querySelector("#switch")) {
+    initSiteState();
 }
