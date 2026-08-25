@@ -11,6 +11,15 @@ header {
     height: auto;
     position: relative;
     padding: 2.5em 1em 3em;
+
+    // The hero photo is scaled to a full viewport (see `&::before` below) and
+    // the short header shows a band of it. Clip that band here — the
+    // pseudo-elements stay viewport-tall so the crop matches the landing page.
+    overflow: hidden;
+
+    &::before, &::after {
+      height: 100vh;
+    }
   }
 
   display: flex;
@@ -31,10 +40,23 @@ header {
     height: 100%;
 
     background-position: center;
-    background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 0.9;
+
+    // Parallax for mouse-driven browsers only. A fixed-attachment background
+    // is scaled against the viewport rather than the element, so Chrome puts it
+    // in its own composited layer and resamples it against the content drawn on
+    // top. On Android that leaves hairline seams along the rectangular paint
+    // bounds of every blurred `text-shadow` in the header — the h1 glow
+    // (`0 0 .5em`) blurs out to 0.75em, so it draws a 1px line that far to the
+    // left and right of each heading line, straight across the photo. Touch
+    // devices get a background that scrolls with the header instead; at rest
+    // the two are indistinguishable, and iOS Safari has never honoured the
+    // fixed attachment anyway.
+    @media (hover: hover) and (pointer: fine) {
+      background-attachment: fixed;
+    }
   }
 
   &::before {
