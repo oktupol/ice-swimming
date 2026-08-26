@@ -180,7 +180,11 @@ header {
   }
 
   img.snowflake {
-    --snowflake-height: calc(1.03em * 607.78394 / 485.45325);
+    // Die Flocke im selben Maßstab wie das Logo rendern: Canvas-Höhe zu
+    // Logo-Höhe, plus ein halbes Prozent Luft. Bezugsgröße ist bewusst die
+    // Höhe, denn `height` wird gesetzt und `width` folgt daraus — so ändert
+    // eine breitere Zeichenfläche die Größe der Flocke nicht.
+    --snowflake-height: calc(1.0048em * 575.16046 / 448.139);
     height: var(--snowflake-height);
     width: auto;
     position: absolute;
