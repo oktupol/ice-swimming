@@ -1,3 +1,5 @@
+@use 'viewports' as *;
+
 // Fallback styling, and what a visitor without JS (or without the Popover API)
 // keeps seeing: the quotes one below the other. Stacked, they need a visible
 // start and end of their own — the indent of the generic `blockquote` rule
@@ -30,20 +32,32 @@ blockquote.testimonial {
 
 .testimonial-list {
   display: grid;
-  // One column on phones, filling out to four as the viewport allows. `auto-fit`
-  // rather than a fixed count so the single Eisbaden card doesn't sit in a row
-  // of three empty tracks. The upper bound matters for exactly that case: with
-  // a plain 1fr the lone card stretched across the full 1000px of the column.
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 22rem));
+  // Two columns at most, never more: across four the cards got so narrow that
+  // the clamped teaser showed barely a sentence and the whole point of a
+  // preview was lost. The upper bound on the track keeps the pair from
+  // stretching over the full width of the column on a wide screen.
+  grid-template-columns: minmax(0, 28rem);
   justify-content: center;
   gap: 1em;
   margin: 1.5em 0;
   padding: 0;
   list-style: none;
+
+  @include medium {
+    grid-template-columns: repeat(2, minmax(0, 28rem));
+  }
 }
 
 .testimonial-item {
   display: flex;
+}
+
+// Eisbaden has a single stimme, which would otherwise sit in the left of the
+// two tracks with an empty one beside it.
+.testimonial-item:only-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, 28rem);
 }
 
 .testimonial-card {
