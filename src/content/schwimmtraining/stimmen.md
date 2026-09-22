@@ -32,5 +32,5 @@ Schwimmabzeichen zu machen.  Wir sind immer richtig gern hingegangen, da alles
 auf Augenhöhe abläuft und Franzi jede Frage ernst nimmt.  Eine tolle
 Trainerin!“
 </blockquote>
-<cite>Matteo</cite>
+<cite>Mama von Matheo</cite>
 </div>
