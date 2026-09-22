@@ -8,3 +8,4 @@ require('./site-state.js');
 require('./navigation.js');
 require('./footer.js');
 require('./gallery.js');
+require('./testimonials.js');
