@@ -1,0 +1,15 @@
+<%#
+  Preloads the two hero backgrounds (header::before / ::after in header.scss).
+
+  The stylesheet is injected by the deferred bundle (style-loader), so without this
+  the browser only discovers the hero images once the JS has run — they are the
+  largest paint on every page. Both are fetched either way: the hidden mode's image
+  sits underneath at opacity 0 for the cross-fade.
+
+  The URLs must match the AVIF entries of the image-set() exactly, or the image is
+  downloaded twice. `type` makes browsers without AVIF skip the preload; they pick
+  WebP/JPG from the image-set() as before. Absolute paths, like the CSS, so the
+  404 page resolves them from any depth.
+-%>
+<link rel="preload" as="image" type="image/avif" href="/public/hero-schwimmtraining.avif">
+<link rel="preload" as="image" type="image/avif" href="/public/hero-eisbaden.avif">

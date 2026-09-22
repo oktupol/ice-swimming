@@ -15,8 +15,12 @@
  * @returns {void}
  */
 const setupGallery = (gallery) => {
-    /** @type {HTMLElement[]} The slides the dots refer to. */
-    const slides = [...gallery.children];
+    /**
+     * @type {HTMLElement[]} The slides the dots refer to. Queried as images
+     * rather than taken from `gallery.children`: those are the `<picture>`
+     * wrappers, which are `display: contents` and so have no box to measure.
+     */
+    const slides = [...gallery.querySelectorAll('img')];
     if (slides.length < 2) return;
 
     /** @type {HTMLDivElement} Wrapper positioning the dots over the images. */
