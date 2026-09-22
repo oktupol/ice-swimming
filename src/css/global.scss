@@ -22,6 +22,13 @@
   outline: none;
 }
 
+// The picture() helper wraps every content image in a <picture> purely to offer
+// an AVIF source. Taking the wrapper out of layout keeps the <img> a direct flex
+// item of .gallery / .image-aside, so their `img` rules apply unchanged.
+picture {
+  display: contents;
+}
+
 // Keeps a compound word or an abbreviation together across a line break, so
 // text with an internal hyphen (E-Mail, Tages-Workshop) never splits.
 .nowrap {

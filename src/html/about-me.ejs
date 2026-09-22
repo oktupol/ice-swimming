@@ -10,6 +10,7 @@
         description: 'Franziska Partheymüller – Notfallsanitäterin, Heilpraktikerin, Schwimmtrainerin und zweifache Weltmeisterin im Eisschwimmen. Teamkapitänin der deutschen Nationalmannschaft.'
     }) %>
     <link rel="icon" type="image/svg+xml" href="public/Logo.svg" sizes="any"/>
+    <%- include('./partials/_hero-preload') %>
 </head>
 <body>
 
@@ -21,7 +22,7 @@
     <section>
         <h2>Über mich</h2>
         <div class="image-aside right">
-            <%- picture('portrait.jpg', { alt: 'Franziska Partheymüller Portrait', sizes: '(max-width: 768px) 100vw, 400px' }) %>
+            <%- picture('portrait.jpg', { alt: 'Franziska Partheymüller Portrait', sizes: '(min-width: 801px) 350px, (min-width: 601px) 250px, 100vw' }) %>
             <div>
                 <%- md('../content/about-me.md') %>
             </div>
