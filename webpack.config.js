@@ -7,7 +7,7 @@ const md = require('./src/utils/markdown');
 const { picture } = require('./src/utils/images');
 
 // Leave /public/* URLs untouched so css-loader doesn't try to resolve them as modules.
-// The hero background WebP files are generated into dist/public/ by scripts/generate-images.js
+// The hero background AVIF/WebP files are generated into dist/public/ by scripts/generate-images.js
 // and are served from the site root at runtime (the JPG fallbacks are copied there by CopyPlugin).
 const cssLoader = {
     loader: 'css-loader',

@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run build      # Production build → dist/
 npm run watch      # Development build with file watching
 npm start          # Dev server on http://localhost:3000 with live reload
-npm run images     # Regenerate WebP variants + image-manifest.json (runs automatically
+npm run images     # Regenerate AVIF/WebP variants + image-manifest.json (runs automatically
                    # via the prebuild/prewatch/prestart hooks)
 npm run og-image   # Rebuild public/og-image.jpg, the social share image (manual — see below)
 ```
@@ -43,7 +43,7 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 - **HTML**: Each `.ejs` file in `src/html/` becomes a standalone page via `HtmlWebpackPlugin`, rendered by `ejs.renderFile` directly in `webpack.config.js` (there is no custom loader). Partials live in `src/html/partials/` and are pulled in with EJS `<%- include('./partials/_nav') %>`; `root` is set to `src/html`.
 - **Template helpers** — both injected as `templateParameters` and always used with `<%- %>` (unescaped):
   - `md('../content/foo.md')` → renders a Markdown file to HTML (`src/utils/markdown.js`, path relative to `src/utils/`).
-  - `picture('name.jpg', { alt, sizes, loading, className })` → builds a responsive WebP `<img srcset>` from the manifest (`src/utils/images.js`). Throws at build time if the image has no generated variants.
+  - `picture('name.jpg', { alt, sizes, loading, className })` → builds a responsive `<picture>` (AVIF `<source>` + WebP `<img srcset>`) from the manifest (`src/utils/images.js`). Throws at build time if the image has no generated variants. The `<picture>` is `display: contents`, so CSS and `gallery.js` address the `<img>` directly. `sizes` must match the CSS layout, or browsers fetch the wrong variant: `.image-aside` is `(min-width: 801px) 350px, (min-width: 601px) 250px, 100vw`. A `.gallery` is full-width below 601px; above it, its images share the row but never shrink below their width at `max-height: 70vh`, so their `sizes` depend on aspect ratio and image count (see the two mode partials) — update them if those rules change.
 - **Assets**: `CopyPlugin` copies only the `public/` assets actually referenced in `src/` (scanned at build time via regex on `.ejs/.js/.ts/.scss/.css/.html`) into `dist/public/`.
 - **CSS**: SCSS compiled via `sass-loader`, injected as style tags by `style-loader`. `css-loader`'s `url.filter` deliberately skips URLs starting with `/public/` so the hero backgrounds resolve at runtime instead of being bundled.
 - **Fonts**: Century Gothic loaded via `src/css/fonts.scss` from the `fonts/` directory.
@@ -55,8 +55,8 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 `scripts/generate-images.js` (Sharp) runs before every webpack invocation:
 
 1. Scans `src/` for any JPG basename mentioned in a text file — this catches both `picture('portrait.jpg')` in EJS and `url("/public/hero-eisbaden.jpg")` in SCSS.
-2. Emits `dist/public/<name>-<width>.webp` for widths `[480, 768, 1024, 1440, 1920]` smaller than the source, plus a full-size `dist/public/<name>.webp`.
-3. Writes `image-manifest.json` (gitignored, generated — never edit by hand) which `picture()` reads. Because `dist/` is never wiped by webpack, the generator deletes the previous manifest's outputs itself so renamed/removed images don't leave stale files behind.
+2. Emits `dist/public/<name>-<width>.{avif,webp}` for widths `[480, 768, 1024, 1440, 1920]` smaller than the source, plus a full-size `dist/public/<name>.{avif,webp}`. The hero `image-set()` in `header.scss` lists AVIF → WebP → JPG.
+3. Writes `image-manifest.json` (gitignored, generated — never edit by hand) which `picture()` reads. AVIF encoding is slow (a cold run takes minutes), so an image is only re-encoded when its source size/mtime, the encoder settings, or one of its outputs changed; the manifest records all three. Because `dist/` is never wiped by webpack, the generator deletes outputs no longer in the manifest so renamed/removed images don't leave stale files behind. To force a full rebuild, delete `image-manifest.json`.
 
 **To add an image**: drop the JPG in `public/`, reference it by basename from an `.ejs` or `.scss`, and rebuild. No config change needed. Unreferenced images in `public/` are skipped entirely.
 

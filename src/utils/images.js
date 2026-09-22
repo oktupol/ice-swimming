@@ -29,9 +29,15 @@ function pickFallback(variants) {
     );
 }
 
-// Build a responsive WebP <img> from the build-time image manifest.
+// Build a responsive <picture> from the build-time image manifest: an AVIF <source>
+// for browsers that support it, and a WebP <img> for the rest. The <picture> is
+// `display: contents` (global.scss), so CSS keeps targeting the <img> as if it stood
+// alone.
 //
-// Usage in EJS: <%- picture('portrait.jpg', { alt: '…', sizes: '(max-width: 768px) 100vw, 400px' }) %>
+// `sizes` must describe the width the image is actually laid out at, or the browser
+// picks the wrong variant.
+//
+// Usage in EJS: <%- picture('portrait.jpg', { alt: '…', sizes: '(min-width: 601px) 250px, 100vw' }) %>
 function picture(name, opts = {}) {
     const manifest = loadManifest();
     const entry = manifest[name];
@@ -42,13 +48,13 @@ function picture(name, opts = {}) {
         );
     }
 
-    const srcset = entry.variants.map((v) => `${v.src} ${v.width}w`).join(', ');
-    const src = pickFallback(entry.variants).src;
+    const srcset = (format) => entry.variants.map((v) => `${v[format]} ${v.width}w`).join(', ');
+    const src = pickFallback(entry.variants).webp;
     const sizes = opts.sizes || '100vw';
     const loading = opts.loading || 'lazy';
 
     const attrs = [
-        `srcset="${escapeAttr(srcset)}"`,
+        `srcset="${escapeAttr(srcset('webp'))}"`,
         `sizes="${escapeAttr(sizes)}"`,
         `src="${escapeAttr(src)}"`,
         `width="${entry.width}"`,
@@ -59,7 +65,12 @@ function picture(name, opts = {}) {
     ];
     if (opts.className) attrs.push(`class="${escapeAttr(opts.className)}"`);
 
-    return `<img ${attrs.join(' ')}>`;
+    return (
+        `<picture>` +
+        `<source type="image/avif" srcset="${escapeAttr(srcset('avif'))}" sizes="${escapeAttr(sizes)}">` +
+        `<img ${attrs.join(' ')}>` +
+        `</picture>`
+    );
 }
 
 module.exports = { picture };
