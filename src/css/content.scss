@@ -196,26 +196,6 @@ blockquote {
   }
 }
 
-// Testimonials come in a stack, so unlike the single pull quote above each one
-// needs a visible start and end of its own: the indent alone would run three
-// quotes together into one block of italics. The rule bar replaces the indent
-// rather than adding to it, which also buys back the horizontal space on
-// phones.
-blockquote.testimonial {
-  margin: 1.5em 0 0;
-  padding-left: 1em;
-  border-left: 3px solid var(--dark-2-color);
-
-  & + cite {
-    display: block;
-    // Sits with the quote it belongs to, and keeps a clear gap to the next one.
-    margin: .4em 0 1.5em 1em;
-    // Cancels the lift the standalone cite uses to hug its quote; here the
-    // margins already do the spacing.
-    top: 0;
-  }
-}
-
 // Link to the opposite mode, shown at the end of each section. Without it the
 // mode switch in the hero is the only route to the other half of the site.
 .mode-crosslink {

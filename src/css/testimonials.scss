@@ -1,0 +1,191 @@
+// Fallback styling, and what a visitor without JS (or without the Popover API)
+// keeps seeing: the quotes one below the other. Stacked, they need a visible
+// start and end of their own — the indent of the generic `blockquote` rule
+// alone would run them together into one block of italics. The rule bar
+// replaces that indent rather than adding to it, which also buys back the
+// horizontal space on phones.
+blockquote.testimonial {
+  margin: 1.5em 0 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--dark-2-color);
+
+  & + cite {
+    display: block;
+    // Sits with the quote it belongs to, and keeps a clear gap to the next one.
+    margin: .4em 0 1.5em 1em;
+    // Cancels the lift the standalone cite uses to hug its quote; here the
+    // margins already do the spacing.
+    top: 0;
+  }
+}
+
+// Once testimonials.js has swapped the quotes for cards, the fallback rule
+// above no longer applies — inside the popover the quote is the only thing
+// there, so it gets to fill the width.
+.testimonials-ready blockquote.testimonial {
+  margin: 0;
+  padding-left: 0;
+  border-left: 0;
+}
+
+.testimonial-list {
+  display: grid;
+  // One column on phones, filling out to four as the viewport allows. `auto-fit`
+  // rather than a fixed count so the single Eisbaden card doesn't sit in a row
+  // of three empty tracks. The upper bound matters for exactly that case: with
+  // a plain 1fr the lone card stretched across the full 1000px of the column.
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 22rem));
+  justify-content: center;
+  gap: 1em;
+  margin: 1.5em 0;
+  padding: 0;
+  list-style: none;
+}
+
+.testimonial-item {
+  display: flex;
+}
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6em;
+  width: 100%;
+  padding: 1.4em 1.1em;
+  border: 0;
+  border-top: 3px solid var(--dark-2-color);
+  border-radius: .4em;
+  background: rgba(0, 0, 0, .04);
+  // Buttons don't inherit either on their own.
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(0, 0, 0, .08);
+  }
+}
+
+.testimonial-avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+// Placeholder standing in until the real portraits arrive: the initial on a
+// disc in the mode's accent colour.
+.testimonial-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-2-color);
+  color: var(--main-color);
+  font-size: 1.8rem;
+}
+
+// Same contrast problem as the CTA button: against the warm palette's light
+// amber the light --main-color gives only 1.8:1, so warm mode takes dark text.
+.warm .testimonial-avatar-placeholder {
+  color: #2b2100;
+}
+
+.testimonial-name {
+  font-weight: bold;
+}
+
+.testimonial-teaser {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+  font-style: italic;
+  // The card is centred, so justifying would only stretch the last visible
+  // line against a ragged clamp.
+  text-align: center;
+  // No hyphenation here, unlike the body copy: in a column this narrow it broke
+  // almost every line ("Tri-athlon", "möch-test") and read as a stack of typos.
+  // The fallback keeps a single long compound from spilling out of the card.
+  hyphens: none;
+  overflow-wrap: break-word;
+}
+
+.testimonial-more {
+  font-size: .85em;
+  text-decoration: underline;
+  text-underline-offset: .15em;
+}
+
+.testimonial-popover {
+  max-width: min(34rem, calc(100vw - 2rem));
+  padding: 1.6em;
+  border: 0;
+  border-radius: .5em;
+  background: #fff;
+  color: inherit;
+  box-shadow: 0 .5em 2em rgba(0, 0, 0, .3);
+
+  // The popover sits in the top layer, so it needs its own inner layout rather
+  // than the centring the card gets from the grid.
+  &:popover-open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8em;
+  }
+
+  cite {
+    // Overrides the fallback rule's indent and the generic cite's lift.
+    margin: 0;
+    top: 0;
+    font-style: normal;
+  }
+
+  blockquote {
+    font-style: italic;
+  }
+
+  &::backdrop {
+    background: rgba(0, 0, 0, .45);
+  }
+}
+
+// Drawn rather than a "×" glyph: Century Gothic's multiplication sign sits
+// noticeably off-centre at this size.
+.testimonial-close {
+  position: relative;
+  align-self: flex-end;
+  width: 1.8rem;
+  height: 1.8rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1rem;
+    height: 2px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(0, 0, 0, .08);
+  }
+}
