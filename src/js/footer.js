@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @file Tags the first footer list item of each visual row with a

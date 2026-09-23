@@ -25,7 +25,7 @@ function escapeAttr(value) {
 // ignores srcset.
 function pickFallback(variants) {
     return variants.reduce((best, v) =>
-        Math.abs(v.width - 1024) < Math.abs(best.width - 1024) ? v : best
+        Math.abs(v.width - 1024) < Math.abs(best.width - 1024) ? v : best,
     );
 }
 
@@ -44,7 +44,7 @@ function picture(name, opts = {}) {
     if (!entry || !entry.variants.length) {
         throw new Error(
             `picture('${name}'): no generated variants found. Is the image in public/ and ` +
-            `was scripts/generate-images.js run (prebuild hook)?`
+                `was scripts/generate-images.js run (prebuild hook)?`,
         );
     }
 

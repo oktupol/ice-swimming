@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @file Manages the warm (Schwimmtraining) / cold (Eisbaden) UI mode. The
@@ -15,10 +15,10 @@
  */
 function initSiteState() {
     const siteState = new SiteState();
-    const checkbox = document.querySelector("#switch");
+    const checkbox = document.querySelector('#switch');
 
     // Checked = cold (Eisbaden), unchecked = warm (Schwimmtraining).
-    checkbox.addEventListener("change", (event) => {
+    checkbox.addEventListener('change', (event) => {
         if (event.currentTarget.checked) {
             siteState.transitionCold();
         } else {
@@ -26,7 +26,7 @@ function initSiteState() {
         }
     });
 
-    window.addEventListener("hashchange", () => {
+    window.addEventListener('hashchange', () => {
         const hash = window.location.hash.substring(1);
         // transition() writes the hash through the History API, which does not
         // fire this event; the guard simply skips redundant work when the hash
@@ -58,8 +58,8 @@ class SiteState {
      * @enum {State}
      */
     STATES = {
-        WARM: "schwimmtraining",
-        COLD: "eisbaden"
+        WARM: 'schwimmtraining',
+        COLD: 'eisbaden',
     };
 
     /**
@@ -68,9 +68,9 @@ class SiteState {
      */
     constructor() {
         /** @type {HTMLInputElement} */
-        this.checkbox = document.querySelector("#switch");
+        this.checkbox = document.querySelector('#switch');
         /** @type {HTMLBodyElement} */
-        this.body = document.querySelector("body");
+        this.body = document.querySelector('body');
         /** @type {State|undefined} The mode currently applied to the page. */
         this.currentState = undefined;
 
@@ -81,7 +81,7 @@ class SiteState {
      * Determines the initial mode and applies it. A valid mode in the URL hash
      * wins; otherwise the toggle's checked state decides. Either way
      * {@link SiteState#currentState} and the body classes end up in sync.
-     * @return {State} The resolved initial mode.
+     * @returns {State} The resolved initial mode.
      */
     initState() {
         const hash = window.location.hash.substring(1);
@@ -89,7 +89,7 @@ class SiteState {
             // Align the toggle with the hash before applying it, so a deep link
             // like /#eisbaden shows the switch in the matching position.
             this.checkbox.checked = hash === this.STATES.COLD;
-            this.transition(hash, {replaceHistory: true});
+            this.transition(hash, { replaceHistory: true });
             return hash;
         }
 
@@ -127,23 +127,23 @@ class SiteState {
      * section, which scrolls the header — and with it the mode switch — out of
      * view, leaving no visible way back to the other mode.
      * @param {State} targetState The mode to switch to.
-     * @param {Object} [options] Transition options.
+     * @param {object} [options] Transition options.
      * @param {boolean} [options.replaceHistory=false] Replace the current history
      *   entry instead of pushing a new one. Used while initialising, so a freshly
      *   loaded page does not leave a redundant entry behind.
      * @throws {Error} If `targetState` is not a known {@link SiteState#STATES} value.
      * @returns {void}
      */
-    transition(targetState, {replaceHistory = false} = {}) {
+    transition(targetState, { replaceHistory = false } = {}) {
         if (!Object.values(this.STATES).includes(targetState)) {
-            throw new Error("Illegal state" + targetState);
+            throw new Error('Illegal state' + targetState);
         }
 
-        const url = "#" + targetState;
+        const url = '#' + targetState;
         if (replaceHistory) {
-            window.history.replaceState(null, "", url);
+            window.history.replaceState(null, '', url);
         } else {
-            window.history.pushState(null, "", url);
+            window.history.pushState(null, '', url);
         }
         this.currentState = targetState;
         this.updateBodyClassList(targetState);
@@ -158,13 +158,16 @@ class SiteState {
      */
     updateBodyClassList(targetState) {
         if (targetState === this.STATES.COLD) {
-            this.body.classList.add("cold");
-            this.body.classList.remove("warm");
+            this.body.classList.add('cold');
+            this.body.classList.remove('warm');
         } else if (targetState === this.STATES.WARM) {
-            this.body.classList.add("warm");
-            this.body.classList.remove("cold");
+            this.body.classList.add('warm');
+            this.body.classList.remove('cold');
         }
-        this.checkbox.setAttribute("aria-checked", targetState === this.STATES.COLD ? "true" : "false");
+        this.checkbox.setAttribute(
+            'aria-checked',
+            targetState === this.STATES.COLD ? 'true' : 'false',
+        );
     }
 
     /**
@@ -174,11 +177,12 @@ class SiteState {
      * @returns {void}
      */
     announceState(targetState) {
-        const region = document.querySelector("#mode-announcement");
+        const region = document.querySelector('#mode-announcement');
         if (region) {
-            region.textContent = targetState === this.STATES.COLD
-                ? "Eisbaden wird angezeigt"
-                : "Schwimmtraining wird angezeigt";
+            region.textContent =
+                targetState === this.STATES.COLD
+                    ? 'Eisbaden wird angezeigt'
+                    : 'Schwimmtraining wird angezeigt';
         }
     }
 
@@ -197,14 +201,14 @@ class SiteState {
         if (!Object.values(this.STATES).includes(this.currentState)) {
             return;
         }
-        const section = document.querySelector("#" + this.currentState);
+        const section = document.querySelector('#' + this.currentState);
         if (section) {
             // tabindex="-1" makes the otherwise non-interactive section
             // focusable programmatically without adding it to the tab order.
-            section.setAttribute("tabindex", "-1");
+            section.setAttribute('tabindex', '-1');
             // preventScroll: focusing a section would otherwise scroll its top
             // edge into view, which is the very jump this module avoids.
-            section.focus({preventScroll: true});
+            section.focus({ preventScroll: true });
         }
     }
 
@@ -223,7 +227,7 @@ class SiteState {
         // Instant rather than smooth: this is a page change, not a movement
         // within the page, and a smooth scroll over a full-height hero would
         // just be a long slide over content the reader did not ask to see.
-        window.scrollTo({top: 0, left: 0, behavior: "instant"});
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
 
     /**
@@ -241,22 +245,35 @@ class SiteState {
         this.scrollToTop();
 
         /** @type {string[]} The ways a reader can scroll without our doing it. */
-        const readerEvents = ["wheel", "touchmove", "keydown"];
+        const readerEvents = ['wheel', 'touchmove', 'keydown'];
         /** @type {boolean} Whether the reader has taken over the scroll position. */
         let readerScrolled = false;
+        /**
+         * Records that the reader has scrolled, so the `load` correction leaves
+         * the page where they put it.
+         * @returns {void}
+         */
         const markReaderScrolled = () => {
             readerScrolled = true;
         };
 
         // A `scroll` listener would be simpler but useless here: it cannot tell
         // the reader's scrolling apart from our own scrollToTop().
-        readerEvents.forEach((type) => window.addEventListener(type, markReaderScrolled, {passive: true}));
-        window.addEventListener("load", () => {
-            if (!readerScrolled) {
-                this.scrollToTop();
-            }
-            readerEvents.forEach((type) => window.removeEventListener(type, markReaderScrolled));
-        }, {once: true});
+        readerEvents.forEach((type) =>
+            window.addEventListener(type, markReaderScrolled, { passive: true }),
+        );
+        window.addEventListener(
+            'load',
+            () => {
+                if (!readerScrolled) {
+                    this.scrollToTop();
+                }
+                readerEvents.forEach((type) =>
+                    window.removeEventListener(type, markReaderScrolled),
+                );
+            },
+            { once: true },
+        );
     }
 }
 
@@ -266,6 +283,6 @@ class SiteState {
 // DOMContentLoaded wrapper. This has to stay below the class declaration:
 // unlike a function, a class is not hoisted, so calling it any earlier in the
 // file throws a ReferenceError.
-if (document.querySelector("#switch")) {
+if (document.querySelector('#switch')) {
     initSiteState();
 }

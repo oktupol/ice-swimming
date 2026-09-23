@@ -1,15 +1,11 @@
-name: Deploy to GitHub Pages
+name: Check
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 jobs:
-  build-and-deploy:
+  check:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout
@@ -41,15 +37,3 @@ jobs:
 
       - name: Browser tests
         run: npm run test:browser
-
-      - name: Prepare deployment directory
-        run: |
-          mkdir _deploy
-          cp CNAME _deploy/
-          cp -r dist/. _deploy/
-
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_deploy

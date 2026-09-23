@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @file Behaviour for the mobile navigation menu: keeps the toggle's
@@ -53,7 +53,7 @@ if (navToggle) {
 }
 
 // Close the menu whenever a navigation link is followed.
-document.querySelectorAll('.navigation-menu a').forEach(link => {
+document.querySelectorAll('.navigation-menu a').forEach((link) => {
     link.addEventListener('click', () => {
         setNavOpen(false);
     });

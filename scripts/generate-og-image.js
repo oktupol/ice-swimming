@@ -21,14 +21,17 @@ const ROOT = path.resolve(__dirname, '..');
 // though it is not installed system-wide. Must happen before sharp loads its
 // native bindings, which initialise fontconfig.
 const fontConfig = path.join(os.tmpdir(), 'aqualign-fonts.conf');
-fs.writeFileSync(fontConfig, `<?xml version="1.0"?>
+fs.writeFileSync(
+    fontConfig,
+    `<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
   <dir>${path.join(ROOT, 'fonts')}</dir>
   <cachedir>${path.join(os.tmpdir(), 'aqualign-fc-cache')}</cachedir>
   <include ignore_missing="yes">/etc/fonts/fonts.conf</include>
 </fontconfig>
-`);
+`,
+);
 process.env.FONTCONFIG_FILE = fontConfig;
 
 const sharp = require('sharp');
@@ -45,7 +48,8 @@ const SUBTITLE = 'Präzision im Wasser – Mentale Stärke im Eis';
 
 // Scrim: strongest at the bottom where the text sits, lighter at the top so the
 // mountains stay visible.
-const scrim = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
+const scrim =
+    Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
   <defs>
     <linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#000" stop-opacity="0.35"/>
@@ -58,7 +62,8 @@ const scrim = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDT
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
+const text =
+    Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
   <g font-family="Century Gothic" text-anchor="middle" fill="#F2F0D7"
      style="paint-order:stroke fill" stroke="#000" stroke-opacity="0.45">
     <text x="${WIDTH / 2}" y="410" font-size="76" stroke-width="6">${esc(TITLE)}</text>
@@ -67,25 +72,27 @@ const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH
 </svg>`);
 
 (async () => {
-  const logo = await sharp(LOGO, { density: 384 })
-    .resize({ height: LOGO_HEIGHT })
-    .png()
-    .toBuffer();
-  const logoMeta = await sharp(logo).metadata();
+    const logo = await sharp(LOGO, { density: 384 })
+        .resize({ height: LOGO_HEIGHT })
+        .png()
+        .toBuffer();
+    const logoMeta = await sharp(logo).metadata();
 
-  await sharp(HERO)
-    .resize(WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
-    .composite([
-      { input: scrim },
-      { input: logo, top: 120, left: Math.round((WIDTH - logoMeta.width) / 2) },
-      { input: text },
-    ])
-    .jpeg({ quality: 88, mozjpeg: true })
-    .toFile(OUT);
+    await sharp(HERO)
+        .resize(WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
+        .composite([
+            { input: scrim },
+            { input: logo, top: 120, left: Math.round((WIDTH - logoMeta.width) / 2) },
+            { input: text },
+        ])
+        .jpeg({ quality: 88, mozjpeg: true })
+        .toFile(OUT);
 
-  const { size } = fs.statSync(OUT);
-  console.log(`[og] wrote ${path.relative(ROOT, OUT)} (${WIDTH}x${HEIGHT}, ${(size / 1024).toFixed(0)} KB)`);
+    const { size } = fs.statSync(OUT);
+    console.log(
+        `[og] wrote ${path.relative(ROOT, OUT)} (${WIDTH}x${HEIGHT}, ${(size / 1024).toFixed(0)} KB)`,
+    );
 })().catch((err) => {
-  console.error('[og] generation failed:', err);
-  process.exit(1);
+    console.error('[og] generation failed:', err);
+    process.exit(1);
 });

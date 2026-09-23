@@ -3,7 +3,7 @@
 main {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 .8em .5em;
+  padding: 0 0.8em 0.5em;
 
   @include medium {
     font-size: 1.2em;
@@ -108,7 +108,7 @@ main {
   overflow-x: auto;
   align-items: center;
   scroll-snap-type: x mandatory;
-  gap: .5em;
+  gap: 0.5em;
 
   // Swiping and scrolling keep working, only the bar disappears — the dots
   // built by gallery.js take over showing the position.
@@ -137,7 +137,6 @@ main {
       flex-shrink: unset;
     }
   }
-
 }
 
 // Instagram-style position indicator for the scrolling gallery, built by
@@ -150,13 +149,13 @@ main {
 
 .gallery-dots {
   position: absolute;
-  bottom: .7em;
+  bottom: 0.7em;
   left: 0;
   right: 0;
 
   display: flex;
   justify-content: center;
-  gap: .6em;
+  gap: 0.6em;
 
   &.hidden {
     display: none;
@@ -169,10 +168,10 @@ main {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, .45);
-  box-shadow: 0 0 4px rgba(0, 0, 0, .6);
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
   cursor: pointer;
-  transition: background-color .2s ease;
+  transition: background-color 0.2s ease;
 
   &.current {
     background: #fff;
@@ -183,14 +182,14 @@ blockquote {
   font-style: italic;
   margin-left: 2em;
 
-  &+cite {
+  & + cite {
     font-style: normal;
     margin-left: 2em;
     position: relative;
-    top: -.5em;
+    top: -0.5em;
 
     &::before {
-      content: "—";
+      content: '—';
       margin-right: 1em;
     }
   }
@@ -209,7 +208,7 @@ blockquote {
     padding-bottom: 0.15em;
 
     &::after {
-      content: " \2192";
+      content: ' \2192';
     }
 
     &:hover,

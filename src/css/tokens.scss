@@ -6,19 +6,20 @@
 // the JS has applied a class still gets a complete palette.
 
 body.cold {
-  --main-color: #D5F0F5;
-  --dark-2-color: #1A47E8;
-  --dark-1-color: #1A88E8;
-  --medium-color: #1AC9E8;
-  --bright-1-color: #1AE8C3;
-  --bright-2-color: #1AE87D;
+  --main-color: #d5f0f5;
+  --dark-2-color: #1a47e8;
+  --dark-1-color: #1a88e8;
+  --medium-color: #1ac9e8;
+  --bright-1-color: #1ae8c3;
+  --bright-2-color: #1ae87d;
 }
 
-body, body.warm {
-  --main-color: #F2F0D7;
-  --dark-2-color: #E8A81A;
-  --dark-1-color: #E8C11A;
-  --medium-color: #E8DA1A;
-  --bright-1-color: #C1E81A;
-  --bright-2-color: #6BE81A;
+body,
+body.warm {
+  --main-color: #f2f0d7;
+  --dark-2-color: #e8a81a;
+  --dark-1-color: #e8c11a;
+  --medium-color: #e8da1a;
+  --bright-1-color: #c1e81a;
+  --bright-2-color: #6be81a;
 }

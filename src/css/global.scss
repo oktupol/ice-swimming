@@ -1,11 +1,12 @@
 :root {
-  font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+  font-family: 'Century Gothic', Helvetica, Arial, sans-serif;
   font-size: 100%;
 }
 
 * {
-  transition: color 0.3s ease-in-out,
-  background-color 0.3s ease-in-out;
+  transition:
+    color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
 }
 
 :focus-visible {
@@ -17,8 +18,8 @@
 // SiteState.focusActiveSection) carry tabindex="-1" purely so screen readers
 // follow the mode change. They are not interactive, so outlining the whole
 // section would read as a stray box around half the page.
-[tabindex="-1"]:focus,
-[tabindex="-1"]:focus-visible {
+[tabindex='-1']:focus,
+[tabindex='-1']:focus-visible {
   outline: none;
 }
 
@@ -64,13 +65,16 @@ picture {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
