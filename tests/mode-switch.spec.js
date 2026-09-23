@@ -26,17 +26,25 @@ const scrollY = (page) => page.evaluate(() => window.scrollY);
  */
 const expectAtTop = (page) => expect.poll(() => scrollY(page)).toBe(0);
 
-test('startet ohne Hash im Schwimmtraining-Modus und lässt die URL unverändert', async ({ page }) => {
+test('startet ohne Hash im Schwimmtraining-Modus und lässt die URL unverändert', async ({
+    page,
+}) => {
     await page.goto('/');
     await expectMode(page, 'schwimmtraining');
     expect(new URL(page.url()).hash).toBe('');
 });
 
-test('Deep Link auf #eisbaden öffnet den Eisbaden-Modus am Seitenanfang', async ({ page, isMobile }) => {
+test('Deep Link auf #eisbaden öffnet den Eisbaden-Modus am Seitenanfang', async ({
+    page,
+    isMobile,
+}) => {
     // Known bug: on desktop the lazy gallery images near #eisbaden can finish after
     // `load`, and in roughly one cold load in ten the page ends up back at the section
     // (scrollY ≈ 750) after holdPageStartUntilLoaded() has already corrected it.
-    test.fixme(!isMobile, 'Seite landet gelegentlich wieder beim Abschnitt (holdPageStartUntilLoaded)');
+    test.fixme(
+        !isMobile,
+        'Seite landet gelegentlich wieder beim Abschnitt (holdPageStartUntilLoaded)',
+    );
     await page.goto('/#eisbaden', { waitUntil: 'load' });
     await expectMode(page, 'eisbaden');
     await expectAtTop(page);
@@ -75,7 +83,10 @@ test('Zurück und Vorwärts im Browser stellen den jeweiligen Modus wieder her',
     await expectMode(page, 'eisbaden');
 });
 
-test('Menülink auf der Startseite wechselt den Modus und landet oben', async ({ page, isMobile }) => {
+test('Menülink auf der Startseite wechselt den Modus und landet oben', async ({
+    page,
+    isMobile,
+}) => {
     await page.goto('/');
     if (isMobile) await page.locator('label[for="navigation"]').click();
     await page.locator('#navigation-menu a[href="/#eisbaden"]').click();
@@ -85,7 +96,10 @@ test('Menülink auf der Startseite wechselt den Modus und landet oben', async ({
     await expectAtTop(page);
 });
 
-test('Menülink von einer Unterseite öffnet die Startseite im gewählten Modus', async ({ page, isMobile }) => {
+test('Menülink von einer Unterseite öffnet die Startseite im gewählten Modus', async ({
+    page,
+    isMobile,
+}) => {
     await page.goto('/about.html');
     if (isMobile) await page.locator('label[for="navigation"]').click();
     await page.locator('#navigation-menu a[href="/#eisbaden"]').click();
@@ -98,6 +112,7 @@ test('Menülink von einer Unterseite öffnet die Startseite im gewählten Modus'
 test('Seiten ohne Schalter bekommen trotzdem eine vollständige Farbpalette', async ({ page }) => {
     await page.goto('/about.html');
     const mainColor = await page.evaluate(() =>
-        getComputedStyle(document.body).getPropertyValue('--main-color').trim());
+        getComputedStyle(document.body).getPropertyValue('--main-color').trim(),
+    );
     expect(mainColor).not.toBe('');
 });

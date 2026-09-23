@@ -48,7 +48,10 @@ function collectUrls(doc) {
         const srcset = el.getAttribute('srcset');
         if (srcset !== undefined) {
             for (const candidate of srcset.split(',')) {
-                urls.push([`${el.tagName.toLowerCase()}[srcset]`, candidate.trim().split(/\s+/)[0]]);
+                urls.push([
+                    `${el.tagName.toLowerCase()}[srcset]`,
+                    candidate.trim().split(/\s+/)[0],
+                ]);
             }
         }
     }
@@ -56,7 +59,8 @@ function collectUrls(doc) {
 }
 
 function checkLinks(file, doc, pages) {
-    const base = file === '404.html' ? NOT_FOUND_BASE : `${ORIGIN}/${file === 'index.html' ? '' : file}`;
+    const base =
+        file === '404.html' ? NOT_FOUND_BASE : `${ORIGIN}/${file === 'index.html' ? '' : file}`;
     for (const [where, value] of collectUrls(doc)) {
         // An in-page fragment stays on the page whatever URL it is served under.
         if (value.startsWith('#')) {
@@ -109,20 +113,27 @@ function checkDocument(file, doc) {
 // by the image-set() in header.scss. If the two URLs differ, the image is fetched twice.
 // The CSS ships inside the bundle (style-loader), so that's where the image-set() is.
 function checkHeroPreloads(file, doc) {
-    const preloaded = doc.querySelectorAll('link[rel="preload"][as="image"]')
+    const preloaded = doc
+        .querySelectorAll('link[rel="preload"][as="image"]')
         .map((link) => link.getAttribute('href'))
         .sort();
 
-    const bundleCss = doc.querySelectorAll('script[src]')
-        .map((script) => path.join(DIST_DIR, new URL(script.getAttribute('src'), `${ORIGIN}/`).pathname))
+    const bundleCss = doc
+        .querySelectorAll('script[src]')
+        .map((script) =>
+            path.join(DIST_DIR, new URL(script.getAttribute('src'), `${ORIGIN}/`).pathname),
+        )
         .filter((bundle) => fs.existsSync(bundle))
         .map((bundle) => fs.readFileSync(bundle, 'utf8'))
         .join('\n');
     const inImageSet = [...new Set(bundleCss.match(/\/public\/[\w.-]+\.avif/g) || [])].sort();
 
     if (JSON.stringify(preloaded) !== JSON.stringify(inImageSet)) {
-        fail(file, `preloaded images [${preloaded.join(', ')}] do not match the AVIF entries of ` +
-            `the hero image-set() [${inImageSet.join(', ')}] — update partials/_hero-preload.ejs`);
+        fail(
+            file,
+            `preloaded images [${preloaded.join(', ')}] do not match the AVIF entries of ` +
+                `the hero image-set() [${inImageSet.join(', ')}] — update partials/_hero-preload.ejs`,
+        );
     }
 }
 
@@ -130,14 +141,17 @@ function checkMetadata(file, doc) {
     const meta = (selector) => doc.querySelector(selector)?.getAttribute('content');
 
     if (file === '404.html') {
-        if (!/noindex/.test(meta('meta[name="robots"]') || '')) fail(file, 'must be marked robots noindex');
+        if (!/noindex/.test(meta('meta[name="robots"]') || ''))
+            fail(file, 'must be marked robots noindex');
         return;
     }
 
     const expectedUrl = `${ORIGIN}/${file === 'index.html' ? '' : file}`;
     const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
-    if (canonical !== expectedUrl) fail(file, `canonical is "${canonical}", expected "${expectedUrl}"`);
-    if (meta('meta[property="og:url"]') !== expectedUrl) fail(file, `og:url is not "${expectedUrl}"`);
+    if (canonical !== expectedUrl)
+        fail(file, `canonical is "${canonical}", expected "${expectedUrl}"`);
+    if (meta('meta[property="og:url"]') !== expectedUrl)
+        fail(file, `og:url is not "${expectedUrl}"`);
 
     for (const name of ['name="description"', 'property="og:title"', 'property="og:description"']) {
         if (!meta(`meta[${name}]`)?.trim()) fail(file, `missing or empty <meta ${name}>`);
@@ -179,7 +193,9 @@ function checkHeaders() {
     const headersFile = path.join(DIST_DIR, '_headers');
     if (!fs.existsSync(headersFile)) {
         fail('_headers', 'missing from dist/ — Cloudflare deployments would become indexable');
-    } else if (!/^\/\*\s*\n\s+X-Robots-Tag:.*\bnoindex\b/m.test(fs.readFileSync(headersFile, 'utf8'))) {
+    } else if (
+        !/^\/\*\s*\n\s+X-Robots-Tag:.*\bnoindex\b/m.test(fs.readFileSync(headersFile, 'utf8'))
+    ) {
         fail('_headers', 'does not set X-Robots-Tag: noindex for /*');
     }
 }
@@ -190,7 +206,10 @@ function main() {
         process.exit(1);
     }
 
-    const files = fs.readdirSync(DIST_DIR).filter((f) => f.endsWith('.html')).sort();
+    const files = fs
+        .readdirSync(DIST_DIR)
+        .filter((f) => f.endsWith('.html'))
+        .sort();
     const pages = new Map(files.map((file) => [file, readPage(file)]));
 
     for (const [file, doc] of pages) {

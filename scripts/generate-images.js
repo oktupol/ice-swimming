@@ -65,7 +65,9 @@ function loadPreviousManifest() {
 
 // Every dist-relative file a manifest entry points at.
 function outputsOf(entry) {
-    return (entry.variants || []).flatMap((v) => Object.keys(FORMATS).map((f) => v[f])).filter(Boolean);
+    return (entry.variants || [])
+        .flatMap((v) => Object.keys(FORMATS).map((f) => v[f]))
+        .filter(Boolean);
 }
 
 // Encoding AVIF takes seconds per file, so an image is only re-encoded when its source,
@@ -97,7 +99,10 @@ async function runPool(tasks, limit) {
 // come first, then the full size — used by the hero CSS image-set() and doubling as
 // the largest srcset entry, so there is no redundant `-<intrinsic width>` file.
 function planEncodes(input, stem, width) {
-    const targets = [...WIDTHS.filter((w) => w < width).map((w) => [w, `${stem}-${w}`]), [width, stem]];
+    const targets = [
+        ...WIDTHS.filter((w) => w < width).map((w) => [w, `${stem}-${w}`]),
+        [width, stem],
+    ];
     const variants = targets.map(([w]) => ({ width: w }));
     const tasks = targets.flatMap(([w, name], i) =>
         Object.entries(FORMATS).map(([format, options]) => async () => {
@@ -106,7 +111,7 @@ function planEncodes(input, stem, width) {
             if (w < width) pipeline = pipeline.resize(w, null, { withoutEnlargement: true });
             await pipeline[format](options).toFile(path.join(OUT_DIR, file));
             variants[i][format] = `public/${file}`;
-        })
+        }),
     );
     return { variants, tasks };
 }
@@ -148,7 +153,9 @@ async function generate() {
             source: { size: stat.size, mtimeMs: stat.mtimeMs },
             settings: SETTINGS_KEY,
         };
-        console.log(`[images] ${basename} → ${plan.variants.length} size(s) × ${Object.keys(FORMATS).join(' + ')}`);
+        console.log(
+            `[images] ${basename} → ${plan.variants.length} size(s) × ${Object.keys(FORMATS).join(' + ')}`,
+        );
     }
     await runPool(tasks, os.availableParallelism());
 
@@ -156,7 +163,10 @@ async function generate() {
     // formats and widths no longer generated) would otherwise linger.
     const current = new Set(Object.values(manifest).flatMap(outputsOf));
     for (const entry of Object.values(previous)) {
-        const stale = [entry.webp, ...(entry.variants || []).flatMap((v) => [v.src, ...Object.values(v)])];
+        const stale = [
+            entry.webp,
+            ...(entry.variants || []).flatMap((v) => [v.src, ...Object.values(v)]),
+        ];
         for (const rel of stale) {
             if (typeof rel !== 'string' || current.has(rel)) continue;
             const abs = path.join(ROOT, 'dist', rel);
@@ -165,7 +175,9 @@ async function generate() {
     }
 
     fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
-    console.log(`[images] wrote ${path.relative(ROOT, MANIFEST_PATH)} (${Object.keys(manifest).length} image(s))`);
+    console.log(
+        `[images] wrote ${path.relative(ROOT, MANIFEST_PATH)} (${Object.keys(manifest).length} image(s))`,
+    );
 }
 
 generate().catch((err) => {

@@ -1,0 +1,8 @@
+dist/
+test-results/
+playwright-report/
+package-lock.json
+image-manifest.json
+# Markdown is content (src/content/) or hand-wrapped docs; EJS is not supported.
+*.md
+*.ejs

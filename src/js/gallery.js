@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @file Gives every horizontally scrolling `.gallery` an Instagram-style row
@@ -46,7 +46,7 @@ const setupGallery = (gallery) => {
                 left: slide.offsetLeft - (gallery.clientWidth - slide.clientWidth) / 2,
                 behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
                     ? 'auto'
-                    : 'smooth'
+                    : 'smooth',
             });
         });
         dots.appendChild(button);

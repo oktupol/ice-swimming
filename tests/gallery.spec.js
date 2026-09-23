@@ -7,7 +7,9 @@ test.beforeEach(({ isMobile }) => {
     test.skip(!isMobile, 'Ob eine Galerie überläuft, hängt am Desktop von der Breite ab.');
 });
 
-test('eine überlaufende Galerie lässt sich per Tastatur fokussieren und scrollen', async ({ page }) => {
+test('eine überlaufende Galerie lässt sich per Tastatur fokussieren und scrollen', async ({
+    page,
+}) => {
     await page.goto('/#eisbaden');
     const gallery = page.locator('#eisbaden .gallery');
     await expect(gallery).toHaveAttribute('tabindex', '0');

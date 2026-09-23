@@ -34,28 +34,29 @@ function scanDir(dir) {
 scanDir(path.resolve(__dirname, 'src'));
 
 const htmlDir = path.resolve(__dirname, 'src/html');
-const htmlPages = fs.readdirSync(htmlDir)
-    .filter(f => f.endsWith('.ejs'))
-    .map(f => new HtmlWebpackPlugin({
-        templateContent: async ({ md, picture }) => ejs.renderFile(
-            path.resolve(htmlDir, f),
-            { md, picture },
-            { root: htmlDir }
-        ),
-        templateParameters: { md, picture },
-        filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
-        inject: 'head',
-        scriptLoading: 'defer',
-    }));
+const htmlPages = fs
+    .readdirSync(htmlDir)
+    .filter((f) => f.endsWith('.ejs'))
+    .map(
+        (f) =>
+            new HtmlWebpackPlugin({
+                templateContent: async ({ md, picture }) =>
+                    ejs.renderFile(path.resolve(htmlDir, f), { md, picture }, { root: htmlDir }),
+                templateParameters: { md, picture },
+                filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
+                inject: 'head',
+                scriptLoading: 'defer',
+            }),
+    );
 
 module.exports = (env, argv) => {
     const isProd = argv.mode !== 'development';
     return {
-        entry: "./src/js/main.js",
+        entry: './src/js/main.js',
         mode: argv.mode || 'production',
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: isProd ? "bundle.[contenthash].js" : "bundle.js",
+            filename: isProd ? 'bundle.[contenthash].js' : 'bundle.js',
             // Root-absolute, so the bundle (and the fonts it references) also load on
             // 404.html, which GitHub Pages serves for unknown URLs at any depth.
             publicPath: '/',
@@ -91,13 +92,13 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.css$/,
-                    use: ["style-loader", cssLoader]
+                    use: ['style-loader', cssLoader],
                 },
                 {
                     test: /\.s[ac]ss$/,
-                    use: ["style-loader", cssLoader, "sass-loader"]
+                    use: ['style-loader', cssLoader, 'sass-loader'],
                 },
-            ]
-        }
+            ],
+        },
     };
 };

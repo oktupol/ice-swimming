@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @file Webpack entry point. Pulls in the global stylesheet and the

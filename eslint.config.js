@@ -35,20 +35,23 @@ module.exports = [
             ...jsdoc.configs['flat/recommended'].rules,
             strict: ['error', 'global'],
             // Every function gets JSDoc, arrow functions and class methods included.
-            'jsdoc/require-jsdoc': ['error', {
-                require: {
-                    FunctionDeclaration: true,
-                    ArrowFunctionExpression: true,
-                    MethodDefinition: true,
-                    ClassDeclaration: true,
+            'jsdoc/require-jsdoc': [
+                'error',
+                {
+                    require: {
+                        FunctionDeclaration: true,
+                        ArrowFunctionExpression: true,
+                        MethodDefinition: true,
+                        ClassDeclaration: true,
+                    },
+                    // Inline callbacks (event listeners, forEach) are described by the
+                    // comment above the call, not a JSDoc block of their own.
+                    contexts: [],
+                    checkConstructors: true,
+                    exemptEmptyFunctions: false,
+                    minLineCount: 2,
                 },
-                // Inline callbacks (event listeners, forEach) are described by the
-                // comment above the call, not a JSDoc block of their own.
-                contexts: [],
-                checkConstructors: true,
-                exemptEmptyFunctions: false,
-                minLineCount: 2,
-            }],
+            ],
             'jsdoc/require-file-overview': 'error',
             // `[options.replaceHistory=false]` documents the default right where it is read.
             'jsdoc/no-defaults': 'off',

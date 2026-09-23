@@ -21,7 +21,6 @@ header nav {
     background: rgba(0, 0, 0, 0.92);
     color: var(--main-color);
 
-
     width: 100%;
     @include medium {
       width: auto;
@@ -56,7 +55,7 @@ header nav {
     }
   }
 
-  input[type=checkbox] {
+  input[type='checkbox'] {
     // Visually hidden but kept focusable for keyboard users
     position: fixed;
     width: 1px;
@@ -84,11 +83,13 @@ header nav {
         background: none;
 
         span.upper {
-          transform: translateY(calc((0.5 * var(--navigation-size)) - var(--border-width))) rotate(45deg);
+          transform: translateY(calc((0.5 * var(--navigation-size)) - var(--border-width)))
+            rotate(45deg);
         }
 
         span.lower {
-          transform: translateY(calc((-0.5 * var(--navigation-size)) + var(--border-width))) rotate(-45deg);
+          transform: translateY(calc((-0.5 * var(--navigation-size)) + var(--border-width)))
+            rotate(-45deg);
         }
 
         span.middle {
@@ -130,8 +131,9 @@ header nav {
       border: var(--border-width) solid var(--main-color);
       opacity: 1;
 
-      transition: opacity 0.2s ease-in-out,
-      transform 0.2s ease-in-out;
+      transition:
+        opacity 0.2s ease-in-out,
+        transform 0.2s ease-in-out;
     }
   }
 }
@@ -144,7 +146,7 @@ header nav {
   header nav {
     position: static;
 
-    input[type=checkbox],
+    input[type='checkbox'],
     label {
       display: none;
     }
@@ -157,7 +159,9 @@ header nav {
       gap: 1.5em;
       padding: 0;
       background: none;
-      text-shadow: 0 0 0.15em black, 0 0 0.4em black;
+      text-shadow:
+        0 0 0.15em black,
+        0 0 0.4em black;
 
       li {
         padding: 0;

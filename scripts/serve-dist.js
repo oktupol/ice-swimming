@@ -36,7 +36,9 @@ http.createServer((req, res) => {
     const file = resolveFile(new URL(req.url, 'http://localhost').pathname);
     const status = file ? 200 : 404;
     const body = file || path.join(DIST_DIR, '404.html');
-    res.writeHead(status, { 'Content-Type': TYPES[path.extname(body).toLowerCase()] || 'application/octet-stream' });
+    res.writeHead(status, {
+        'Content-Type': TYPES[path.extname(body).toLowerCase()] || 'application/octet-stream',
+    });
     fs.createReadStream(body).pipe(res);
 }).listen(PORT, () => {
     console.log(`Serving dist/ on http://localhost:${PORT}`);
