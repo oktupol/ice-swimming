@@ -14,6 +14,7 @@ npm run og-image   # Rebuild public/og-image.jpg, the social share image (manual
 npm test           # All checks below, against an existing build — run `npm run build` first
 npm run check:dist # Invariants of the built HTML in dist/ (scripts/check-dist.js)
 npm run check:html # html-validate on dist/*.html (.htmlvalidate.cjs)
+npm run test:browser # Playwright tests in tests/ against dist/ (first run: npx playwright install chromium)
 ```
 
 ### Checks
@@ -30,6 +31,10 @@ publishing, so a failing check blocks the deploy.
 - **`check:html`** validates the built pages against the HTML content model and html-validate's
   a11y rules — e.g. no `<div>` inside `<h1>`/`<label>` (use `<span>`), and every landmark
   distinguishable by its `aria-label`.
+- **`test:browser`** runs Playwright (`playwright.config.js`) against the production build, served
+  GitHub-Pages-style by `scripts/serve-dist.js` (unknown paths answer with `404.html`), in a
+  desktop and a mobile project with reduced motion. `tests/a11y.spec.js` runs axe (WCAG 2.1 AA)
+  on every page, the landing page in both modes, and the open hamburger menu.
 
 To verify a change visually, start the dev server (`npm start`) and drive
 http://localhost:3000 with Claude in Chrome.

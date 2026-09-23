@@ -33,6 +33,12 @@ jobs:
       - name: Validate HTML
         run: npm run check:html
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser tests
+        run: npm run test:browser
+
       - name: Prepare deployment directory
         run: |
           mkdir _deploy
