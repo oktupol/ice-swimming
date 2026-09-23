@@ -35,6 +35,9 @@ publishing, so a failing check blocks the deploy.
   GitHub-Pages-style by `scripts/serve-dist.js` (unknown paths answer with `404.html`), in a
   desktop and a mobile project with reduced motion. `tests/a11y.spec.js` runs axe (WCAG 2.1 AA)
   on every page, the landing page in both modes, and the open hamburger menu.
+  `mode-switch.spec.js`, `navigation.spec.js` and `gallery.spec.js` cover the behaviour of the
+  three JS modules; the menu and gallery specs only run in the mobile project, where the
+  hamburger menu exists and every gallery overflows.
 
 To verify a change visually, start the dev server (`npm start`) and drive
 http://localhost:3000 with Claude in Chrome.
