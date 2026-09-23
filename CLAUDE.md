@@ -11,10 +11,24 @@ npm start          # Dev server on http://localhost:3000 with live reload
 npm run images     # Regenerate AVIF/WebP variants + image-manifest.json (runs automatically
                    # via the prebuild/prewatch/prestart hooks)
 npm run og-image   # Rebuild public/og-image.jpg, the social share image (manual — see below)
+npm test           # All checks below, against an existing build — run `npm run build` first
+npm run check:dist # Invariants of the built HTML in dist/ (scripts/check-dist.js)
 ```
 
-No linting or test suite is configured. To verify a change visually, start the dev server
-(`npm start`) and drive http://localhost:3000 with Claude in Chrome.
+### Checks
+
+The `Check` workflow runs these on every pull request; `deploy.yml` runs them before
+publishing, so a failing check blocks the deploy.
+
+- **`check:dist`** inspects the built pages for the things that break silently: every internal
+  link, asset and `#fragment` resolves (404.html is resolved from a nested URL, since GitHub
+  Pages serves it at any depth — so its URLs must be root-absolute), the hero preloads match the
+  AVIF entries of the `image-set()`, every page but 404 has canonical/`og:url` matching its
+  filename and an absolute `og:image`, 404 is `noindex`, the JSON-LD parses, `_headers` still
+  sets `noindex`, plus `lang="de"`, `alt` on every `<img>` and no duplicate ids.
+
+To verify a change visually, start the dev server (`npm start`) and drive
+http://localhost:3000 with Claude in Chrome.
 
 ## Architecture
 
@@ -55,7 +69,7 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 `scripts/generate-images.js` (Sharp) runs before every webpack invocation:
 
 1. Scans `src/` for any JPG basename mentioned in a text file — this catches both `picture('portrait.jpg')` in EJS and `url("/public/hero-eisbaden.jpg")` in SCSS.
-2. Emits `dist/public/<name>-<width>.{avif,webp}` for widths `[480, 768, 1024, 1440, 1920]` smaller than the source, plus a full-size `dist/public/<name>.{avif,webp}`. The hero `image-set()` in `header.scss` lists AVIF → WebP → JPG, and `partials/_hero-preload.ejs` (included in every page's `<head>`) preloads both hero AVIFs — the CSS arrives via the deferred bundle, so the browser would otherwise discover them late. If a hero image is renamed or its format changes, update the preload URLs to match the `image-set()` exactly, or the image is downloaded twice.
+2. Emits `dist/public/<name>-<width>.{avif,webp}` for widths `[480, 768, 1024, 1440, 1920]` smaller than the source, plus a full-size `dist/public/<name>.{avif,webp}`. The hero `image-set()` in `header.scss` lists AVIF → WebP → JPG, and `partials/_hero-preload.ejs` (included in every page's `<head>`) preloads both hero AVIFs — the CSS arrives via the deferred bundle, so the browser would otherwise discover them late. If a hero image is renamed or its format changes, update the preload URLs to match the `image-set()` exactly, or the image is downloaded twice (`check:dist` fails if they drift apart).
 3. Writes `image-manifest.json` (gitignored, generated — never edit by hand) which `picture()` reads. AVIF encoding is slow (a cold run takes minutes), so an image is only re-encoded when its source size/mtime, the encoder settings, or one of its outputs changed; the manifest records all three. Because `dist/` is never wiped by webpack, the generator deletes outputs no longer in the manifest so renamed/removed images don't leave stale files behind. To force a full rebuild, delete `image-manifest.json`.
 
 **To add an image**: drop the JPG in `public/`, reference it by basename from an `.ejs` or `.scss`, and rebuild. No config change needed. Unreferenced images in `public/` are skipped entirely.
@@ -66,7 +80,7 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 
 **Page metadata** lives in `src/html/partials/_meta.ejs`, included with `path`, `ogTitle` and `description`. It emits the description, canonical, Open Graph and Twitter-card tags together, so every page stays consistent. `og:image` and `og:url` must be absolute — crawlers do not resolve relative paths. `404.ejs` is the exception: it hand-rolls its own `<head>` with `robots: noindex`.
 
-`index.ejs` additionally carries a JSON-LD block (`Person`, `LocalBusiness`, two `Service` entries) inline in its `<head>` — keep it in sync when service descriptions or the Über-mich copy change.
+`index.ejs` additionally carries a JSON-LD block (`Person`, `WebSite`, two `Service` entries) inline in its `<head>` — keep it in sync when service descriptions or the Über-mich copy change.
 
 ### Two-mode UI (warm / cold)
 

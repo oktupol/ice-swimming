@@ -22,3 +22,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Check build output
+        run: npm run check:dist
