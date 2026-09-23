@@ -83,15 +83,15 @@ header nav {
       & ~ label {
         background: none;
 
-        div.upper {
+        span.upper {
           transform: translateY(calc((0.5 * var(--navigation-size)) - var(--border-width))) rotate(45deg);
         }
 
-        div.lower {
+        span.lower {
           transform: translateY(calc((-0.5 * var(--navigation-size)) + var(--border-width))) rotate(-45deg);
         }
 
-        div.middle {
+        span.middle {
           opacity: 0;
         }
       }
@@ -124,7 +124,7 @@ header nav {
     align-items: center;
     flex-direction: column;
 
-    div {
+    span {
       width: 100%;
       height: 0;
       border: var(--border-width) solid var(--main-color);

@@ -47,7 +47,7 @@
       display: flex;
       align-items: center;
 
-      div {
+      span {
         height: calc(var(--slider-size) * 1em);
         aspect-ratio: 1;
         border-radius: 50%;
@@ -72,7 +72,7 @@
     clip: rect(0, 0, 0, 0);
     border: 0;
 
-    &:checked ~ .switch-label .slider div {
+    &:checked ~ .switch-label .slider span {
       margin-left: calc(var(--slider-width) - (1em * var(--slider-size)) - var(--margin-left));
     }
 
