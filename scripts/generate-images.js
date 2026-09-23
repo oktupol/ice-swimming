@@ -36,7 +36,7 @@ const FORMATS = {
 const SETTINGS_KEY = JSON.stringify({ WIDTHS, FORMATS });
 
 const TEXT_EXTENSIONS = /\.(ejs|js|ts|scss|css|html)$/;
-const JPG_REF_REGEX = /[\w.\-]+\.jpe?g/g;
+const JPG_REF_REGEX = /[\w.-]+\.jpe?g/g;
 
 // Collect every JPG basename mentioned anywhere in src/. This catches both
 // picture('portrait.jpg') in EJS and url(".../eisbaden.jpg") in SCSS, and naturally

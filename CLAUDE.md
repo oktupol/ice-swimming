@@ -11,6 +11,7 @@ npm start          # Dev server on http://localhost:3000 with live reload
 npm run images     # Regenerate AVIF/WebP variants + image-manifest.json (runs automatically
                    # via the prebuild/prewatch/prestart hooks)
 npm run og-image   # Rebuild public/og-image.jpg, the social share image (manual — see below)
+npm run lint       # ESLint (+ Stylelint), no build needed
 npm test           # All checks below, against an existing build — run `npm run build` first
 npm run check:dist # Invariants of the built HTML in dist/ (scripts/check-dist.js)
 npm run check:html # html-validate on dist/*.html (.htmlvalidate.cjs)
@@ -21,6 +22,11 @@ npm run test:browser # Playwright tests in tests/ against dist/ (first run: npx 
 
 The `Check` workflow runs these on every pull request; `deploy.yml` runs them before
 publishing, so a failing check blocks the deploy.
+
+- **`lint:js`** — ESLint (`eslint.config.js`), warnings fail too. In `src/js/` it enforces the
+  JSDoc convention below (a `@file` overview and JSDoc on every function, arrow function, class
+  and method) and a global `"use strict"`; tests may use browser globals inside
+  `page.evaluate()`.
 
 - **`check:dist`** inspects the built pages for the things that break silently: every internal
   link, asset and `#fragment` resolves (404.html is resolved from a nested URL, since GitHub

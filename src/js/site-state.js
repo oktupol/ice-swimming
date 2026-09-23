@@ -81,7 +81,7 @@ class SiteState {
      * Determines the initial mode and applies it. A valid mode in the URL hash
      * wins; otherwise the toggle's checked state decides. Either way
      * {@link SiteState#currentState} and the body classes end up in sync.
-     * @return {State} The resolved initial mode.
+     * @returns {State} The resolved initial mode.
      */
     initState() {
         const hash = window.location.hash.substring(1);
@@ -127,7 +127,7 @@ class SiteState {
      * section, which scrolls the header — and with it the mode switch — out of
      * view, leaving no visible way back to the other mode.
      * @param {State} targetState The mode to switch to.
-     * @param {Object} [options] Transition options.
+     * @param {object} [options] Transition options.
      * @param {boolean} [options.replaceHistory=false] Replace the current history
      *   entry instead of pushing a new one. Used while initialising, so a freshly
      *   loaded page does not leave a redundant entry behind.
@@ -244,6 +244,11 @@ class SiteState {
         const readerEvents = ["wheel", "touchmove", "keydown"];
         /** @type {boolean} Whether the reader has taken over the scroll position. */
         let readerScrolled = false;
+        /**
+         * Records that the reader has scrolled, so the `load` correction leaves
+         * the page where they put it.
+         * @returns {void}
+         */
         const markReaderScrolled = () => {
             readerScrolled = true;
         };

@@ -118,7 +118,7 @@ function checkHeroPreloads(file, doc) {
         .filter((bundle) => fs.existsSync(bundle))
         .map((bundle) => fs.readFileSync(bundle, 'utf8'))
         .join('\n');
-    const inImageSet = [...new Set(bundleCss.match(/\/public\/[\w.\-]+\.avif/g) || [])].sort();
+    const inImageSet = [...new Set(bundleCss.match(/\/public\/[\w.-]+\.avif/g) || [])].sort();
 
     if (JSON.stringify(preloaded) !== JSON.stringify(inImageSet)) {
         fail(file, `preloaded images [${preloaded.join(', ')}] do not match the AVIF entries of ` +

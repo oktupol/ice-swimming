@@ -15,7 +15,7 @@ const cssLoader = {
 };
 
 const referencedAssets = new Set();
-const refRegex = /\bpublic\/([\w.\-]+)/g;
+const refRegex = /\bpublic\/([\w.-]+)/g;
 
 const textExtensions = /\.(ejs|js|ts|scss|css|html)$/;
 
