@@ -30,6 +30,9 @@ jobs:
       - name: Check build output
         run: npm run check:dist
 
+      - name: Validate HTML
+        run: npm run check:html
+
       - name: Prepare deployment directory
         run: |
           mkdir _deploy

@@ -9,12 +9,14 @@
     "watch": "webpack watch --mode=development",
     "start": "webpack serve --mode=development",
     "check:dist": "node scripts/check-dist.js",
-    "test": "npm run check:dist"
+    "test": "npm run check:dist && npm run check:html",
+    "check:html": "html-validate \"dist/*.html\""
   },
   "devDependencies": {
     "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^7.1.4",
     "ejs": "^6.0.1",
+    "html-validate": "^11.16.0",
     "html-webpack-plugin": "^5.6.7",
     "marked": "^15.0.0",
     "node-html-parser": "^9.0.4",

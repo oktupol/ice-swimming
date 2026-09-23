@@ -13,6 +13,7 @@ npm run images     # Regenerate AVIF/WebP variants + image-manifest.json (runs a
 npm run og-image   # Rebuild public/og-image.jpg, the social share image (manual — see below)
 npm test           # All checks below, against an existing build — run `npm run build` first
 npm run check:dist # Invariants of the built HTML in dist/ (scripts/check-dist.js)
+npm run check:html # html-validate on dist/*.html (.htmlvalidate.cjs)
 ```
 
 ### Checks
@@ -26,6 +27,9 @@ publishing, so a failing check blocks the deploy.
   AVIF entries of the `image-set()`, every page but 404 has canonical/`og:url` matching its
   filename and an absolute `og:image`, 404 is `noindex`, the JSON-LD parses, `_headers` still
   sets `noindex`, plus `lang="de"`, `alt` on every `<img>` and no duplicate ids.
+- **`check:html`** validates the built pages against the HTML content model and html-validate's
+  a11y rules — e.g. no `<div>` inside `<h1>`/`<label>` (use `<span>`), and every landmark
+  distinguishable by its `aria-label`.
 
 To verify a change visually, start the dev server (`npm start`) and drive
 http://localhost:3000 with Claude in Chrome.
