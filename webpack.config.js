@@ -56,6 +56,9 @@ module.exports = (env, argv) => {
         output: {
             path: path.resolve(__dirname, 'dist'),
             filename: isProd ? "bundle.[contenthash].js" : "bundle.js",
+            // Root-absolute, so the bundle (and the fonts it references) also load on
+            // 404.html, which GitHub Pages serves for unknown URLs at any depth.
+            publicPath: '/',
         },
         devtool: isProd ? false : 'eval-source-map',
         devServer: {
