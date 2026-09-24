@@ -3,7 +3,7 @@
 ### Angaben gemäß §&nbsp;5 TMG
 
 Franziska Partheymüller  
-Am Kramerberg 26
+Am Kramerberg 26  
 83666 Waakirchen
 
 ### Kontakt
@@ -13,7 +13,7 @@ E-Mail: [kontakt@aqualign.de](mailto:kontakt@aqualign.de)
 ### Verantwortlich für den Inhalt nach §&nbsp;55 Abs.&nbsp;2 RStV
 
 Franziska Partheymüller  
-Am Kramerberg 26
+Am Kramerberg 26  
 83666 Waakirchen
 
 ### Haftungsausschluss
