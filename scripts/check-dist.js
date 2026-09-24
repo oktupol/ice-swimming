@@ -200,6 +200,27 @@ function checkHeaders() {
     }
 }
 
+// The CSS is injected from the bundle as <style> text, where a byte-order mark is not
+// stripped: it invalidates the first rule (the regular @font-face), so all text renders bold.
+function checkBundles(pages) {
+    const bundles = new Set();
+    for (const doc of pages.values()) {
+        for (const script of doc.querySelectorAll('script[src]')) {
+            const bundle = distFileFor(new URL(script.getAttribute('src'), `${ORIGIN}/`));
+            if (fs.existsSync(bundle)) bundles.add(bundle);
+        }
+    }
+    for (const bundle of bundles) {
+        const source = fs.readFileSync(bundle, 'utf8');
+        if (source.includes('\ufeff') || /\\ufeff/i.test(source)) {
+            fail(
+                path.relative(DIST_DIR, bundle),
+                'contains a byte-order mark — the injected CSS would lose its first rule',
+            );
+        }
+    }
+}
+
 function main() {
     if (!fs.existsSync(DIST_DIR)) {
         console.error('dist/ does not exist — run `npm run build` first.');
@@ -219,6 +240,7 @@ function main() {
         checkMetadata(file, doc);
         checkJsonLd(file, doc);
     }
+    checkBundles(pages);
     checkHeaders();
 
     if (errors.length) {
