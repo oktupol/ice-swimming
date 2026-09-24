@@ -3,8 +3,8 @@
 ### Angaben gemäß §&nbsp;5 TMG
 
 Franziska Partheymüller  
-Huderstraße 9  
-83707 Bad Wiessee
+Am Kramerberg 26
+83666 Waakirchen
 
 ### Kontakt
 
@@ -13,8 +13,8 @@ E-Mail: [kontakt@aqualign.de](mailto:kontakt@aqualign.de)
 ### Verantwortlich für den Inhalt nach §&nbsp;55 Abs.&nbsp;2 RStV
 
 Franziska Partheymüller  
-Huderstraße 9  
-83707 Bad Wiessee
+Am Kramerberg 26
+83666 Waakirchen
 
 ### Haftungsausschluss
 
