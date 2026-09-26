@@ -3,6 +3,7 @@ const fs = require('fs');
 const ejs = require('ejs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const md = require('./src/utils/markdown');
 const { picture } = require('./src/utils/images');
 
@@ -71,6 +72,12 @@ module.exports = (env, argv) => {
         },
         plugins: [
             ...htmlPages,
+            // The styles ship as a stylesheet <link> in <head>, which blocks rendering until
+            // it has loaded. Injected by the deferred bundle instead (style-loader), a slow
+            // connection first painted the page unstyled — the logo at its full natural size.
+            new MiniCssExtractPlugin({
+                filename: isProd ? 'bundle.[contenthash].css' : 'bundle.css',
+            }),
             new CopyPlugin({
                 patterns: [
                     {
@@ -92,20 +99,20 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.css$/,
-                    use: ['style-loader', cssLoader],
+                    use: [MiniCssExtractPlugin.loader, cssLoader],
                 },
                 {
                     test: /\.s[ac]ss$/,
                     use: [
-                        'style-loader',
+                        MiniCssExtractPlugin.loader,
                         cssLoader,
                         {
                             loader: 'sass-loader',
                             // Compressed Sass output starts with a byte-order mark as soon as
                             // the CSS contains a non-ASCII character (e.g. `content: '—'`).
-                            // style-loader injects it as <style> text, where the BOM is no
-                            // longer stripped: it becomes part of the first selector and the
-                            // browser drops that rule — the regular-weight @font-face, which
+                            // Anywhere but at the very start of a file the BOM is not
+                            // stripped: it becomes part of the first selector and the browser
+                            // drops that rule — once the regular-weight @font-face, which
                             // turned all text bold.
                             options: { sassOptions: { charset: false } },
                         },

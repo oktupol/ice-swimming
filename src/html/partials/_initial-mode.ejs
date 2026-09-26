@@ -1,0 +1,28 @@
+<%#
+  Applies the mode's body class before the first paint. The stylesheet blocks
+  rendering, but the bundle is deferred — without this, a slow connection would
+  paint the landing page with both mode sections visible (bare `body` hides
+  neither), and a page opened in Eisbaden mode in the warm palette, until
+  site-state.js runs. Mirrors its resolution: a mode hash, then the mode in
+  sessionStorage, then warm on the landing page (`landing`); the other pages
+  keep the bare `body` palette without a stored mode, as applyStoredMode() does.
+
+  `no-transitions` is set as well, so the switch — whose checkbox site-state.js
+  only aligns later — snaps into position instead of sliding across.
+  Include first thing in <body>.
+-%>
+<script>
+    (function () {
+        var mode = location.hash.slice(1);
+        if (mode !== 'schwimmtraining' && mode !== 'eisbaden') {
+            try {
+                mode = sessionStorage.getItem('aqualign-mode');
+            } catch (e) {
+                mode = null;
+            }
+        }
+        if (mode === 'eisbaden') document.body.classList.add('cold');
+        else if (mode === 'schwimmtraining' || <%= locals.landing ? 'true' : 'false' %>) document.body.classList.add('warm');
+        document.documentElement.classList.add('no-transitions');
+    })();
+</script>

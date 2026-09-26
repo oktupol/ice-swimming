@@ -111,7 +111,7 @@ function checkDocument(file, doc) {
 
 // The hero backgrounds are preloaded by partials/_hero-preload.ejs and requested again
 // by the image-set() in header.scss. If the two URLs differ, the image is fetched twice.
-// The CSS ships inside the bundle (style-loader), so that's where the image-set() is.
+// The image-set() is in the extracted stylesheet the page links to.
 function checkHeroPreloads(file, doc) {
     const preloaded = doc
         .querySelectorAll('link[rel="preload"][as="image"]')
@@ -119,9 +119,9 @@ function checkHeroPreloads(file, doc) {
         .sort();
 
     const bundleCss = doc
-        .querySelectorAll('script[src]')
-        .map((script) =>
-            path.join(DIST_DIR, new URL(script.getAttribute('src'), `${ORIGIN}/`).pathname),
+        .querySelectorAll('link[rel="stylesheet"]')
+        .map((link) =>
+            path.join(DIST_DIR, new URL(link.getAttribute('href'), `${ORIGIN}/`).pathname),
         )
         .filter((bundle) => fs.existsSync(bundle))
         .map((bundle) => fs.readFileSync(bundle, 'utf8'))

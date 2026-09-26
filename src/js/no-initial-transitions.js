@@ -1,13 +1,12 @@
 'use strict';
 
 /**
- * @file Suppresses CSS transitions while the page sets itself up. The styles
- * arrive with the deferred bundle, and site-state.js then applies the mode from
- * the URL hash or sessionStorage — so without this, a page opened in Eisbaden
- * mode would visibly fade from the warm defaults into the cold palette, slide
- * the switch across and fade the snowflake in. `html.no-transitions` (see
- * global.scss) switches every transition off; it is set before the stylesheet
- * is injected and lifted once the initial state has been painted.
+ * @file Suppresses CSS transitions while the page sets itself up. The mode's
+ * body class is already set by the inline script of partials/_initial-mode.ejs,
+ * but site-state.js only aligns the switch's checkbox now — without this, a
+ * page opened in Eisbaden mode would slide the switch across. `html.no-transitions`
+ * (see global.scss) switches every transition off; the inline script sets it
+ * too, and this module lifts it once the initial state has been painted.
  *
  * Has to be the first module required by main.js.
  */
