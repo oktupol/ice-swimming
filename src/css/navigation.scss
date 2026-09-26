@@ -169,4 +169,11 @@ header nav {
       }
     }
   }
+
+  // On the landing page the mode switch sits right above the links, so the
+  // two mode links would only repeat it. The hamburger menu keeps them: there
+  // they stay reachable after scrolling away from the switch.
+  header:has(#switch) nav .mode-link {
+    display: none;
+  }
 }

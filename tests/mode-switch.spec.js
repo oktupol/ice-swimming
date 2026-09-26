@@ -87,13 +87,25 @@ test('Menülink auf der Startseite wechselt den Modus und landet oben', async ({
     page,
     isMobile,
 }) => {
+    test.skip(!isMobile, 'Auf dem Desktop blendet die Startseite die Modus-Links aus');
     await page.goto('/');
-    if (isMobile) await page.locator('label[for="navigation"]').click();
+    await page.locator('label[for="navigation"]').click();
     await page.locator('#navigation-menu a[href="/#eisbaden"]').click();
 
     await expectMode(page, 'eisbaden');
     await expect(page.locator('#eisbaden')).toBeFocused();
     await expectAtTop(page);
+});
+
+test('Desktop-Menü der Startseite wiederholt den Schalter nicht', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Das Hamburger-Menü behält die Modus-Links');
+    await page.goto('/');
+    await expect(page.locator('#navigation-menu a[href="/#schwimmtraining"]')).toBeHidden();
+    await expect(page.locator('#navigation-menu a[href="/#eisbaden"]')).toBeHidden();
+    await expect(page.locator('#navigation-menu a[href="/about-me.html"]')).toBeVisible();
+
+    await page.goto('/about.html');
+    await expect(page.locator('#navigation-menu a[href="/#eisbaden"]')).toBeVisible();
 });
 
 test('Menülink von einer Unterseite öffnet die Startseite im gewählten Modus', async ({
