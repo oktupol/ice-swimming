@@ -212,6 +212,82 @@ header {
   }
 }
 
+// The logo wordmark (partials/_wordmark.ejs), recoloured from the print navy to
+// the palette, like the heading text it replaces: the name in the main colour,
+// tagline and waves in the accent. Sized in the h1's em, so it scales with the
+// heading and the compact header alike; never wider than the viewport.
+.wordmark {
+  display: block;
+  width: min(7em, 100%);
+  height: auto;
+  aspect-ratio: 375 / 108;
+  // SVG ignores text-shadow; this is the h1's glow as a filter.
+  filter: drop-shadow(0 0 0.06em black) drop-shadow(0 0 0.15em rgba(0, 0, 0, 0.8));
+
+  path {
+    transition:
+      fill 0.3s ease-in-out,
+      stroke 0.3s ease-in-out;
+  }
+
+  .wordmark-name {
+    fill: var(--main-color);
+  }
+
+  .wordmark-tagline {
+    fill: var(--medium-color);
+  }
+
+  .wordmark-wave {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  stop {
+    stop-color: var(--medium-color);
+    transition: stop-color 0.3s ease-in-out;
+  }
+}
+
+// The content pages set icon and wordmark side by side, like the A lockup: the
+// icon is ~1.6x the height of the wordmark next to it.
+header.compact {
+  h1 {
+    font-size: 1.5em;
+    @include medium {
+      font-size: 2em;
+    }
+    @include large {
+      font-size: 2.4em;
+    }
+  }
+
+  // On phones the row is nearly as wide as the screen, so centred it would run
+  // under the fixed hamburger button (4.4em square, top left). Centre it in the
+  // space to the right of the button instead.
+  .header-container {
+    margin-left: 3.8em;
+    @include medium {
+      margin-left: 0;
+    }
+  }
+
+  .header-container a {
+    flex-direction: row;
+    gap: 0.35em;
+  }
+
+  .logo {
+    font-size: 2.8em;
+  }
+
+  .wordmark-horizontal {
+    width: 5.5em;
+    aspect-ratio: 351 / 112;
+  }
+}
+
 .subtitle {
   display: flex;
   flex-direction: column;

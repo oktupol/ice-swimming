@@ -1,10 +1,11 @@
 // Builds the Open Graph share image: public/og-image.jpg (1200x630).
 //
 // Run manually with `npm run og-image` after changing the hero photo, logo or
-// wording. Deliberately NOT part of the prebuild hooks: the wordmark is rendered
+// wording. Deliberately NOT part of the prebuild hooks: the subtitle is rendered
 // by librsvg through fontconfig, and the CI runner has a different font set than
-// a developer machine, so generating it there would silently swap Century Gothic
-// for a fallback face. Generating locally and committing the result keeps the
+// a developer machine, so generating it there would silently swap Didact Gothic
+// for a fallback face. (The wordmark itself is outlined paths, taken from
+// src/html/partials/_wordmark.ejs, and needs no font.) Generating locally and committing the result keeps the
 // share image byte-identical wherever the site is built.
 //
 // Social crawlers (Facebook, WhatsApp, LinkedIn, iMessage) do not render SVG, so
@@ -17,7 +18,7 @@ const os = require('os');
 
 const ROOT = path.resolve(__dirname, '..');
 
-// Point fontconfig at the repo's own fonts so "Century Gothic" resolves even
+// Point fontconfig at the repo's own fonts so "Didact Gothic" resolves even
 // though it is not installed system-wide. Must happen before sharp loads its
 // native bindings, which initialise fontconfig.
 const fontConfig = path.join(os.tmpdir(), 'aqualign-fonts.conf');
@@ -42,8 +43,10 @@ const HERO = path.join(ROOT, 'public', 'hero-eisbaden.jpg');
 const LOGO = path.join(ROOT, 'public', 'Logo.svg');
 const OUT = path.join(ROOT, 'public', 'og-image.jpg');
 
+const WORDMARK = path.join(ROOT, 'src', 'html', 'partials', '_wordmark.ejs');
+
 const LOGO_HEIGHT = 150;
-const TITLE = 'Aqualign Swim & Ice';
+const WORDMARK_WIDTH = 520;
 const SUBTITLE = 'Präzision im Wasser – Mentale Stärke im Eis';
 
 // Scrim: strongest at the bottom where the text sits, lighter at the top so the
@@ -62,13 +65,27 @@ const scrim =
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-const text =
+// The site's wordmark partial is the single source of the lettering: reuse its
+// viewBox, gradients and paths, and colour them with the cold palette from
+// tokens.scss, as the hero shows them over this photo in Eisbaden mode.
+const wordmarkSvg = fs
+    .readFileSync(WORDMARK, 'utf-8')
+    .replace(/<%#[\s\S]*?%>/, '')
+    .replace(/<svg class="wordmark" viewBox="([^"]+)"[^>]*>/, (_, viewBox) => {
+        const [, , w, h] = viewBox.split(' ').map(Number);
+        const height = Math.round((WORDMARK_WIDTH * h) / w);
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="${WORDMARK_WIDTH}" height="${height}">`;
+    })
+    .replace(/<stop /g, '<stop stop-color="#00bdfe" ')
+    .replace(/class="wordmark-name"/, 'fill="#bdf2ff"')
+    .replace(/class="wordmark-tagline"/, 'fill="#00bdfe"')
+    .replace(/class="wordmark-wave"/g, 'fill="none" stroke-width="2.5" stroke-linecap="round"');
+
+const subtitle =
     Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
-  <g font-family="Century Gothic" text-anchor="middle" fill="#F2F0D7"
-     style="paint-order:stroke fill" stroke="#000" stroke-opacity="0.45">
-    <text x="${WIDTH / 2}" y="410" font-size="76" stroke-width="6">${esc(TITLE)}</text>
-    <text x="${WIDTH / 2}" y="470" font-size="32" stroke-width="4">${esc(SUBTITLE)}</text>
-  </g>
+  <text x="${WIDTH / 2}" y="505" font-family="Didact Gothic" font-size="32" text-anchor="middle"
+     fill="#bdf2ff" style="paint-order:stroke fill" stroke="#000" stroke-opacity="0.45"
+     stroke-width="4">${esc(SUBTITLE)}</text>
 </svg>`);
 
 (async () => {
@@ -77,13 +94,35 @@ const text =
         .png()
         .toBuffer();
     const logoMeta = await sharp(logo).metadata();
+    const wordmark = await sharp(Buffer.from(wordmarkSvg), { density: 288 })
+        .resize({ width: WORDMARK_WIDTH })
+        .png()
+        .toBuffer();
+    // A soft dark halo behind the letters, like the drop-shadow on the site.
+    const alpha = await sharp(wordmark).extractChannel('alpha').toBuffer();
+    const halo = await sharp({
+        create: {
+            width: WORDMARK_WIDTH,
+            height: (await sharp(wordmark).metadata()).height,
+            channels: 3,
+            background: '#000',
+        },
+    })
+        .joinChannel(alpha)
+        .blur(5)
+        .png()
+        .toBuffer();
+    const wordmarkTop = 120 + LOGO_HEIGHT + 30;
+    const wordmarkLeft = Math.round((WIDTH - WORDMARK_WIDTH) / 2);
 
     await sharp(HERO)
         .resize(WIDTH, HEIGHT, { fit: 'cover', position: 'centre' })
         .composite([
             { input: scrim },
             { input: logo, top: 120, left: Math.round((WIDTH - logoMeta.width) / 2) },
-            { input: text },
+            { input: halo, top: wordmarkTop, left: wordmarkLeft },
+            { input: wordmark, top: wordmarkTop, left: wordmarkLeft },
+            { input: subtitle },
         ])
         .jpeg({ quality: 88, mozjpeg: true })
         .toFile(OUT);

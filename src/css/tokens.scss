@@ -5,13 +5,18 @@
 // Bare `body` carries the warm values as well, so a page that renders before
 // the JS has applied a class still gets a complete palette.
 
+// The cold palette is the logo's own blues (the gradients of the icon and the
+// wordmark, as the print documents in aqualign-docs use them): the ice-blue
+// sun, #0068c2 of "SWIM & ICE", and the cyan of the waves. --dark-2-color
+// carries text and the CTA fill on white, so it stays at >= 4.5:1 there and
+// against --main-color.
 body.cold {
-  --main-color: #d5f0f5;
-  --dark-2-color: #1a47e8;
-  --dark-1-color: #1a88e8;
-  --medium-color: #1ac9e8;
-  --bright-1-color: #1ae8c3;
-  --bright-2-color: #1ae87d;
+  --main-color: #bdf2ff;
+  --dark-2-color: #0068c2;
+  --dark-1-color: #0088e0;
+  --medium-color: #00bdfe;
+  --bright-1-color: #00daff;
+  --bright-2-color: #00e4ff;
 }
 
 body,

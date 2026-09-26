@@ -5,7 +5,68 @@
  * {@link SiteState} class toggles `warm`/`cold` classes on `<body>`, mirrors
  * the active mode in the URL hash, announces changes for screen readers, and
  * puts the page back at the top whenever the mode changes.
+ *
+ * The last mode is also remembered in sessionStorage, so the pages without the
+ * switch (Über mich, Impressum, …) keep the palette of the mode the reader came
+ * from, and a return to the landing page without a hash (the logo link)
+ * reopens it.
  */
+
+/**
+ * The sessionStorage key holding the last active mode.
+ * @type {string}
+ */
+const STORAGE_KEY = 'aqualign-mode';
+
+/**
+ * The valid mode values, also used as the URL hash for each mode.
+ * @enum {string}
+ */
+const MODES = {
+    WARM: 'schwimmtraining',
+    COLD: 'eisbaden',
+};
+
+/**
+ * Reads the remembered mode. Storage can be unavailable or throw (blocked
+ * site data, some private modes); the page then simply starts in its default.
+ * @returns {string|null} The stored mode, or `null` if none can be read.
+ */
+function readStoredMode() {
+    try {
+        return window.sessionStorage.getItem(STORAGE_KEY);
+    } catch {
+        return null;
+    }
+}
+
+/**
+ * Remembers the mode for the rest of the session. Failures are ignored: the
+ * mode is a convenience, and the hash still carries it on the landing page.
+ * @param {string} mode The mode to store.
+ * @returns {void}
+ */
+function storeMode(mode) {
+    try {
+        window.sessionStorage.setItem(STORAGE_KEY, mode);
+    } catch {
+        // Storage unavailable — nothing to remember it in.
+    }
+}
+
+/**
+ * Gives a page without the switch the palette of the remembered mode. Without
+ * one, the bare `body` palette (warm) from tokens.scss applies.
+ * @returns {void}
+ */
+function applyStoredMode() {
+    const mode = readStoredMode();
+    if (mode === MODES.COLD) {
+        document.body.classList.add('cold');
+    } else if (mode === MODES.WARM) {
+        document.body.classList.add('warm');
+    }
+}
 
 /**
  * Wires up the mode switch: creates a {@link SiteState}, transitions on
@@ -57,10 +118,7 @@ class SiteState {
      * @typedef {string} State
      * @enum {State}
      */
-    STATES = {
-        WARM: 'schwimmtraining',
-        COLD: 'eisbaden',
-    };
+    STATES = MODES;
 
     /**
      * Caches DOM references and applies the initial state derived from the
@@ -79,7 +137,8 @@ class SiteState {
 
     /**
      * Determines the initial mode and applies it. A valid mode in the URL hash
-     * wins; otherwise the toggle's checked state decides. Either way
+     * wins, then the mode remembered from earlier in the session; otherwise the
+     * toggle's checked state decides. Either way
      * {@link SiteState#currentState} and the body classes end up in sync.
      * @returns {State} The resolved initial mode.
      */
@@ -93,11 +152,17 @@ class SiteState {
             return hash;
         }
 
-        // No (valid) hash: fall back to whatever the toggle currently shows.
-        // Applied directly rather than through transition(), which would write
-        // a hash into the URL of a plainly loaded page.
+        // No (valid) hash: fall back to the remembered mode, else to whatever
+        // the toggle currently shows. Applied directly rather than through
+        // transition(), which would write a hash into the URL of a plainly
+        // loaded page.
+        const stored = readStoredMode();
+        if (Object.values(this.STATES).includes(stored)) {
+            this.checkbox.checked = stored === this.STATES.COLD;
+        }
         const state = this.checkbox.checked ? this.STATES.COLD : this.STATES.WARM;
         this.currentState = state;
+        storeMode(state);
         this.updateBodyClassList(state);
         return state;
     }
@@ -146,6 +211,7 @@ class SiteState {
             window.history.pushState(null, '', url);
         }
         this.currentState = targetState;
+        storeMode(targetState);
         this.updateBodyClassList(targetState);
         this.announceState(targetState);
     }
@@ -278,11 +344,14 @@ class SiteState {
 }
 
 // Initialise the mode toggle, but only on pages that actually contain the
-// switch. The bundle is injected into <head> with `defer`, so the document is
+// switch; the other pages only take on the palette of the remembered mode.
+// The bundle is injected into <head> with `defer`, so the document is
 // already parsed when this runs — like the other modules, it needs no
 // DOMContentLoaded wrapper. This has to stay below the class declaration:
 // unlike a function, a class is not hoisted, so calling it any earlier in the
 // file throws a ReferenceError.
 if (document.querySelector('#switch')) {
     initSiteState();
+} else {
+    applyStoredMode();
 }
