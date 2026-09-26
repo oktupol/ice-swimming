@@ -116,3 +116,24 @@ test('Seiten ohne Schalter bekommen trotzdem eine vollständige Farbpalette', as
     );
     expect(mainColor).not.toBe('');
 });
+
+test('Unterseiten übernehmen den zuletzt gewählten Modus', async ({ page }) => {
+    await page.goto('/');
+    await toggle(page);
+    await expectMode(page, 'eisbaden');
+
+    await page.goto('/about.html');
+    await expect(page.locator('body')).toHaveClass(/\bcold\b/);
+    await expect(page.locator('body')).not.toHaveClass(/\bwarm\b/);
+});
+
+test('Startseite ohne Hash öffnet den zuletzt gewählten Modus', async ({ page }) => {
+    await page.goto('/#eisbaden');
+    await page.goto('/about.html');
+    // The logo link of the compact header.
+    await page.locator('header h1 a').click();
+
+    await page.waitForURL(/\/$/);
+    await expectMode(page, 'eisbaden');
+    expect(new URL(page.url()).hash).toBe('');
+});

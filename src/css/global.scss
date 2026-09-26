@@ -1,6 +1,23 @@
 :root {
-  font-family: 'Century Gothic', Helvetica, Arial, sans-serif;
+  --font-display: 'Didact Gothic', 'Century Gothic', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  font-family: var(--font-body);
   font-size: 100%;
+}
+
+// Like the print documents: running text in Source Sans 3, the display face of
+// the logo for headings and the site chrome in the header. Didact Gothic has no
+// bold, so headings are set in its one weight rather than a synthesised bold.
+header,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: normal;
 }
 
 * {
