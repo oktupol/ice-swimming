@@ -137,3 +137,21 @@ test('Startseite ohne Hash öffnet den zuletzt gewählten Modus', async ({ page 
     await expectMode(page, 'eisbaden');
     expect(new URL(page.url()).hash).toBe('');
 });
+
+test('beim Laden im Eisbaden-Modus läuft keine Transition', async ({ page }) => {
+    // Reduced motion shortens transitions but still starts them, so any that
+    // escapes html.no-transitions shows up here.
+    await page.addInitScript(() => {
+        window.__transitions = [];
+        addEventListener('transitionrun', (e) => window.__transitions.push(e.propertyName), true);
+    });
+    await page.goto('/#eisbaden');
+    await expectMode(page, 'eisbaden');
+    await expect(page.locator('html')).not.toHaveClass(/no-transitions/);
+    expect(await page.evaluate(() => window.__transitions)).toEqual([]);
+
+    await page.goto('/about.html');
+    await expect(page.locator('body')).toHaveClass(/\bcold\b/);
+    await expect(page.locator('html')).not.toHaveClass(/no-transitions/);
+    expect(await page.evaluate(() => window.__transitions)).toEqual([]);
+});

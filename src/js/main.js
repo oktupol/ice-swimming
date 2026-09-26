@@ -5,6 +5,7 @@
  * behavioural modules that wire up the page once it loads.
  */
 
+require('./no-initial-transitions.js');
 require('../css/_index.scss');
 require('./site-state.js');
 require('./navigation.js');

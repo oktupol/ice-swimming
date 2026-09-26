@@ -81,6 +81,17 @@ picture {
   }
 }
 
+// Set by no-initial-transitions.js while the page applies its initial mode, so
+// loading a page in Eisbaden mode does not animate from the warm defaults.
+.no-transitions {
+  &,
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
