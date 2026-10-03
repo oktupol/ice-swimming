@@ -1,6 +1,6 @@
 ### Ort & Buchung
 
-Die Eisbade-Workshops finden am **Hotel Terrassenhof** in Bad Wiessee am
+Die Workshops finden am **Hotel Terrassenhof** in Bad Wiessee am
 Tegernsee statt.
 
 Wir arbeiten bewusst in kleinen Gruppen – vom 1:1-Workshop bis zu etwa fünf
