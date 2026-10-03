@@ -247,7 +247,7 @@ class SiteState {
         if (region) {
             region.textContent =
                 targetState === this.STATES.COLD
-                    ? 'Eisbaden wird angezeigt'
+                    ? 'Eiswasser wird angezeigt'
                     : 'Schwimmtraining wird angezeigt';
         }
     }
