@@ -103,9 +103,13 @@ header {
 
     // A portrait screen shows only a narrow middle band of the landscape photo,
     // which here is the empty water between the two swimmers. Shift it so the
-    // crawler on the right is in view instead.
+    // crawler on the right is in view instead. At plain `cover` she would sit at
+    // ~70 % of the height, right behind the switch; scaling the photo to 118 %
+    // of the height and pinning its top moves her down to ~83 %, between the
+    // switch and the scroll cue (only the bottom edge of the water is lost).
     @media (orientation: portrait) {
-      background-position: 80% center;
+      background-size: auto 118%;
+      background-position: 80% top;
     }
 
     body.warm & {
