@@ -4,12 +4,14 @@
 //
 // Bare `body` carries the warm values as well, so a page that renders before
 // the JS has applied a class still gets a complete palette.
+//
+// Both palettes come from the logo's gradients (as the print documents in
+// aqualign-docs use them). --dark-2-color carries text and the CTA fill on
+// white, so it stays at >= 4.5:1 there and against --main-color; --medium-color
+// is also the hover text of the menu on near-black, so it stays >= 4.5:1 there.
 
-// The cold palette is the logo's own blues (the gradients of the icon and the
-// wordmark, as the print documents in aqualign-docs use them): the ice-blue
-// sun, #0068c2 of "SWIM & ICE", and the cyan of the waves. --dark-2-color
-// carries text and the CTA fill on white, so it stays at >= 4.5:1 there and
-// against --main-color.
+// Eisbaden: ice blue. The ice-blue sun, the cyan of the waves, and #0068c2 of
+// "SWIM & ICE" — the lightest logo blue that still reads on white (5.6:1).
 body.cold {
   --main-color: #bdf2ff;
   --dark-2-color: #0068c2;
@@ -19,12 +21,15 @@ body.cold {
   --bright-2-color: #00e4ff;
 }
 
+// Schwimmtraining: deep blue. The navy of the icon's disc for links and buttons
+// (11.3:1 on white), the logo's white for text on the dark header, and the
+// mid blue of the waves as the accent (4.9:1 on the menu).
 body,
 body.warm {
-  --main-color: #f2f0d7;
-  --dark-2-color: #e8a81a;
-  --dark-1-color: #e8c11a;
-  --medium-color: #e8da1a;
-  --bright-1-color: #c1e81a;
-  --bright-2-color: #6be81a;
+  --main-color: #ffffff;
+  --dark-2-color: #003683;
+  --dark-1-color: #00499b;
+  --medium-color: #0088e0;
+  --bright-1-color: #0080d8;
+  --bright-2-color: #008fe5;
 }
