@@ -44,32 +44,23 @@ main {
     display: inline-block;
     padding: 0.7em 1.4em;
     border-radius: 0.4em;
-    background: var(--dark-2-color);
-    color: var(--main-color);
+    background: var(--cta-fill);
+    color: var(--cta-text);
     text-decoration: none;
 
     // Hover/focus changes only the ring, never the fill: swapping the background
-    // to a lighter palette colour dropped the text contrast below the WCAG
+    // to another palette colour dropped the text contrast below the WCAG
     // minimum in one mode or the other.
     //
     // The colour must be restated here. The generic `main a:hover` rule above is
     // more specific than `.cta a`, so without this the label repaints in
-    // --dark-2-color on hover — which is the button's own background, leaving
-    // blue text on a blue button. (`.warm .cta a` below outranks both, so warm
-    // mode keeps its dark label on hover.)
+    // --dark-2-color on hover, which can be the button's own fill.
     &:hover,
     &:focus-visible {
-      box-shadow: 0 0 0 3px var(--medium-color);
-      color: var(--main-color);
+      box-shadow: 0 0 0 3px var(--cta-ring);
+      color: var(--cta-text);
     }
   }
-}
-
-// The warm palette's accent is a light amber. Against it the light --main-color
-// gives only 1.8:1, far under the WCAG AA minimum, so warm-mode CTAs take dark
-// text instead (7.6:1). Cold mode's deep blue is fine with light text (5.7:1).
-.warm .cta a {
-  color: #2b2100;
 }
 
 .image-aside {

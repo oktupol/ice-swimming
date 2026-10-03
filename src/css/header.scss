@@ -76,6 +76,11 @@ header {
       url('/public/hero-eisbaden.webp') type('image/webp') 1x,
       url('/public/hero-eisbaden.jpg') type('image/jpeg') 1x
     );
+    // The swimmer sits low in the photo, below the switch and the links. A
+    // viewport wider than 16:9 trims the photo top and bottom, which would push
+    // her under the scroll cue; anchoring the bottom edge trims only sky instead.
+    // (At 16:9 and narrower there is no vertical slack, so this changes nothing.)
+    background-position: center bottom;
   }
 
   &::after {
@@ -95,6 +100,17 @@ header {
     );
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+
+    // A portrait screen shows only a narrow middle band of the landscape photo,
+    // which here is the empty water between the two swimmers. Shift it so the
+    // crawler on the right is in view instead. At plain `cover` she would sit at
+    // ~70 % of the height, right behind the switch; scaling the photo to 118 %
+    // of the height and pinning its top moves her down to ~83 %, between the
+    // switch and the scroll cue (only the bottom edge of the water is lost).
+    @media (orientation: portrait) {
+      background-size: auto 118%;
+      background-position: 80% top;
+    }
 
     body.warm & {
       opacity: 1;
