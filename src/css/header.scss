@@ -96,6 +96,13 @@ header {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 
+    // A portrait screen shows only a narrow middle band of the landscape photo,
+    // which here is the empty water between the two swimmers. Shift it so the
+    // crawler on the right is in view instead.
+    @media (orientation: portrait) {
+      background-position: 80% center;
+    }
+
     body.warm & {
       opacity: 1;
     }
