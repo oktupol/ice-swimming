@@ -44,22 +44,21 @@ main {
     display: inline-block;
     padding: 0.7em 1.4em;
     border-radius: 0.4em;
-    background: var(--dark-2-color);
-    color: var(--main-color);
+    background: var(--cta-fill);
+    color: var(--cta-text);
     text-decoration: none;
 
     // Hover/focus changes only the ring, never the fill: swapping the background
-    // to a lighter palette colour dropped the text contrast below the WCAG
+    // to another palette colour dropped the text contrast below the WCAG
     // minimum in one mode or the other.
     //
     // The colour must be restated here. The generic `main a:hover` rule above is
     // more specific than `.cta a`, so without this the label repaints in
-    // --dark-2-color on hover — which is the button's own background, leaving
-    // blue text on a blue button.
+    // --dark-2-color on hover, which can be the button's own fill.
     &:hover,
     &:focus-visible {
-      box-shadow: 0 0 0 3px var(--medium-color);
-      color: var(--main-color);
+      box-shadow: 0 0 0 3px var(--cta-ring);
+      color: var(--cta-text);
     }
   }
 }

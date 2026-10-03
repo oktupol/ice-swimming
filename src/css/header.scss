@@ -76,6 +76,11 @@ header {
       url('/public/hero-eisbaden.webp') type('image/webp') 1x,
       url('/public/hero-eisbaden.jpg') type('image/jpeg') 1x
     );
+    // The swimmer sits low in the photo, below the switch and the links. A
+    // viewport wider than 16:9 trims the photo top and bottom, which would push
+    // her under the scroll cue; anchoring the bottom edge trims only sky instead.
+    // (At 16:9 and narrower there is no vertical slack, so this changes nothing.)
+    background-position: center bottom;
   }
 
   &::after {
