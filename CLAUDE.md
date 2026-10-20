@@ -107,7 +107,7 @@ All user-facing content is **German** (`<html lang="de">`); keep new copy, `alt`
 
 ### Two-mode UI (warm / cold)
 
-The site has a toggle switch that switches between a **Schwimmtraining** (warm, yellow palette) mode and an **Eisbaden** (cold, blue palette) mode. This is implemented by adding/removing `warm` and `cold` CSS classes on `<body>`:
+The site has a toggle switch that switches between a **Schwimmtraining** (`warm`, deep-blue palette) mode and an **Eisbaden** (`cold`, ice-blue palette) mode — both palettes taken from the logo. This is implemented by adding/removing `warm` and `cold` CSS classes on `<body>`:
 
 - CSS variables in `tokens.scss` define the two color palettes under `body.warm` and `body.cold`; bare `body` carries the warm values too, so pages without the switch still get a full palette
 - `display: none` rules hide `.warm` sections in cold mode and `.cold` sections in warm mode
