@@ -147,8 +147,10 @@ blockquote.testimonial {
     gap: 0.8em;
   }
 
-  cite {
-    // Overrides the fallback rule's indent and the generic cite's lift.
+  // Overrides the fallback rule's indent and the generic cite's lift. Spelled
+  // `blockquote + cite` to match the fallback's specificity, which a bare
+  // `cite` fell short of; coming later in the file, this then wins.
+  blockquote + cite {
     margin: 0;
     top: 0;
     font-style: normal;
