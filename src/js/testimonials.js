@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @file Turns each `.testimonials` block into a row of cards — profile picture,

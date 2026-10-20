@@ -3,6 +3,7 @@ const fs = require('fs');
 const ejs = require('ejs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const md = require('./src/utils/markdown');
 const { picture } = require('./src/utils/images');
 
@@ -15,7 +16,7 @@ const cssLoader = {
 };
 
 const referencedAssets = new Set();
-const refRegex = /\bpublic\/([\w.\-]+)/g;
+const refRegex = /\bpublic\/([\w.-]+)/g;
 
 const textExtensions = /\.(ejs|js|ts|scss|css|html)$/;
 
@@ -34,28 +35,32 @@ function scanDir(dir) {
 scanDir(path.resolve(__dirname, 'src'));
 
 const htmlDir = path.resolve(__dirname, 'src/html');
-const htmlPages = fs.readdirSync(htmlDir)
-    .filter(f => f.endsWith('.ejs'))
-    .map(f => new HtmlWebpackPlugin({
-        templateContent: async ({ md, picture }) => ejs.renderFile(
-            path.resolve(htmlDir, f),
-            { md, picture },
-            { root: htmlDir }
-        ),
-        templateParameters: { md, picture },
-        filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
-        inject: 'head',
-        scriptLoading: 'defer',
-    }));
+const htmlPages = fs
+    .readdirSync(htmlDir)
+    .filter((f) => f.endsWith('.ejs'))
+    .map(
+        (f) =>
+            new HtmlWebpackPlugin({
+                templateContent: async ({ md, picture }) =>
+                    ejs.renderFile(path.resolve(htmlDir, f), { md, picture }, { root: htmlDir }),
+                templateParameters: { md, picture },
+                filename: path.resolve(__dirname, 'dist', f.replace('.ejs', '.html')),
+                inject: 'head',
+                scriptLoading: 'defer',
+            }),
+    );
 
 module.exports = (env, argv) => {
     const isProd = argv.mode !== 'development';
     return {
-        entry: "./src/js/main.js",
+        entry: './src/js/main.js',
         mode: argv.mode || 'production',
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: isProd ? "bundle.[contenthash].js" : "bundle.js",
+            filename: isProd ? 'bundle.[contenthash].js' : 'bundle.js',
+            // Root-absolute, so the bundle (and the fonts it references) also load on
+            // 404.html, which GitHub Pages serves for unknown URLs at any depth.
+            publicPath: '/',
         },
         devtool: isProd ? false : 'eval-source-map',
         devServer: {
@@ -67,6 +72,12 @@ module.exports = (env, argv) => {
         },
         plugins: [
             ...htmlPages,
+            // The styles ship as a stylesheet <link> in <head>, which blocks rendering until
+            // it has loaded. Injected by the deferred bundle instead (style-loader), a slow
+            // connection first painted the page unstyled — the logo at its full natural size.
+            new MiniCssExtractPlugin({
+                filename: isProd ? 'bundle.[contenthash].css' : 'bundle.css',
+            }),
             new CopyPlugin({
                 patterns: [
                     {
@@ -88,13 +99,26 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.css$/,
-                    use: ["style-loader", cssLoader]
+                    use: [MiniCssExtractPlugin.loader, cssLoader],
                 },
                 {
                     test: /\.s[ac]ss$/,
-                    use: ["style-loader", cssLoader, "sass-loader"]
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        cssLoader,
+                        {
+                            loader: 'sass-loader',
+                            // Compressed Sass output starts with a byte-order mark as soon as
+                            // the CSS contains a non-ASCII character (e.g. `content: '—'`).
+                            // Anywhere but at the very start of a file the BOM is not
+                            // stripped: it becomes part of the first selector and the browser
+                            // drops that rule — once the regular-weight @font-face, which
+                            // turned all text bold.
+                            options: { sassOptions: { charset: false } },
+                        },
+                    ],
                 },
-            ]
-        }
+            ],
+        },
     };
 };

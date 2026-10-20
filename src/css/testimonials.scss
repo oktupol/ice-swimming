@@ -14,7 +14,7 @@ blockquote.testimonial {
   & + cite {
     display: block;
     // Sits with the quote it belongs to, and keeps a clear gap to the next one.
-    margin: .4em 0 1.5em 1em;
+    margin: 0.4em 0 1.5em 1em;
     // Cancels the lift the standalone cite uses to hug its quote; here the
     // margins already do the spacing.
     top: 0;
@@ -64,13 +64,13 @@ blockquote.testimonial {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .6em;
+  gap: 0.6em;
   width: 100%;
   padding: 1.4em 1.1em;
   border: 0;
   border-top: 3px solid var(--dark-2-color);
-  border-radius: .4em;
-  background: rgba(0, 0, 0, .04);
+  border-radius: 0.4em;
+  background: rgba(0, 0, 0, 0.04);
   // Buttons don't inherit either on their own.
   font: inherit;
   color: inherit;
@@ -79,7 +79,7 @@ blockquote.testimonial {
 
   &:hover,
   &:focus-visible {
-    background: rgba(0, 0, 0, .08);
+    background: rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -129,19 +129,19 @@ blockquote.testimonial {
 }
 
 .testimonial-more {
-  font-size: .85em;
+  font-size: 0.85em;
   text-decoration: underline;
-  text-underline-offset: .15em;
+  text-underline-offset: 0.15em;
 }
 
 .testimonial-popover {
   max-width: min(34rem, calc(100vw - 2rem));
   padding: 1.6em;
   border: 0;
-  border-radius: .5em;
+  border-radius: 0.5em;
   background: #fff;
   color: inherit;
-  box-shadow: 0 .5em 2em rgba(0, 0, 0, .3);
+  box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.3);
 
   // The popover sits in the top layer, so it needs its own inner layout rather
   // than the centring the card gets from the grid.
@@ -149,7 +149,7 @@ blockquote.testimonial {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: .8em;
+    gap: 0.8em;
   }
 
   cite {
@@ -164,7 +164,7 @@ blockquote.testimonial {
   }
 
   &::backdrop {
-    background: rgba(0, 0, 0, .45);
+    background: rgba(0, 0, 0, 0.45);
   }
 }
 
@@ -184,7 +184,7 @@ blockquote.testimonial {
 
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
@@ -200,6 +200,6 @@ blockquote.testimonial {
 
   &:hover,
   &:focus-visible {
-    background: rgba(0, 0, 0, .08);
+    background: rgba(0, 0, 0, 0.08);
   }
 }

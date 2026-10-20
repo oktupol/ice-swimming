@@ -3,3 +3,5 @@
 /*.html
 /dist
 /image-manifest.json
+/test-results
+/playwright-report

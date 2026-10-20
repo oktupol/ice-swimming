@@ -8,3 +8,6 @@ Technik, Erfahrung und mentale Stärke.
 
 Mein Fokus: deine Entwicklung, saubere Bewegung und echte Kontrolle – im Wasser
 und im Eis.
+
+Einblicke in Training, Wettkämpfe und Eiswasser gibt es auf Instagram:
+[@franziskapartheymueller](https://www.instagram.com/franziskapartheymueller/)

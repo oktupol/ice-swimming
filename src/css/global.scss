@@ -1,11 +1,29 @@
 :root {
-  font-family: "Century Gothic", Helvetica, Arial, sans-serif;
+  --font-display: 'Didact Gothic', 'Century Gothic', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  font-family: var(--font-body);
   font-size: 100%;
 }
 
+// Like the print documents: running text in Source Sans 3, the display face of
+// the logo for headings and the site chrome in the header. Didact Gothic has no
+// bold, so headings are set in its one weight rather than a synthesised bold.
+header,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: normal;
+}
+
 * {
-  transition: color 0.3s ease-in-out,
-  background-color 0.3s ease-in-out;
+  transition:
+    color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
 }
 
 :focus-visible {
@@ -17,8 +35,8 @@
 // SiteState.focusActiveSection) carry tabindex="-1" purely so screen readers
 // follow the mode change. They are not interactive, so outlining the whole
 // section would read as a stray box around half the page.
-[tabindex="-1"]:focus,
-[tabindex="-1"]:focus-visible {
+[tabindex='-1']:focus,
+[tabindex='-1']:focus-visible {
   outline: none;
 }
 
@@ -63,14 +81,28 @@ picture {
   }
 }
 
+// Set by no-initial-transitions.js while the page applies its initial mode, so
+// loading a page in Eisbaden mode does not animate from the warm defaults.
+.no-transitions {
+  &,
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;

@@ -17,7 +17,8 @@ header {
     // pseudo-elements stay viewport-tall so the crop matches the landing page.
     overflow: hidden;
 
-    &::before, &::after {
+    &::before,
+    &::after {
       height: 100vh;
     }
   }
@@ -32,7 +33,8 @@ header {
 
   background-color: rgba(0, 0, 0, 0.5);
 
-  &::before, &::after {
+  &::before,
+  &::after {
     position: absolute;
     top: 0;
     left: 0;
@@ -60,31 +62,55 @@ header {
   }
 
   &::before {
-    content: "";
+    content: '';
     z-index: -2;
 
-    background-image: url("/public/hero-eisbaden.jpg"); /* fallback: no image-set support */
-    background-image: -webkit-image-set(url("/public/hero-eisbaden.avif") type("image/avif") 1x,
-                                        url("/public/hero-eisbaden.webp") type("image/webp") 1x,
-                                        url("/public/hero-eisbaden.jpg")  type("image/jpeg") 1x);
-    background-image: image-set(url("/public/hero-eisbaden.avif") type("image/avif") 1x,
-                                url("/public/hero-eisbaden.webp") type("image/webp") 1x,
-                                url("/public/hero-eisbaden.jpg")  type("image/jpeg") 1x);
+    background-image: url('/public/hero-eisbaden.jpg'); /* fallback: no image-set support */
+    background-image: -webkit-image-set(
+      url('/public/hero-eisbaden.avif') type('image/avif') 1x,
+      url('/public/hero-eisbaden.webp') type('image/webp') 1x,
+      url('/public/hero-eisbaden.jpg') type('image/jpeg') 1x
+    );
+    background-image: image-set(
+      url('/public/hero-eisbaden.avif') type('image/avif') 1x,
+      url('/public/hero-eisbaden.webp') type('image/webp') 1x,
+      url('/public/hero-eisbaden.jpg') type('image/jpeg') 1x
+    );
+    // The swimmer sits low in the photo, below the switch and the links. A
+    // viewport wider than 16:9 trims the photo top and bottom, which would push
+    // her under the scroll cue; anchoring the bottom edge trims only sky instead.
+    // (At 16:9 and narrower there is no vertical slack, so this changes nothing.)
+    background-position: center bottom;
   }
 
   &::after {
-    content: "";
+    content: '';
     z-index: -1;
 
-    background-image: url("/public/hero-schwimmtraining.jpg"); /* fallback: no image-set support */
-    background-image: -webkit-image-set(url("/public/hero-schwimmtraining.avif") type("image/avif") 1x,
-                                        url("/public/hero-schwimmtraining.webp") type("image/webp") 1x,
-                                        url("/public/hero-schwimmtraining.jpg")  type("image/jpeg") 1x);
-    background-image: image-set(url("/public/hero-schwimmtraining.avif") type("image/avif") 1x,
-                                url("/public/hero-schwimmtraining.webp") type("image/webp") 1x,
-                                url("/public/hero-schwimmtraining.jpg")  type("image/jpeg") 1x);
+    background-image: url('/public/hero-schwimmtraining.jpg'); /* fallback: no image-set support */
+    background-image: -webkit-image-set(
+      url('/public/hero-schwimmtraining.avif') type('image/avif') 1x,
+      url('/public/hero-schwimmtraining.webp') type('image/webp') 1x,
+      url('/public/hero-schwimmtraining.jpg') type('image/jpeg') 1x
+    );
+    background-image: image-set(
+      url('/public/hero-schwimmtraining.avif') type('image/avif') 1x,
+      url('/public/hero-schwimmtraining.webp') type('image/webp') 1x,
+      url('/public/hero-schwimmtraining.jpg') type('image/jpeg') 1x
+    );
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+
+    // A portrait screen shows only a narrow middle band of the landscape photo,
+    // which here is the empty water between the two swimmers. Shift it so the
+    // crawler on the right is in view instead. At plain `cover` she would sit at
+    // ~70 % of the height, right behind the switch; scaling the photo to 118 %
+    // of the height and pinning its top moves her down to ~83 %, between the
+    // switch and the scroll cue (only the bottom edge of the water is lost).
+    @media (orientation: portrait) {
+      background-size: auto 118%;
+      background-position: 80% top;
+    }
 
     body.warm & {
       opacity: 1;
@@ -150,7 +176,9 @@ header {
     font-weight: 500;
     margin: 0;
     font-size: 3em;
-    text-shadow: 0 0 .2em black, 0 0 .5em black;
+    text-shadow:
+      0 0 0.2em black,
+      0 0 0.5em black;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -160,7 +188,9 @@ header {
 
   small {
     font-size: 1.3em;
-    text-shadow: 0 0 .15em black, 0 0 .4em black;
+    text-shadow:
+      0 0 0.15em black,
+      0 0 0.4em black;
   }
 }
 
@@ -175,7 +205,7 @@ header {
   user-select: none;
 
   img.header-logo {
-    box-shadow: 0 0 .3em black;
+    box-shadow: 0 0 0.3em black;
     background: rgba(0, 0, 0, 0.25);
     border-radius: 50%;
     display: block;
@@ -198,12 +228,88 @@ header {
   }
 }
 
+// The logo wordmark (partials/_wordmark.ejs), recoloured from the print navy to
+// the palette, like the heading text it replaces: the name in the main colour,
+// tagline and waves in the accent. Sized in the h1's em, so it scales with the
+// heading and the compact header alike; never wider than the viewport.
+.wordmark {
+  display: block;
+  width: min(7em, 100%);
+  height: auto;
+  aspect-ratio: 375 / 108;
+  // SVG ignores text-shadow; this is the h1's glow as a filter.
+  filter: drop-shadow(0 0 0.06em black) drop-shadow(0 0 0.15em rgba(0, 0, 0, 0.8));
+
+  path {
+    transition:
+      fill 0.3s ease-in-out,
+      stroke 0.3s ease-in-out;
+  }
+
+  .wordmark-name {
+    fill: var(--main-color);
+  }
+
+  .wordmark-tagline {
+    fill: var(--medium-color);
+  }
+
+  .wordmark-wave {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  stop {
+    stop-color: var(--medium-color);
+    transition: stop-color 0.3s ease-in-out;
+  }
+}
+
+// The content pages set icon and wordmark side by side, like the A lockup: the
+// icon is ~1.6x the height of the wordmark next to it.
+header.compact {
+  h1 {
+    font-size: 1.5em;
+    @include medium {
+      font-size: 2em;
+    }
+    @include large {
+      font-size: 2.4em;
+    }
+  }
+
+  // On phones the row is nearly as wide as the screen, so centred it would run
+  // under the fixed hamburger button (4.4em square, top left). Centre it in the
+  // space to the right of the button instead.
+  .header-container {
+    margin-left: 3.8em;
+    @include medium {
+      margin-left: 0;
+    }
+  }
+
+  .header-container a {
+    flex-direction: row;
+    gap: 0.35em;
+  }
+
+  .logo {
+    font-size: 2.8em;
+  }
+
+  .wordmark-horizontal {
+    width: 5.5em;
+    aspect-ratio: 351 / 112;
+  }
+}
+
 .subtitle {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  gap: .3em;
+  gap: 0.3em;
 
   .dash {
     display: none;
@@ -215,6 +321,4 @@ header {
       display: initial;
     }
   }
-
 }
-

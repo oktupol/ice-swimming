@@ -1,11 +1,72 @@
-"use strict";
+'use strict';
 
 /**
  * @file Manages the warm (Schwimmtraining) / cold (Eisbaden) UI mode. The
  * {@link SiteState} class toggles `warm`/`cold` classes on `<body>`, mirrors
  * the active mode in the URL hash, announces changes for screen readers, and
  * puts the page back at the top whenever the mode changes.
+ *
+ * The last mode is also remembered in sessionStorage, so the pages without the
+ * switch (Über mich, Impressum, …) keep the palette of the mode the reader came
+ * from, and a return to the landing page without a hash (the logo link)
+ * reopens it.
  */
+
+/**
+ * The sessionStorage key holding the last active mode.
+ * @type {string}
+ */
+const STORAGE_KEY = 'aqualign-mode';
+
+/**
+ * The valid mode values, also used as the URL hash for each mode.
+ * @enum {string}
+ */
+const MODES = {
+    WARM: 'schwimmtraining',
+    COLD: 'eisbaden',
+};
+
+/**
+ * Reads the remembered mode. Storage can be unavailable or throw (blocked
+ * site data, some private modes); the page then simply starts in its default.
+ * @returns {string|null} The stored mode, or `null` if none can be read.
+ */
+function readStoredMode() {
+    try {
+        return window.sessionStorage.getItem(STORAGE_KEY);
+    } catch {
+        return null;
+    }
+}
+
+/**
+ * Remembers the mode for the rest of the session. Failures are ignored: the
+ * mode is a convenience, and the hash still carries it on the landing page.
+ * @param {string} mode The mode to store.
+ * @returns {void}
+ */
+function storeMode(mode) {
+    try {
+        window.sessionStorage.setItem(STORAGE_KEY, mode);
+    } catch {
+        // Storage unavailable — nothing to remember it in.
+    }
+}
+
+/**
+ * Gives a page without the switch the palette of the remembered mode. Without
+ * one, the bare `body` palette (warm) from tokens.scss applies.
+ * @returns {void}
+ */
+function applyStoredMode() {
+    const mode = readStoredMode();
+    if (mode === MODES.COLD) {
+        document.body.classList.add('cold');
+    } else if (mode === MODES.WARM) {
+        document.body.classList.add('warm');
+    }
+}
 
 /**
  * Wires up the mode switch: creates a {@link SiteState}, transitions on
@@ -15,10 +76,10 @@
  */
 function initSiteState() {
     const siteState = new SiteState();
-    const checkbox = document.querySelector("#switch");
+    const checkbox = document.querySelector('#switch');
 
     // Checked = cold (Eisbaden), unchecked = warm (Schwimmtraining).
-    checkbox.addEventListener("change", (event) => {
+    checkbox.addEventListener('change', (event) => {
         if (event.currentTarget.checked) {
             siteState.transitionCold();
         } else {
@@ -26,7 +87,7 @@ function initSiteState() {
         }
     });
 
-    window.addEventListener("hashchange", () => {
+    window.addEventListener('hashchange', () => {
         const hash = window.location.hash.substring(1);
         // transition() writes the hash through the History API, which does not
         // fire this event; the guard simply skips redundant work when the hash
@@ -57,10 +118,7 @@ class SiteState {
      * @typedef {string} State
      * @enum {State}
      */
-    STATES = {
-        WARM: "schwimmtraining",
-        COLD: "eisbaden"
-    };
+    STATES = MODES;
 
     /**
      * Caches DOM references and applies the initial state derived from the
@@ -68,9 +126,9 @@ class SiteState {
      */
     constructor() {
         /** @type {HTMLInputElement} */
-        this.checkbox = document.querySelector("#switch");
+        this.checkbox = document.querySelector('#switch');
         /** @type {HTMLBodyElement} */
-        this.body = document.querySelector("body");
+        this.body = document.querySelector('body');
         /** @type {State|undefined} The mode currently applied to the page. */
         this.currentState = undefined;
 
@@ -79,9 +137,10 @@ class SiteState {
 
     /**
      * Determines the initial mode and applies it. A valid mode in the URL hash
-     * wins; otherwise the toggle's checked state decides. Either way
+     * wins, then the mode remembered from earlier in the session; otherwise the
+     * toggle's checked state decides. Either way
      * {@link SiteState#currentState} and the body classes end up in sync.
-     * @return {State} The resolved initial mode.
+     * @returns {State} The resolved initial mode.
      */
     initState() {
         const hash = window.location.hash.substring(1);
@@ -89,15 +148,21 @@ class SiteState {
             // Align the toggle with the hash before applying it, so a deep link
             // like /#eisbaden shows the switch in the matching position.
             this.checkbox.checked = hash === this.STATES.COLD;
-            this.transition(hash, {replaceHistory: true});
+            this.transition(hash, { replaceHistory: true });
             return hash;
         }
 
-        // No (valid) hash: fall back to whatever the toggle currently shows.
-        // Applied directly rather than through transition(), which would write
-        // a hash into the URL of a plainly loaded page.
+        // No (valid) hash: fall back to the remembered mode, else to whatever
+        // the toggle currently shows. Applied directly rather than through
+        // transition(), which would write a hash into the URL of a plainly
+        // loaded page.
+        const stored = readStoredMode();
+        if (Object.values(this.STATES).includes(stored)) {
+            this.checkbox.checked = stored === this.STATES.COLD;
+        }
         const state = this.checkbox.checked ? this.STATES.COLD : this.STATES.WARM;
         this.currentState = state;
+        storeMode(state);
         this.updateBodyClassList(state);
         return state;
     }
@@ -127,25 +192,26 @@ class SiteState {
      * section, which scrolls the header — and with it the mode switch — out of
      * view, leaving no visible way back to the other mode.
      * @param {State} targetState The mode to switch to.
-     * @param {Object} [options] Transition options.
+     * @param {object} [options] Transition options.
      * @param {boolean} [options.replaceHistory=false] Replace the current history
      *   entry instead of pushing a new one. Used while initialising, so a freshly
      *   loaded page does not leave a redundant entry behind.
      * @throws {Error} If `targetState` is not a known {@link SiteState#STATES} value.
      * @returns {void}
      */
-    transition(targetState, {replaceHistory = false} = {}) {
+    transition(targetState, { replaceHistory = false } = {}) {
         if (!Object.values(this.STATES).includes(targetState)) {
-            throw new Error("Illegal state" + targetState);
+            throw new Error('Illegal state' + targetState);
         }
 
-        const url = "#" + targetState;
+        const url = '#' + targetState;
         if (replaceHistory) {
-            window.history.replaceState(null, "", url);
+            window.history.replaceState(null, '', url);
         } else {
-            window.history.pushState(null, "", url);
+            window.history.pushState(null, '', url);
         }
         this.currentState = targetState;
+        storeMode(targetState);
         this.updateBodyClassList(targetState);
         this.announceState(targetState);
     }
@@ -158,13 +224,16 @@ class SiteState {
      */
     updateBodyClassList(targetState) {
         if (targetState === this.STATES.COLD) {
-            this.body.classList.add("cold");
-            this.body.classList.remove("warm");
+            this.body.classList.add('cold');
+            this.body.classList.remove('warm');
         } else if (targetState === this.STATES.WARM) {
-            this.body.classList.add("warm");
-            this.body.classList.remove("cold");
+            this.body.classList.add('warm');
+            this.body.classList.remove('cold');
         }
-        this.checkbox.setAttribute("aria-checked", targetState === this.STATES.COLD ? "true" : "false");
+        this.checkbox.setAttribute(
+            'aria-checked',
+            targetState === this.STATES.COLD ? 'true' : 'false',
+        );
     }
 
     /**
@@ -174,11 +243,12 @@ class SiteState {
      * @returns {void}
      */
     announceState(targetState) {
-        const region = document.querySelector("#mode-announcement");
+        const region = document.querySelector('#mode-announcement');
         if (region) {
-            region.textContent = targetState === this.STATES.COLD
-                ? "Eisbaden wird angezeigt"
-                : "Schwimmtraining wird angezeigt";
+            region.textContent =
+                targetState === this.STATES.COLD
+                    ? 'Eiswasser wird angezeigt'
+                    : 'Schwimmtraining wird angezeigt';
         }
     }
 
@@ -197,14 +267,14 @@ class SiteState {
         if (!Object.values(this.STATES).includes(this.currentState)) {
             return;
         }
-        const section = document.querySelector("#" + this.currentState);
+        const section = document.querySelector('#' + this.currentState);
         if (section) {
             // tabindex="-1" makes the otherwise non-interactive section
             // focusable programmatically without adding it to the tab order.
-            section.setAttribute("tabindex", "-1");
+            section.setAttribute('tabindex', '-1');
             // preventScroll: focusing a section would otherwise scroll its top
             // edge into view, which is the very jump this module avoids.
-            section.focus({preventScroll: true});
+            section.focus({ preventScroll: true });
         }
     }
 
@@ -223,7 +293,7 @@ class SiteState {
         // Instant rather than smooth: this is a page change, not a movement
         // within the page, and a smooth scroll over a full-height hero would
         // just be a long slide over content the reader did not ask to see.
-        window.scrollTo({top: 0, left: 0, behavior: "instant"});
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
 
     /**
@@ -241,31 +311,47 @@ class SiteState {
         this.scrollToTop();
 
         /** @type {string[]} The ways a reader can scroll without our doing it. */
-        const readerEvents = ["wheel", "touchmove", "keydown"];
+        const readerEvents = ['wheel', 'touchmove', 'keydown'];
         /** @type {boolean} Whether the reader has taken over the scroll position. */
         let readerScrolled = false;
+        /**
+         * Records that the reader has scrolled, so the `load` correction leaves
+         * the page where they put it.
+         * @returns {void}
+         */
         const markReaderScrolled = () => {
             readerScrolled = true;
         };
 
         // A `scroll` listener would be simpler but useless here: it cannot tell
         // the reader's scrolling apart from our own scrollToTop().
-        readerEvents.forEach((type) => window.addEventListener(type, markReaderScrolled, {passive: true}));
-        window.addEventListener("load", () => {
-            if (!readerScrolled) {
-                this.scrollToTop();
-            }
-            readerEvents.forEach((type) => window.removeEventListener(type, markReaderScrolled));
-        }, {once: true});
+        readerEvents.forEach((type) =>
+            window.addEventListener(type, markReaderScrolled, { passive: true }),
+        );
+        window.addEventListener(
+            'load',
+            () => {
+                if (!readerScrolled) {
+                    this.scrollToTop();
+                }
+                readerEvents.forEach((type) =>
+                    window.removeEventListener(type, markReaderScrolled),
+                );
+            },
+            { once: true },
+        );
     }
 }
 
 // Initialise the mode toggle, but only on pages that actually contain the
-// switch. The bundle is injected into <head> with `defer`, so the document is
+// switch; the other pages only take on the palette of the remembered mode.
+// The bundle is injected into <head> with `defer`, so the document is
 // already parsed when this runs — like the other modules, it needs no
 // DOMContentLoaded wrapper. This has to stay below the class declaration:
 // unlike a function, a class is not hoisted, so calling it any earlier in the
 // file throws a ReferenceError.
-if (document.querySelector("#switch")) {
+if (document.querySelector('#switch')) {
     initSiteState();
+} else {
+    applyStoredMode();
 }

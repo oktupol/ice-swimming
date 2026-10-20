@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>Schwimmtraining &amp; Eisbaden – Aqualign | Franziska Partheymüller</title>
+    <title>Schwimmtraining, Eisbaden &amp; Eisschwimmen – Aqualign | Franziska Partheymüller</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%- include('./partials/_meta', {
         path: '',
-        ogTitle: 'Schwimmtraining & Eisbade-Workshops – Aqualign',
-        description: 'Schwimmtraining und Eisbade-Workshops mit Franziska Partheymüller – Weltmeisterin im Eisschwimmen und Teamkapitänin der deutschen Nationalmannschaft. Techniktraining, Eisbaden und mentale Stärke.'
+        ogTitle: 'Schwimmtraining, Eisbaden & Eisschwimmen – Aqualign',
+        description: 'Schwimmtraining sowie Workshops für Eisbaden und Eisschwimmen mit Franziska Partheymüller – Weltmeisterin im Eisschwimmen und Teamkapitänin der deutschen Nationalmannschaft. Techniktraining, Kälteanpassung und mentale Stärke.'
     }) %>
-    <link rel="icon" type="image/svg+xml" href="public/Logo.svg" sizes="any"/>
+    <link rel="icon" type="image/svg+xml" href="/public/Logo.svg" sizes="any"/>
     <%- include('./partials/_hero-preload') %>
     <script type="application/ld+json">
         {
@@ -21,6 +21,7 @@
                     "jobTitle": "Notfallsanitäterin, Heilpraktikerin und Schwimmtrainerin",
                     "description": "Zweifache Weltmeisterin im Eisschwimmen (50 m Brust), Teamkapitänin der deutschen Nationalmannschaft und Notfallsanitäterin mit über 10 Jahren Erfahrung im Schwimmtraining.",
                     "url": "https://aqualign.de/",
+                    "sameAs": ["https://www.instagram.com/franziskapartheymueller/"],
                     "award": [
                         "IISA 5th World Championship 2023, Samoëns – Gold, 50 m Brust",
                         "IISA 4th World Championship 2022, Głogów – Gold, 50 m Brust"
@@ -30,7 +31,8 @@
                     "@type": "WebSite",
                     "name": "Aqualign Swim & Ice",
                     "url": "https://aqualign.de/",
-                    "description": "Schwimmtraining und Eisbaden mit Franziska Partheymüller",
+                    "description": "Schwimmtraining, Eisbaden und Eisschwimmen mit Franziska Partheymüller",
+                    "sameAs": ["https://www.instagram.com/aqualign_swim_ice/"],
                     "inLanguage": "de-DE"
                 },
                 {
@@ -46,34 +48,33 @@
                 },
                 {
                     "@type": "Service",
-                    "name": "Workshops Eisschwimmen / Eisbaden",
-                    "description": "Workshops für Eisschwimmen und Eisbaden mit Fokus auf Atemkontrolle, mentale Stärke und sichere Kälteanpassung.",
+                    "name": "Workshops Eisbaden & Eisschwimmen",
+                    "description": "Workshops für Eisbaden und Eisschwimmen mit Fokus auf Atemkontrolle, mentale Stärke und sichere Kälteanpassung.",
                     "provider": {
                         "@type": "Person",
                         "name": "Franziska Partheymüller"
                     },
                     "areaServed": "DE",
-                    "serviceType": "Eisbaden"
+                    "serviceType": "Eisbaden und Eisschwimmen"
                 }
             ]
         }
     </script>
 </head>
 <body>
+<%- include('./partials/_initial-mode', { landing: true }) %>
 
 <a href="#main" class="skip-link">Zum Hauptinhalt springen</a>
 
 <header>
     <div class="header-container">
         <h1>
-            <div class="logo">
-                <img class="snowflake" src="public/Snowflake-outline.svg" draggable="false" alt="">
-                <img class="header-logo" src="public/Logo.svg" draggable="false" alt="Aqualign Logo">
-            </div>
-            <span>
-                <span class="nowrap">Aqualign</span>
-                <span class="nowrap">Swim &amp; Ice</span>
+            <span class="logo">
+                <img class="snowflake" src="/public/Snowflake-outline.svg" draggable="false" alt="">
+                <img class="header-logo" src="/public/Logo.svg" draggable="false" alt="Aqualign Logo">
             </span>
+            <%- include('./partials/_wordmark') %>
+            <span class="sr-only">Aqualign Swim &amp; Ice</span>
         </h1>
         <small class="subtitle">
             <span>Präzision im Wasser</span>
@@ -84,13 +85,13 @@
 
     <div class="switch">
         <input type="checkbox" id="switch" role="switch" aria-checked="false"
-               aria-label="Zwischen Schwimmtraining und Eisbaden wechseln">
+               aria-label="Zwischen Schwimmtraining und Eiswasser wechseln">
         <label for="switch" class="switch-label">
-            <div class="label">Schwimm&shy;training</div>
-            <div class="slider">
-                <div></div>
-            </div>
-            <div class="label">Eis&shy;baden</div>
+            <span class="label">Schwimm&shy;training</span>
+            <span class="slider">
+                <span></span>
+            </span>
+            <span class="label">Eis&shy;wasser</span>
         </label>
         <div class="sr-only" aria-live="polite" id="mode-announcement"></div>
     </div>
