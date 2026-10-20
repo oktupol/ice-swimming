@@ -54,7 +54,7 @@ test('Escape schließt das Menü und gibt den Fokus an den Schalter zurück', as
 test('Ein Klick auf einen Link schließt das Menü', async ({ page }) => {
     await page.goto('/');
     await page.locator('label[for="navigation"]').click();
-    await links(page).filter({ hasText: 'Eisbaden' }).click();
+    await links(page).filter({ hasText: 'Eiswasser' }).click();
 
     await expect(menu(page)).toBeHidden();
     await expect(toggle(page)).toHaveAttribute('aria-expanded', 'false');

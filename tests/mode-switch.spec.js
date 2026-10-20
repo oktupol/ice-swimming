@@ -56,7 +56,7 @@ test('Umschalten setzt Hash und Ansage, ohne zum Abschnitt zu springen', async (
 
     await expectMode(page, 'eisbaden');
     expect(new URL(page.url()).hash).toBe('#eisbaden');
-    await expect(page.locator('#mode-announcement')).toHaveText('Eisbaden wird angezeigt');
+    await expect(page.locator('#mode-announcement')).toHaveText('Eiswasser wird angezeigt');
     // The hash is written via the History API precisely so the browser does not jump to
     // the <section id="eisbaden"> — the switch in the header must stay in view.
     expect(await scrollY(page)).toBe(0);
