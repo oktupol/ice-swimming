@@ -52,7 +52,7 @@ blockquote.testimonial {
   display: flex;
 }
 
-// Eisbaden has a single stimme, which would otherwise sit in the left of the
+// A section with a single stimme would otherwise have it sit in the left of the
 // two tracks with an empty one beside it.
 .testimonial-item:only-child {
   grid-column: 1 / -1;
