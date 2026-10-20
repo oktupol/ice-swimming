@@ -91,20 +91,15 @@ blockquote.testimonial {
 }
 
 // Placeholder standing in until the real portraits arrive: the initial on a
-// disc in the mode's accent colour.
+// disc in the colours of the CTA button, whose tokens already keep the label
+// at >= 4.5:1 on its fill in both palettes.
 .testimonial-avatar-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--dark-2-color);
-  color: var(--main-color);
+  background: var(--cta-fill);
+  color: var(--cta-text);
   font-size: 1.8rem;
-}
-
-// Same contrast problem as the CTA button: against the warm palette's light
-// amber the light --main-color gives only 1.8:1, so warm mode takes dark text.
-.warm .testimonial-avatar-placeholder {
-  color: #2b2100;
 }
 
 .testimonial-name {
